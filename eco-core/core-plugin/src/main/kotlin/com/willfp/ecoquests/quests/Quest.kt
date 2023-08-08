@@ -107,15 +107,7 @@ class Quest(
             val currentTime = (System.currentTimeMillis() / 1000 / 60).toInt()
             val previousTime = ServerProfile.load().read(lastResetTimeKey)
 
-            println("Current Time: $currentTime")
-            println("Previous Time: $previousTime")
-
-            val time = previousTime + currentTime - resetTime
-
-            // Fix broken times
-            if (time > resetTime) {
-                0
-            } else time
+            resetTime - currentTime + previousTime
         }
 
     init {
