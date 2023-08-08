@@ -99,7 +99,7 @@ class Quest(
             val currentMinutes = (System.currentTimeMillis() / 1000 / 60).toInt()
             val previousMinutes = ServerProfile.load().read(lastResetTimeKey)
 
-            resetTime - (currentMinutes - previousMinutes)
+            currentMinutes - (previousMinutes + resetTime)
         }
 
     init {
@@ -214,6 +214,7 @@ class Quest(
         val quest = this // I just hate the @ notation kotlin uses
         fun String.addPlaceholders() = this
             .replace("%quest%", quest.name)
+            .replace("%time_until_reset%", formatDuration(quest.minutesUntilReset))
 
         // Replace multi-line placeholders.
         val processed = strings.flatMap { s ->

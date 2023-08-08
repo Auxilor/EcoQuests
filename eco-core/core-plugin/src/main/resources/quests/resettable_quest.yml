@@ -1,6 +1,6 @@
 name: "Resettable Quest"
 
-description: "&fThis quest will reset in &a%ecoquests_quest_resettable_quest_time_until_reset%"
+description: "&fThis quest will reset in &a%time_until_reset%"
 
 gui:
   item: paper name:"&eExample Quest"
@@ -24,7 +24,7 @@ reward-messages:
 rewards: [ ]
 
 # If the player should be told when they have started the quest.
-announce-start: true
+announce-start: false
 
 # A list of effects to run when the quest is started.
 # Read https://plugins.auxilor.io/effects/configuring-an-effect
