@@ -1,0 +1,18 @@
+# The description of the task.
+# %xp% - The amount of XP the player has in this task
+# %required-xp% - The amount of XP required to complete this task
+description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)"
+
+# The amount of XP required to complete this task.
+# If the task is just one action, set this to 1.
+required-xp: 100
+
+# A task takes a trigger, a multiplier, conditions, and filters.
+# The multiplier takes the value produced by the trigger and multiplies it
+# by some value to calculate the experience that should be given.
+tasks:
+  - trigger: break_block
+    multiplier: 1
+    filters:
+      blocks:
+        - stone

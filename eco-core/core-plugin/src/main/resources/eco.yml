@@ -1,0 +1,9 @@
+environment:
+  - name: libreforge version
+    value: ${libreforgeVersion}
+
+options:
+  color: "&#eacda3"
+  resource-id: 0
+  bstats-id: 0
+  uses-reflective-reload: false

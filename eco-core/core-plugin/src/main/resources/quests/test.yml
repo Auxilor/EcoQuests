@@ -1,0 +1,21 @@
+name: "Example Quest"
+
+gui:
+  item: paper name:"&eExample Quest"
+
+# A list of task IDs required to complete this quest.
+tasks:
+  - break_100_stone
+
+# A list of effects to run when the quest is completed.
+# Read https://plugins.auxilor.io/effects/configuring-an-effect
+rewards: [ ]
+
+# A list of effects to run when the quest is started.
+# Read https://plugins.auxilor.io/effects/configuring-an-effect
+start-effects: [ ]
+
+# A list of conditions required to start the quest.
+# The quest will be automatically started when these conditions are met.
+# Read https://plugins.auxilor.io/conditions/configuring-a-condition
+start-conditions: [ ]
