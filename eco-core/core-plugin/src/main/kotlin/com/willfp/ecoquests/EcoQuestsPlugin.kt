@@ -48,15 +48,15 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
         PlayerlessPlaceholder(this, "quests_amount") {
             Quests.values().size.toString()
-        }
+        }.register()
 
         PlayerPlaceholder(this, "quests_completed") {
             Quests.getCompletedQuests(it).size.toString()
-        }
+        }.register()
 
         PlayerPlaceholder(this, "quests_active") {
             Quests.getActiveQuests(it).size.toString()
-        }
+        }.register()
     }
 
     override fun handleReload() {

@@ -9,8 +9,6 @@ class PlayerTaskCompleteEvent(
     who: Player,
     override val task: Task
 ): PlayerEvent(who), TaskEvent {
-    override val player: Player = super.player
-
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }

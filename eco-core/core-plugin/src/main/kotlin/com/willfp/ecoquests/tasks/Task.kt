@@ -52,19 +52,19 @@ class Task(
     init {
         PlayerPlaceholder(plugin, "task_${id}_required_xp") {
             getExperienceRequired(it).toNiceString()
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "task_${id}_xp") {
             getExperience(it).toNiceString()
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "task_${id}_description") {
             getDescription(it)
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "task_${id}_completed") {
             hasCompleted(it).toNiceString()
-        }
+        }.register()
     }
 
     override fun onRegister() {

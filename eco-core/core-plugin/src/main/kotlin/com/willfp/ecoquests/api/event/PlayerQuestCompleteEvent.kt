@@ -9,8 +9,6 @@ class PlayerQuestCompleteEvent(
     who: Player,
     override val quest: Quest
 ): PlayerEvent(who), QuestEvent {
-    override val player: Player = super.player
-
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }

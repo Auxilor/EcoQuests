@@ -137,6 +137,7 @@ tasks:
 quests:
   icon:
     lore:
+      - "%description%"
       - ""
       - "&fTasks:"
       - " %tasks%"

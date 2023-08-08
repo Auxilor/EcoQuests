@@ -105,27 +105,35 @@ class Quest(
     init {
         PlayerlessPlaceholder(plugin, "quest_${id}_name") {
             this.name
-        }
+        }.register()
+
+        PlayerPlaceholder(plugin, "quest_${id}_description") {
+            this.getDescription(it).joinToString(" ")
+        }.register()
 
         PlayerlessPlaceholder(plugin, "quest_${id}_tasks") {
             this.tasks.size.toNiceString()
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_started") {
             hasStarted(it).toNiceString()
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_completed") {
             hasCompleted(it).toNiceString()
-        }
+        }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_tasks_completed") {
             this.tasks.count { t -> t.hasCompleted(it) }.toNiceString()
-        }
+        }.register()
 
         PlayerlessPlaceholder(plugin, "quest_${id}_time_until_reset") {
             formatDuration(this.minutesUntilReset)
-        }
+        }.register()
+    }
+
+    fun getDescription(player: Player): List<String> {
+        return addPlaceholdersInto(listOf(config.getString("description")), player)
     }
 
     fun hasCompleted(player: Player): Boolean {
@@ -216,6 +224,9 @@ class Quest(
                     .addMargin(margin)
             } else if (s.contains("%tasks%")) {
                 tasks.flatMap { task -> task.getCompletedDescription(player) }
+                    .addMargin(margin)
+            } else if (s.contains("%description%")) {
+                getDescription(player)
                     .addMargin(margin)
             } else {
                 listOf(s)

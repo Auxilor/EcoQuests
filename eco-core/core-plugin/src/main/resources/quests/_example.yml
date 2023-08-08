@@ -1,5 +1,7 @@
 name: "Example Quest"
 
+description: "Example Description"
+
 gui:
   item: paper name:"&eExample Quest"
 

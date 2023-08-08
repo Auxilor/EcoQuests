@@ -1,7 +1,15 @@
-name: "Example Quest"
+name: "Resettable Quest"
+
+description: "&fThis quest will reset in &a%ecoquests_quest_resettable_quest_time_until_reset%"
 
 gui:
   item: paper name:"&eExample Quest"
+
+# How many minutes between this quest being reset (set to -1 to disable)
+# 1 Day: 1440
+# 1 Week: 10080
+# 1 Month: 43200
+reset-time: 10
 
 # A list of task IDs required to complete this quest.
 tasks:
