@@ -159,7 +159,7 @@ quests:
 
       # Durations are in seconds
       fade-in: 0.5
-      stay: 2
+      stay: 4
       fade-out: 0.5
 
       title: "&#eacda3&lQuest Complete!"
@@ -189,7 +189,7 @@ quests:
 
       # Durations are in seconds
       fade-in: 0.5
-      stay: 2
+      stay: 4
       fade-out: 0.5
 
       title: "&#eacda3&lNew Quest!"
