@@ -23,8 +23,7 @@ object Quests : ConfigCategory("quest", "quests") {
 
     fun getActiveQuests(player: Player): List<Quest> {
         return values()
-            .filter { it.hasStarted(player) }
-            .filterNot { it.hasCompleted(player) }
+            .filter { it.hasActive(player) }
     }
 
     fun getCompletedQuests(player: Player): List<Quest> {

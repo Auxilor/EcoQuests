@@ -136,6 +136,10 @@ class Quest(
         return addPlaceholdersInto(listOf(config.getString("description")), player)
     }
 
+    fun hasActive(player: Player): Boolean {
+        return hasStarted(player) && !hasCompleted(player)
+    }
+
     fun hasCompleted(player: Player): Boolean {
         return player.profile.read(hasCompletedKey)
     }

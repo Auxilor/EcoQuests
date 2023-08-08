@@ -9,6 +9,7 @@ import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedQuest
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedTask
+import com.willfp.ecoquests.libreforge.ConditionHasQuestActive
 import com.willfp.ecoquests.libreforge.EffectGainTaskXp
 import com.willfp.ecoquests.libreforge.EffectGiveTaskXp
 import com.willfp.ecoquests.libreforge.EffectStartQuest
@@ -36,6 +37,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
     override fun handleEnable() {
         Conditions.register(ConditionHasCompletedQuest)
         Conditions.register(ConditionHasCompletedTask)
+        Conditions.register(ConditionHasQuestActive)
         Effects.register(EffectGainTaskXp)
         Effects.register(EffectGiveTaskXp)
         Effects.register(EffectStartQuest)
