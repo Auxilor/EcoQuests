@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerEvent
 
-class PlayerCompleteQuestEvent(
+class PlayerQuestStartEvent(
     who: Player,
     val quest: Quest
 ): PlayerEvent(who) {

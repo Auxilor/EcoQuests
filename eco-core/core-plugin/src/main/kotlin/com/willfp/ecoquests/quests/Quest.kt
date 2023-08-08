@@ -11,8 +11,8 @@ import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.formatEco
-import com.willfp.ecoquests.api.event.PlayerCompleteQuestEvent
-import com.willfp.ecoquests.api.event.PlayerStartQuestEvent
+import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
+import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.tasks.Tasks
 import com.willfp.libreforge.EmptyProvidedHolder
 import com.willfp.libreforge.ViolationContext
@@ -28,6 +28,8 @@ class Quest(
     val config: Config
 ) : KRegistrable {
     val name = config.getFormattedString("name")
+
+    val announcesStart = config.getBool("announce-start")
 
     private val guiItem = Items.lookup(config.getString("gui.item")).item
 
@@ -107,7 +109,7 @@ class Quest(
         startEffects?.trigger(player)
         player.profile.write(hasStartedKey, true)
 
-        Bukkit.getPluginManager().callEvent(PlayerStartQuestEvent(player, this))
+        Bukkit.getPluginManager().callEvent(PlayerQuestStartEvent(player, this))
     }
 
     fun checkCompletion(player: Player): Boolean {
@@ -120,7 +122,7 @@ class Quest(
             player.profile.write(hasCompletedKey, true)
             rewards?.trigger(player)
 
-            Bukkit.getPluginManager().callEvent(PlayerCompleteQuestEvent(player, this))
+            Bukkit.getPluginManager().callEvent(PlayerQuestCompleteEvent(player, this))
 
             return true
         }

@@ -7,12 +7,16 @@ gui:
 tasks:
   - break_100_stone
 
+# The messages for the %rewards% placeholder in icons, messages, etc.
 reward-messages:
   - " &8» &r&f+2 %ecoskills_defense_name%"
 
 # A list of effects to run when the quest is completed.
 # Read https://plugins.auxilor.io/effects/configuring-an-effect
 rewards: [ ]
+
+# If the player should be told when they have started the quest.
+announce-start: true
 
 # A list of effects to run when the quest is started.
 # Read https://plugins.auxilor.io/effects/configuring-an-effect

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerEvent
 
-class PlayerCompleteTaskEvent(
+class PlayerTaskCompleteEvent(
     who: Player,
     val task: Task
 ): PlayerEvent(who) {

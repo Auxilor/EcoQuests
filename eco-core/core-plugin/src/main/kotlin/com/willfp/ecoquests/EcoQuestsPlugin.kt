@@ -6,6 +6,7 @@ import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.quests.QuestCompleteDisplay
+import com.willfp.ecoquests.quests.QuestStartDisplay
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
 import com.willfp.libreforge.loader.LibreforgePlugin
@@ -35,7 +36,8 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
     override fun loadListeners(): List<Listener> {
         return listOf(
-            QuestCompleteDisplay(this)
+            QuestCompleteDisplay(this),
+            QuestStartDisplay(this)
         )
     }
 

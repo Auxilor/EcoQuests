@@ -173,3 +173,33 @@ quests:
       pitch: 1.5
       # The volume
       volume: 1.0
+
+  start:
+    message:
+      enabled: true
+      message:
+        - "&f"
+        - " &#eacda3&lNEW QUEST: &f%quest%"
+        - "&f"
+        - " &#eacda3&lREWARDS:"
+        - "%rewards%"
+        - "&f"
+    title:
+      enabled: false
+
+      # Durations are in seconds
+      fade-in: 0.5
+      stay: 2
+      fade-out: 0.5
+
+      title: "&#eacda3&lNew Quest!"
+      subtitle: "&f%quest%"
+    sound:
+      # If a sound should be played
+      enabled: true
+      # The sound that should be played
+      sound: entity_player_levelup
+      # Pitch between 0.5 and 2
+      pitch: 1.9
+      # The volume
+      volume: 1.0
