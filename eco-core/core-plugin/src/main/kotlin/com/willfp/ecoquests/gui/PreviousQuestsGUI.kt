@@ -21,7 +21,7 @@ object PreviousQuestsGUI {
 
     fun reload(plugin: EcoPlugin) {
         val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("completed-gui.quest-area")) {
-            Quests.getCompletedQuests(it)
+            Quests.getShownCompletedQuests(it)
         }
 
         menu = menu(plugin.configYml.getInt("completed-gui.rows")) {

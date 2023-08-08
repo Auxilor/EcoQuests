@@ -23,6 +23,7 @@ object Quests : ConfigCategory("quest", "quests") {
 
     fun getShownQuests(player: Player): List<Quest> {
         return values()
+            .filter { it.showsInGui }
             .filter { it.hasActive(player) || (it.alwaysInGUI && !it.hasCompleted(player)) }
     }
 
@@ -33,6 +34,12 @@ object Quests : ConfigCategory("quest", "quests") {
 
     fun getCompletedQuests(player: Player): List<Quest> {
         return values()
+            .filter { it.hasCompleted(player) }
+    }
+
+    fun getShownCompletedQuests(player: Player): List<Quest> {
+        return values()
+            .filter { it.showsInGui }
             .filter { it.hasCompleted(player) }
     }
 }
