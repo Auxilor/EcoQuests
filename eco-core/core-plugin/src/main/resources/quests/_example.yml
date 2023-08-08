@@ -3,6 +3,8 @@ name: "Example Quest"
 description: "Example Description"
 
 gui:
+  enabled: true # If the quest should be shown in the GUI
+  always: false # If the quest should always be in the GUI, even if it's not started
   item: paper name:"&eExample Quest"
 
 # How many minutes between this quest being reset (set to -1 to disable)

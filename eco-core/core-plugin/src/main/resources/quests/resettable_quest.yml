@@ -3,6 +3,8 @@ name: "Resettable Quest"
 description: "&fThis quest will reset in &a%time_until_reset%"
 
 gui:
+  enabled: true # If the quest should be shown in the GUI
+  always: false # If the quest should always be in the GUI, even if it's not started
   item: paper name:"&eExample Quest"
 
 # How many minutes between this quest being reset (set to -1 to disable)

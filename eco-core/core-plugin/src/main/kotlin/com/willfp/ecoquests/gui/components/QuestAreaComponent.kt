@@ -30,6 +30,7 @@ class QuestAreaComponent(
         val index = MenuUtils.rowColumnToSlot(row, column, columnSize) + ((page - 1) * pageSize)
 
         return getQuests(player)
+            .filter { it.showsInGui }
             .getOrNull(index)
             ?.slot
     }

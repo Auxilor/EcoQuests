@@ -46,10 +46,18 @@ class Quest(
                     player
                 )
             )
+
+            addLoreLines(
+                startConditions.getNotMetLines(player, EmptyProvidedHolder)
+            )
         }
     }) {
 
     }
+
+    val showsInGui = config.getBool("gui.enabled")
+
+    val alwaysInGUI = config.getBool("gui.always")
 
     val tasks = config.getStrings("tasks").mapNotNull { Tasks[it] }
 
