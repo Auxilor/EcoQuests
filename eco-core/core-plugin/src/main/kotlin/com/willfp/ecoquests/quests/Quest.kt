@@ -22,7 +22,6 @@ import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.effects.executors.impl.NormalExecutorFactory
-import jdk.tools.jlink.internal.plugins.PluginsResourceBundle.getDescription
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
