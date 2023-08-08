@@ -35,7 +35,7 @@ class Quest(
         guiItem.clone().modify {
             addLoreLines(
                 addPlaceholdersInto(
-                    config.getStrings("gui.quest-area.quest-icon.lore"),
+                    plugin.configYml.getStrings("quests.icon.lore"),
                     player
                 )
             )
@@ -90,6 +90,15 @@ class Quest(
         return player.profile.read(hasStartedKey)
     }
 
+    fun reset(player: Player) {
+        player.profile.write(hasStartedKey, false)
+        player.profile.write(hasCompletedKey, false)
+
+        for (task in tasks) {
+            task.reset(player)
+        }
+    }
+
     fun start(player: Player) {
         if (hasStarted(player)) {
             return
@@ -131,11 +140,8 @@ class Quest(
         fun String.addPlaceholders() = this
             .replace("%quest%", quest.name)
 
-        // Replace placeholders in the strings with their actual values.
-        val withPlaceholders = strings.map { it.addPlaceholders() }
-
         // Replace multi-line placeholders.
-        val processed = withPlaceholders.flatMap { s ->
+        val processed = strings.flatMap { s ->
             val margin = s.length - s.trimStart().length
 
             if (s.contains("%rewards%")) {

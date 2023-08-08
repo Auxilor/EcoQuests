@@ -8,3 +8,6 @@ messages:
   invalid-player: "&cInvalid player!"
   invalid-quest: "&cInvalid quest!"
   already-started: "&cThe player has already started this quest!"
+
+  started-quest: "&fStarted the &a%quest% &fquest for &a%player%&f!"
+  reset-quest: "&fReset the &a%quest% &fquest for &a%player%&f!"

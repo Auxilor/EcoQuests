@@ -51,15 +51,6 @@ gui:
       row: 5
       column: 8
 
-    quest-icon:
-      lore:
-        - ""
-        - "&fTasks:"
-        - " %tasks%"
-        - ""
-        - "&fRewards:"
-        - " %rewards%"
-
   prev-page:
     item: arrow name:"&fPrevious Page"
     location:
@@ -144,6 +135,15 @@ tasks:
   not-completed: "&c&l✘ &r&f%description%"
 
 quests:
+  icon:
+    lore:
+      - ""
+      - "&fTasks:"
+      - " %tasks%"
+      - ""
+      - "&fRewards:"
+      - " %rewards%"
+
   complete:
     message:
       enabled: true

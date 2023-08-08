@@ -10,25 +10,20 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
 
-class CommandStart(plugin: EcoPlugin) : PluginCommand(
+class CommandReset(plugin: EcoPlugin) : PluginCommand(
     plugin,
-    "start",
-    "ecoquests.command.start",
+    "reset",
+    "ecoquests.command.reset",
     false
 ) {
     override fun onExecute(sender: CommandSender, args: List<String>) {
         val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
         val quest = notifyNull(Quests[args.getOrNull(1)], "invalid-quest")
 
-        if (quest.hasStarted(player) || quest.hasCompleted(player)) {
-            sender.sendMessage(plugin.langYml.getMessage("already-started"))
-            return
-        }
-
-        quest.start(player)
+        quest.reset(player)
 
         sender.sendMessage(
-            plugin.langYml.getMessage("started-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+            plugin.langYml.getMessage("reset-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
                 .replace("%quest%", quest.name)
                 .replace("%player%", player.name)
         )

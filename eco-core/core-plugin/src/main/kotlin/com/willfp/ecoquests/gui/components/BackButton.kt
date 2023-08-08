@@ -14,7 +14,7 @@ class BackButton(
         Items.lookup(config.getString("item"))
     ) {
         onLeftClick { player, _, _, _ ->
-            player.closeInventory()
+            QuestsGUI.open(player)
         }
     }
 

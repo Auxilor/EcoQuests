@@ -16,6 +16,7 @@ import com.willfp.libreforge.counters.Accumulator
 import com.willfp.libreforge.counters.Counters
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import kotlin.math.min
 
 class Task(
     private val plugin: EcoPlugin,
@@ -75,12 +76,17 @@ class Task(
         }
     }
 
+    fun reset(player: Player) {
+        player.profile.write(xpKey, 0.0)
+        player.profile.write(hasCompletedKey, false)
+    }
+
     fun hasCompleted(player: Player): Boolean {
         return player.profile.read(hasCompletedKey)
     }
 
     fun getExperience(player: Player): Double {
-        return player.profile.read(xpKey)
+        return min(player.profile.read(xpKey), getExperienceRequired(player))
     }
 
     fun getExperienceRequired(player: Player): Double {
