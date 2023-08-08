@@ -7,18 +7,45 @@ import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
+import com.willfp.ecoquests.libreforge.ConditionHasCompletedQuest
+import com.willfp.ecoquests.libreforge.ConditionHasCompletedTask
+import com.willfp.ecoquests.libreforge.EffectGainTaskXp
+import com.willfp.ecoquests.libreforge.EffectGiveTaskXp
+import com.willfp.ecoquests.libreforge.EffectStartQuest
+import com.willfp.ecoquests.libreforge.FilterQuest
+import com.willfp.ecoquests.libreforge.FilterTask
+import com.willfp.ecoquests.libreforge.TriggerCompleteQuest
+import com.willfp.ecoquests.libreforge.TriggerCompleteTask
+import com.willfp.ecoquests.libreforge.TriggerGainTaskXp
+import com.willfp.ecoquests.libreforge.TriggerStartQuest
 import com.willfp.ecoquests.quests.QuestCompleteDisplay
 import com.willfp.ecoquests.quests.QuestStartDisplay
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
+import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.filters.Filters
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
+import com.willfp.libreforge.triggers.Triggers
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 
 
 class EcoQuestsPlugin : LibreforgePlugin() {
     override fun handleEnable() {
+        Conditions.register(ConditionHasCompletedQuest)
+        Conditions.register(ConditionHasCompletedTask)
+        Effects.register(EffectGainTaskXp)
+        Effects.register(EffectGiveTaskXp)
+        Effects.register(EffectStartQuest)
+        Filters.register(FilterQuest)
+        Filters.register(FilterTask)
+        Triggers.register(TriggerCompleteQuest)
+        Triggers.register(TriggerCompleteTask)
+        Triggers.register(TriggerGainTaskXp)
+        Triggers.register(TriggerStartQuest)
+
         PlayerlessPlaceholder(this, "quests_amount") {
             Quests.values().size.toString()
         }

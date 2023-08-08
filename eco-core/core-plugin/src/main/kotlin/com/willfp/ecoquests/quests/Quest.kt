@@ -83,6 +83,10 @@ class Quest(
     )
 
     init {
+        PlayerlessPlaceholder(plugin, "quest_${id}_name") {
+            this.name
+        }
+
         PlayerPlaceholder(plugin, "quest_${id}_started") {
             hasStarted(it).toNiceString()
         }

@@ -13,6 +13,7 @@ import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
+import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.counters.Accumulator
@@ -44,7 +45,7 @@ class Task(
 
     private val accumulator = object : Accumulator {
         override fun accept(player: Player, count: Double) {
-            this@Task.giveExperience(player, count)
+            this@Task.gainExperience(player, count)
         }
     }
 
@@ -114,6 +115,24 @@ class Task(
         return config.getDoubleFromExpression("required-xp", player)
     }
 
+    /**
+     * Gain experience naturally.
+     */
+    fun gainExperience(player: Player, amount: Double) {
+        val event = PlayerTaskExpGainEvent(player, this, amount)
+
+        Bukkit.getPluginManager().callEvent(event)
+
+        if (event.isCancelled) {
+            return
+        }
+
+        giveExperience(player, event.amount)
+    }
+
+    /**
+     * Give experience directly
+     */
     fun giveExperience(player: Player, amount: Double) {
         val requiredXp = getExperienceRequired(player)
         val newXp = player.profile.read(xpKey) + amount

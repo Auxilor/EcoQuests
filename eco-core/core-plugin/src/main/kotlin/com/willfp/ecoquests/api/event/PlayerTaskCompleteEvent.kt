@@ -7,8 +7,10 @@ import org.bukkit.event.player.PlayerEvent
 
 class PlayerTaskCompleteEvent(
     who: Player,
-    val task: Task
-): PlayerEvent(who) {
+    override val task: Task
+): PlayerEvent(who), TaskEvent {
+    override val player: Player = super.player
+
     override fun getHandlers(): HandlerList {
         return HANDLERS
     }
