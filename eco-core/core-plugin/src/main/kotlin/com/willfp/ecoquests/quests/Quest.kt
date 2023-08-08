@@ -140,9 +140,12 @@ class Quest(
         return player.profile.read(hasCompletedKey)
     }
 
-    fun shouldStart(player: Player): Boolean {
+    fun meetsStartConditions(player: Player): Boolean {
         return startConditions.areMet(player, EmptyProvidedHolder)
-                && !hasStarted(player)
+    }
+
+    fun shouldStart(player: Player): Boolean {
+        return meetsStartConditions(player) && !hasStarted(player)
     }
 
     fun hasStarted(player: Player): Boolean {
