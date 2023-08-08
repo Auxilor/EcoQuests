@@ -11,7 +11,7 @@ required-xp: 100
 # The multiplier takes the value produced by the trigger and multiplies it
 # by some value to calculate the experience that should be given.
 tasks:
-  - trigger: break_block
+  - trigger: mine_block
     multiplier: 1
     filters:
       blocks:

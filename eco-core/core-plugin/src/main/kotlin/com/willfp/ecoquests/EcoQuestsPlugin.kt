@@ -1,5 +1,8 @@
 package com.willfp.ecoquests
 
+import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.ecoquests.commands.CommandEcoQuests
+import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
 import com.willfp.libreforge.loader.LibreforgePlugin
@@ -19,6 +22,13 @@ class EcoQuestsPlugin : LibreforgePlugin() {
                 }
             }
         }
+    }
+
+    override fun loadPluginCommands(): List<PluginCommand> {
+        return listOf(
+            CommandEcoQuests(this),
+            CommandQuests(this)
+        )
     }
 
     override fun loadConfigCategories(): List<ConfigCategory> {

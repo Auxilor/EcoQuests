@@ -7,3 +7,38 @@ website: willfp.com
 load: STARTUP
 depend:
   - eco
+
+
+commands:
+  ecoquests:
+    description: Base Command
+    permission: ecoquests.command.ecoquests
+  quests:
+    aliases:
+      - q
+      - quest
+    description: Open the quests menu
+    permission: ecoquests.command.quests
+
+permissions:
+  ecoquests.*:
+    description: All ecoquests permissions
+    default: op
+    children:
+      ecoquests.command.*: true
+  ecoquests.command.*:
+    description: All commands
+    default: op
+    children:
+      ecoquests.command.reload: true
+      ecoquests.command.quests: true
+
+  ecoquests.command.reload:
+    description: Allows reloading the config
+    default: op
+  ecoquests.command.ecoquests:
+    description: Allows the use of /ecoquests.
+    default: true
+  ecoquests.command.quests:
+    description: Allows the use of /quests.
+    default: true
