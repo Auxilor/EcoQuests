@@ -48,7 +48,7 @@ class CommandStart(plugin: EcoPlugin) : PluginCommand(
         if (args.size == 2) {
             StringUtil.copyPartialMatches(
                 args[1],
-                Quests.values().map { it.name },
+                Quests.values().map { it.id },
                 completions
             )
         }
