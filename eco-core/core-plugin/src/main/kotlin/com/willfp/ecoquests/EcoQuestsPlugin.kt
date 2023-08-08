@@ -1,6 +1,8 @@
 package com.willfp.ecoquests
 
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.eco.core.placeholder.PlayerPlaceholder
+import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
@@ -16,6 +18,20 @@ import org.bukkit.event.Listener
 
 
 class EcoQuestsPlugin : LibreforgePlugin() {
+    override fun handleEnable() {
+        PlayerlessPlaceholder(this, "quests_amount") {
+            Quests.values().size.toString()
+        }
+
+        PlayerPlaceholder(this, "quests_completed") {
+            Quests.getCompletedQuests(it).size.toString()
+        }
+
+        PlayerPlaceholder(this, "quests_active") {
+            Quests.getActiveQuests(it).size.toString()
+        }
+    }
+
     override fun handleReload() {
         PreviousQuestsGUI.reload(this)
         QuestsGUI.reload(this)

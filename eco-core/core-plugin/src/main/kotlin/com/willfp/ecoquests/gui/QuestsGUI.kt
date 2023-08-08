@@ -20,7 +20,7 @@ object QuestsGUI {
 
     fun reload(plugin: EcoPlugin) {
         val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area")) {
-            Quests.getCurrentlyActiveQuests(it)
+            Quests.getActiveQuests(it)
         }
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {

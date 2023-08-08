@@ -8,9 +8,12 @@ import com.willfp.eco.core.data.profile
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.modify
+import com.willfp.eco.core.placeholder.PlayerPlaceholder
+import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.tasks.Tasks
@@ -19,6 +22,7 @@ import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.effects.executors.impl.NormalExecutorFactory
+import jdk.tools.jlink.internal.plugins.PluginsResourceBundle.getDescription
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -78,6 +82,24 @@ class Quest(
         config.getSubsections("start-conditions"),
         ViolationContext(plugin, "quest $id start-conditions")
     )
+
+    init {
+        PlayerPlaceholder(plugin, "quest_${id}_started") {
+            hasStarted(it).toNiceString()
+        }
+
+        PlayerPlaceholder(plugin, "quest_${id}_completed") {
+            hasCompleted(it).toNiceString()
+        }
+
+        PlayerlessPlaceholder(plugin, "quest_${id}_tasks") {
+            this.tasks.size.toNiceString()
+        }
+
+        PlayerPlaceholder(plugin, "quest_${id}_tasks_completed") {
+            this.tasks.count { t -> t.hasCompleted(it) }.toNiceString()
+        }
+    }
 
     fun hasCompleted(player: Player): Boolean {
         return player.profile.read(hasCompletedKey)

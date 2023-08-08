@@ -21,7 +21,7 @@ object Quests : ConfigCategory("quest", "quests") {
 
     fun values(): Collection<Quest> = registry.values()
 
-    fun getCurrentlyActiveQuests(player: Player): List<Quest> {
+    fun getActiveQuests(player: Player): List<Quest> {
         return values()
             .filter { it.hasStarted(player) }
             .filterNot { it.hasCompleted(player) }

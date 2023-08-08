@@ -5,6 +5,9 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
+import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
+import com.willfp.eco.core.placeholder.PlayerPlaceholder
+import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.lineWrap
@@ -42,6 +45,24 @@ class Task(
     private val accumulator = object : Accumulator {
         override fun accept(player: Player, count: Double) {
             this@Task.giveExperience(player, count)
+        }
+    }
+
+    init {
+        PlayerPlaceholder(plugin, "task_${id}_required_xp") {
+            getExperienceRequired(it).toNiceString()
+        }
+
+        PlayerPlaceholder(plugin, "task_${id}_xp") {
+            getExperience(it).toNiceString()
+        }
+
+        PlayerPlaceholder(plugin, "task_${id}_description") {
+            getDescription(it)
+        }
+
+        PlayerPlaceholder(plugin, "task_${id}_completed") {
+            hasCompleted(it).toNiceString()
         }
     }
 
