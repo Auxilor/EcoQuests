@@ -2,6 +2,7 @@ package com.willfp.ecoquests.quests
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.data.ServerProfile
 import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
@@ -17,6 +18,7 @@ import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.tasks.Tasks
+import com.willfp.ecoquests.util.formatDuration
 import com.willfp.libreforge.EmptyProvidedHolder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
@@ -82,9 +84,31 @@ class Quest(
         ViolationContext(plugin, "quest $id start-conditions")
     )
 
+    private val lastResetTimeKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_last_reset_time"),
+        PersistentDataKeyType.INT,
+        0
+    )
+
+    private val resetTime = config.getInt("reset-time")
+
+    val minutesUntilReset: Int
+        get() = if (resetTime < 0) {
+            Int.MAX_VALUE
+        } else {
+            val currentMinutes = (System.currentTimeMillis() / 1000 / 60).toInt()
+            val previousMinutes = ServerProfile.load().read(lastResetTimeKey)
+
+            resetTime - (currentMinutes - previousMinutes)
+        }
+
     init {
         PlayerlessPlaceholder(plugin, "quest_${id}_name") {
             this.name
+        }
+
+        PlayerlessPlaceholder(plugin, "quest_${id}_tasks") {
+            this.tasks.size.toNiceString()
         }
 
         PlayerPlaceholder(plugin, "quest_${id}_started") {
@@ -95,12 +119,12 @@ class Quest(
             hasCompleted(it).toNiceString()
         }
 
-        PlayerlessPlaceholder(plugin, "quest_${id}_tasks") {
-            this.tasks.size.toNiceString()
-        }
-
         PlayerPlaceholder(plugin, "quest_${id}_tasks_completed") {
             this.tasks.count { t -> t.hasCompleted(it) }.toNiceString()
+        }
+
+        PlayerlessPlaceholder(plugin, "quest_${id}_time_until_reset") {
+            formatDuration(this.minutesUntilReset)
         }
     }
 
@@ -135,6 +159,22 @@ class Quest(
         player.profile.write(hasStartedKey, true)
 
         Bukkit.getPluginManager().callEvent(PlayerQuestStartEvent(player, this))
+    }
+
+    fun resetIfNeeded() {
+        if (resetTime < 0) {
+            return
+        }
+
+        if (minutesUntilReset > 0) {
+            return
+        }
+
+        ServerProfile.load().write(lastResetTimeKey, (System.currentTimeMillis() / 1000 / 60).toInt())
+
+        for (player in Bukkit.getOnlinePlayers()) {
+            reset(player)
+        }
     }
 
     fun checkCompletion(player: Player): Boolean {

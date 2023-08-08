@@ -3,6 +3,12 @@ name: "Example Quest"
 gui:
   item: paper name:"&eExample Quest"
 
+# How many minutes between this quest being reset (set to -1 to disable)
+# 1 Day: 1440
+# 1 Week: 10080
+# 1 Month: 43200
+reset-time: -1
+
 # A list of task IDs required to complete this quest.
 tasks:
   - break_100_stone

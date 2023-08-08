@@ -75,6 +75,12 @@ class EcoQuestsPlugin : LibreforgePlugin() {
                 }
             }
         }
+
+        this.scheduler.runTimer(20, 20) {
+            for (quest in Quests.values()) {
+                quest.resetIfNeeded()
+            }
+        }
     }
 
     override fun loadListeners(): List<Listener> {
