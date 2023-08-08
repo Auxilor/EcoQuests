@@ -104,10 +104,10 @@ class Quest(
         get() = if (resetTime < 0) {
             Int.MAX_VALUE
         } else {
-            val currentMinutes = (System.currentTimeMillis() / 1000 / 60).toInt()
-            val previousMinutes = ServerProfile.load().read(lastResetTimeKey)
+            val currentTime = (System.currentTimeMillis() / 1000 / 60).toInt()
+            val previousTime = ServerProfile.load().read(lastResetTimeKey)
 
-            currentMinutes - (previousMinutes + resetTime)
+            currentTime - previousTime + resetTime
         }
 
     init {
