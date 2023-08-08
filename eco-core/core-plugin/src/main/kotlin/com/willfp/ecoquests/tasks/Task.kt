@@ -7,15 +7,14 @@ import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
+import com.willfp.ecoquests.api.event.PlayerCompleteTaskEvent
 import com.willfp.ecoquests.quests.Quests
-import com.willfp.libreforge.BlankHolder.conditions
-import com.willfp.libreforge.EmptyProvidedHolder
 import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.counters.Accumulator
 import com.willfp.libreforge.counters.Counters
-import org.bukkit.OfflinePlayer
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 class Task(
@@ -35,7 +34,7 @@ class Task(
         false
     )
 
-    private val tasks = config.getSubsections("tasks").mapNotNull {
+    private val xpGainMethods = config.getSubsections("xp-gain-methods").mapNotNull {
         Counters.compile(it, ViolationContext(plugin, "task $id tasks"))
     }
 
@@ -46,14 +45,14 @@ class Task(
     }
 
     override fun onRegister() {
-        for (task in tasks) {
-            task.bind(accumulator)
+        for (counter in xpGainMethods) {
+            counter.bind(accumulator)
         }
     }
 
     override fun onRemove() {
-        for (task in tasks) {
-            task.unbind()
+        for (counter in xpGainMethods) {
+            counter.unbind()
         }
     }
 
@@ -64,13 +63,15 @@ class Task(
             .formatEco(player)
     }
 
-    fun getCompletedDescription(player: Player): String {
+    fun getCompletedDescription(player: Player): List<String> {
         return if (hasCompleted(player)) {
             plugin.configYml.getString("tasks.completed")
                 .replace("%description%", getDescription(player))
+                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         } else {
             plugin.configYml.getString("tasks.not-completed")
                 .replace("%description%", getDescription(player))
+                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         }
     }
 
@@ -94,6 +95,8 @@ class Task(
 
         if (newXp >= requiredXp) {
             player.profile.write(hasCompletedKey, true)
+
+            Bukkit.getPluginManager().callEvent(PlayerCompleteTaskEvent(player, this))
 
             // Then check if any quests are now completed
             for (quest in Quests.values()) {

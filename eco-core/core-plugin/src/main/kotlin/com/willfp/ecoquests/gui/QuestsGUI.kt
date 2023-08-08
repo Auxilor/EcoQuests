@@ -9,6 +9,7 @@ import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.items.Items
 import com.willfp.ecoquests.gui.components.CloseButton
+import com.willfp.ecoquests.gui.components.GUIInfoComponent
 import com.willfp.ecoquests.gui.components.PositionedPageChanger
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
@@ -18,8 +19,12 @@ object QuestsGUI {
     private lateinit var menu: Menu
 
     fun reload(plugin: EcoPlugin) {
+        val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area"))
+
         menu = menu(plugin.configYml.getInt("gui.rows")) {
             title = plugin.configYml.getFormattedString("gui.title")
+
+            maxPages { questAreaComponent.getPages(it) }
 
             setMask(
                 FillerMask(
@@ -28,19 +33,21 @@ object QuestsGUI {
                 )
             )
 
+            addComponent(GUIInfoComponent(plugin.configYml.getSubsection("gui.gui-info")))
+
             addComponent(CloseButton(plugin.configYml.getSubsection("gui.close")))
 
             addComponent(PositionedPageChanger(
-                plugin.configYml.getSubsection("gui.prev-page.item"),
+                plugin.configYml.getSubsection("gui.prev-page"),
                 PageChanger.Direction.BACKWARDS)
             )
 
             addComponent(PositionedPageChanger(
-                plugin.configYml.getSubsection("gui.next-page.item"),
+                plugin.configYml.getSubsection("gui.next-page"),
                 PageChanger.Direction.FORWARDS)
             )
 
-            addComponent(QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area")))
+            addComponent(questAreaComponent)
 
             for (config in plugin.configYml.getSubsections("gui.custom-slots")) {
                 setSlot(

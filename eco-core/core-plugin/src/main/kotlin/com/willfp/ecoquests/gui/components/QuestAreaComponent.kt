@@ -16,11 +16,18 @@ class QuestAreaComponent(
     override val rowSize = config.getInt("bottom-right.row") - row + 1
     override val columnSize = config.getInt("bottom-right.column") - column + 1
 
-    override fun getSlotAt(row: Int, column: Int, player: Player, menu: Menu): Slot? {
-        val index = MenuUtils.rowColumnToSlot(row, column, columnSize)
+    private val pageSize = rowSize * columnSize
 
-        return Quests.values()
-            .filter { it.hasStarted(player) }
+    fun getPages(player: Player): Int {
+        return Quests.getCurrentlyActiveQuests(player).size.floorDiv(pageSize) + 1
+    }
+
+    override fun getSlotAt(row: Int, column: Int, player: Player, menu: Menu): Slot? {
+        val page = menu.getPage(player)
+
+        val index = MenuUtils.rowColumnToSlot(row, column, columnSize) + ((page - 1) * pageSize)
+
+        return Quests.getCurrentlyActiveQuests(player)
             .getOrNull(index)
             ?.slot
     }

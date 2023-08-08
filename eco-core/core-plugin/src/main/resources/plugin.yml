@@ -32,6 +32,7 @@ permissions:
     children:
       ecoquests.command.reload: true
       ecoquests.command.quests: true
+      ecoquests.command.start: op
 
   ecoquests.command.reload:
     description: Allows reloading the config
@@ -42,3 +43,6 @@ permissions:
   ecoquests.command.quests:
     description: Allows the use of /quests.
     default: true
+  ecoquests.command.start:
+    description: Allows using /ecoquests start.
+    default: op

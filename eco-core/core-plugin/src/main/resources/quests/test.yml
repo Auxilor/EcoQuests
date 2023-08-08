@@ -7,6 +7,9 @@ gui:
 tasks:
   - break_100_stone
 
+reward-messages:
+  - " &8» &r&f+2 %ecoskills_defense_name%"
+
 # A list of effects to run when the quest is completed.
 # Read https://plugins.auxilor.io/effects/configuring-an-effect
 rewards: [ ]

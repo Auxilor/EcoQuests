@@ -4,6 +4,7 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.Registry
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
+import org.bukkit.entity.Player
 
 object Quests : ConfigCategory("quest", "quests") {
     private val registry = Registry<Quest>()
@@ -19,5 +20,11 @@ object Quests : ConfigCategory("quest", "quests") {
     operator fun get(id: String?) = registry[id ?: ""]
 
     fun values(): Collection<Quest> = registry.values()
+
+    fun getCurrentlyActiveQuests(player: Player): List<Quest> {
+        return values()
+            .filter { it.hasStarted(player) }
+            .filterNot { it.hasCompleted(player) }
+    }
 }
 

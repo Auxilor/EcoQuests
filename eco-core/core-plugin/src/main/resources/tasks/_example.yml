@@ -7,10 +7,10 @@ description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)"
 # If the task is just one action, set this to 1.
 required-xp: 100
 
-# A task takes a trigger, a multiplier, conditions, and filters.
+# An XP gain method takes a trigger, a multiplier, conditions, and filters.
 # The multiplier takes the value produced by the trigger and multiplies it
 # by some value to calculate the experience that should be given.
-tasks:
+xp-gain-methods:
   - trigger: mine_block
     multiplier: 1
     filters:

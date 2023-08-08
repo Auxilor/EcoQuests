@@ -33,7 +33,8 @@ gui:
       - "111111111"
 
   gui-info:
-    item: writable_book name:"&aQuest Book"
+    item: writable_book
+    name: "&aQuest Book"
     lore:
       - "&7View your active quests,"
       - "&7progress, and rewards."
@@ -78,5 +79,37 @@ gui:
   custom-slots: [ ]
 
 tasks:
+  line-wrap: 32
   completed: " &a&l✓ &r&f%description%"
   not-completed: " &c&l✘ &r&f%description%"
+
+quests:
+  complete:
+    message:
+      enabled: true
+      message:
+        - "&f"
+        - " &#eacda3&lQUEST COMPLETE: &f%quest%"
+        - "&f"
+        - " &#eacda3&lREWARDS:"
+        - "%rewards%"
+        - "&f"
+    title:
+      enabled: false
+
+      # Durations are in seconds
+      fade-in: 0.5
+      stay: 2
+      fade-out: 0.5
+
+      title: "&#eacda3&lQuest Complete!"
+      subtitle: "&f%quest%"
+    sound:
+      # If a sound should be played
+      enabled: true
+      # The sound that should be played
+      sound: ui_toast_challange_complete
+      # Pitch between 0.5 and 2
+      pitch: 1.5
+      # The volume
+      volume: 1.0
