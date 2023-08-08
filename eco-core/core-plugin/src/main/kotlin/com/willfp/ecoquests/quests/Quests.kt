@@ -26,5 +26,10 @@ object Quests : ConfigCategory("quest", "quests") {
             .filter { it.hasStarted(player) }
             .filterNot { it.hasCompleted(player) }
     }
+
+    fun getCompletedQuests(player: Player): List<Quest> {
+        return values()
+            .filter { it.hasCompleted(player) }
+    }
 }
 

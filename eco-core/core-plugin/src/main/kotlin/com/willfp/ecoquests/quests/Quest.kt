@@ -34,11 +34,10 @@ class Quest(
     val slot = slot({ player, _ ->
         guiItem.clone().modify {
             addLoreLines(
-                plugin.configYml.getStrings("gui.quest-area.quest-icon.lore")
-                    .flatMap {
-                        if (it == "%tasks%") tasks.flatMap { task -> task.getCompletedDescription(player) }
-                        else listOf(it)
-                    }.formatEco(player)
+                addPlaceholdersInto(
+                    config.getStrings("gui.quest-area.quest-icon.lore"),
+                    player
+                )
             )
         }
     }) {
@@ -59,7 +58,7 @@ class Quest(
         false
     )
 
-    private val rewardMessages = config.getStrings("reward-message")
+    private val rewardMessages = config.getStrings("reward-messages")
 
     val rewards = Effects.compileChain(
         config.getSubsections("rewards"),
@@ -141,6 +140,9 @@ class Quest(
 
             if (s.contains("%rewards%")) {
                 rewardMessages
+                    .addMargin(margin)
+            } else if (s.contains("%tasks%")) {
+                tasks.flatMap { task -> task.getCompletedDescription(player) }
                     .addMargin(margin)
             } else {
                 listOf(s)

@@ -4,11 +4,13 @@ import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.util.MenuUtils
+import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 class QuestAreaComponent(
-    config: Config
+    config: Config,
+    private val getQuests: (Player) -> List<Quest>
 ): PositionedComponent {
     override val row = config.getInt("top-left.row")
     override val column = config.getInt("top-left.column")
@@ -19,7 +21,7 @@ class QuestAreaComponent(
     private val pageSize = rowSize * columnSize
 
     fun getPages(player: Player): Int {
-        return Quests.getCurrentlyActiveQuests(player).size.floorDiv(pageSize) + 1
+        return getQuests(player).size.floorDiv(pageSize) + 1
     }
 
     override fun getSlotAt(row: Int, column: Int, player: Player, menu: Menu): Slot? {
@@ -27,7 +29,7 @@ class QuestAreaComponent(
 
         val index = MenuUtils.rowColumnToSlot(row, column, columnSize) + ((page - 1) * pageSize)
 
-        return Quests.getCurrentlyActiveQuests(player)
+        return getQuests(player)
             .getOrNull(index)
             ?.slot
     }

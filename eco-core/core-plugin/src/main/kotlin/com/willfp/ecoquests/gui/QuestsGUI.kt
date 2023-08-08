@@ -7,19 +7,21 @@ import com.willfp.eco.core.gui.page.PageChanger
 import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
-import com.willfp.eco.core.items.Items
 import com.willfp.ecoquests.gui.components.CloseButton
-import com.willfp.ecoquests.gui.components.GUIInfoComponent
+import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.gui.components.PositionedPageChanger
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
+import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 object QuestsGUI {
     private lateinit var menu: Menu
 
     fun reload(plugin: EcoPlugin) {
-        val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area"))
+        val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area")) {
+            Quests.getCurrentlyActiveQuests(it)
+        }
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {
             title = plugin.configYml.getFormattedString("gui.title")
@@ -33,7 +35,7 @@ object QuestsGUI {
                 )
             )
 
-            addComponent(GUIInfoComponent(plugin.configYml.getSubsection("gui.gui-info")))
+            addComponent(QuestInfoComponent(plugin.configYml.getSubsection("gui.gui-info")))
 
             addComponent(CloseButton(plugin.configYml.getSubsection("gui.close")))
 

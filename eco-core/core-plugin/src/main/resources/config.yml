@@ -32,12 +32,12 @@ gui:
       - "100000001"
       - "111111111"
 
-  gui-info:
+  quest-info:
     item: writable_book
     name: "&aQuest Book"
     lore:
-      - "&7View your active quests,"
-      - "&7progress, and rewards."
+      - "&eClick to view your"
+      - "&eprevious quests!"
 
     location:
       row: 1
@@ -54,7 +54,11 @@ gui:
     quest-icon:
       lore:
         - ""
-        - "%tasks%"
+        - "&fTasks:"
+        - " %tasks%"
+        - ""
+        - "&fRewards:"
+        - " %rewards%"
 
   prev-page:
     item: arrow name:"&fPrevious Page"
@@ -78,10 +82,66 @@ gui:
   # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
   custom-slots: [ ]
 
+completed-gui:
+  title: "Completed Quests"
+
+  rows: 6
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    materials:
+      - gray_stained_glass_pane
+      - black_stained_glass_pane
+    pattern:
+      - "111111111"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "011111111"
+
+  quest-area:
+    top-left:
+      row: 2
+      column: 2
+    bottom-right:
+      row: 5
+      column: 8
+
+  prev-page:
+    item: arrow name:"&fPrevious Page"
+    location:
+      row: 6
+      column: 4
+
+  next-page:
+    item: arrow name:"&fNext Page"
+    location:
+      row: 6
+      column: 6
+
+  back:
+    item: arrow name:"&fBack"
+    location:
+      row: 6
+      column: 1
+
+  # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  custom-slots: [ ]
+
 tasks:
   line-wrap: 32
-  completed: " &a&l✓ &r&f%description%"
-  not-completed: " &c&l✘ &r&f%description%"
+  completed: "&a&l✓ &r&f%description%"
+  not-completed: "&c&l✘ &r&f%description%"
 
 quests:
   complete:
@@ -95,7 +155,7 @@ quests:
         - "%rewards%"
         - "&f"
     title:
-      enabled: false
+      enabled: true
 
       # Durations are in seconds
       fade-in: 0.5
@@ -108,7 +168,7 @@ quests:
       # If a sound should be played
       enabled: true
       # The sound that should be played
-      sound: ui_toast_challange_complete
+      sound: ui_toast_challenge_complete
       # Pitch between 0.5 and 2
       pitch: 1.5
       # The volume
