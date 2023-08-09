@@ -18,8 +18,10 @@ import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.tasks.Task
+import com.willfp.ecoquests.tasks.TaskTemplate
 import com.willfp.ecoquests.tasks.Tasks
 import com.willfp.ecoquests.util.formatDuration
+import com.willfp.ecoquests.util.randomlyPick
 import com.willfp.libreforge.EmptyProvidedHolder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
@@ -60,9 +62,30 @@ class Quest(
 
     val alwaysInGUI = config.getBool("gui.always")
 
-    val tasks = config.getStrings("tasks")
-        .mapNotNull { Tasks[it] }
-        .map { Task(plugin, it, this) }
+    // The pool of available tasks to pick from
+    private val availableTasks = config.getSubsections("tasks")
+        .mapNotNull {
+            Task(
+                plugin,
+                // Could probably clean
+                Tasks[it.getString("task")] ?: return@mapNotNull null,
+                this,
+                it.getString("xp")
+            )
+        }
+
+    // The amount of tasks to use from the pool
+    val taskAmount = config.getInt("tasks-to-complete").let {
+        if (it < 0) {
+            availableTasks.size
+        } else {
+            it.coerceAtMost(availableTasks.size)
+        }
+    }
+
+    // The tasks that are actually in use
+    var tasks = availableTasks.randomlyPick(taskAmount)
+        private set
 
     private val hasStartedKey: PersistentDataKey<Boolean> = PersistentDataKey(
         plugin.createNamespacedKey("quest_${id}_has_started"),
@@ -143,6 +166,22 @@ class Quest(
         }.register()
     }
 
+    override fun onRegister() {
+        for (task in tasks) {
+            task.bind()
+        }
+    }
+
+    override fun onRemove() {
+        for (task in tasks) {
+            task.unbind()
+        }
+    }
+
+    fun getTask(template: TaskTemplate): Task? {
+        return tasks.firstOrNull { it.template == template }
+    }
+
     fun getDescription(player: Player): List<String> {
         return addPlaceholdersInto(listOf(config.getString("description")), player)
     }
@@ -196,10 +235,26 @@ class Quest(
             return
         }
 
+        reset()
+    }
+
+    private fun reset() {
         ServerProfile.load().write(lastResetTimeKey, (System.currentTimeMillis() / 1000 / 60).toInt())
 
         for (player in Bukkit.getOnlinePlayers()) {
             reset(player)
+        }
+
+        // Unbind old tasks
+        for (task in tasks) {
+            task.unbind()
+        }
+
+        tasks = availableTasks.randomlyPick(taskAmount)
+
+        // Bind new tasks
+        for (task in tasks) {
+            task.bind()
         }
     }
 
