@@ -32,8 +32,9 @@ permissions:
     children:
       ecoquests.command.reload: true
       ecoquests.command.quests: true
-      ecoquests.command.start: op
-      ecoquests.command.reset: op
+      ecoquests.command.start: true
+      ecoquests.command.reset: true
+      ecoquests.command.resetplayer: true
 
   ecoquests.command.reload:
     description: Allows reloading the config
@@ -49,4 +50,7 @@ permissions:
     default: op
   ecoquests.command.reset:
     description: Allows using /ecoquests reset.
+    default: op
+  ecoquests.command.resetplayer:
+    description: Allows using /ecoquests resetplayer.
     default: op

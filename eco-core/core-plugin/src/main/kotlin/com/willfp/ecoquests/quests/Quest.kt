@@ -1,6 +1,9 @@
 package com.willfp.ecoquests.quests
 
 import com.willfp.eco.core.EcoPlugin
+import com.willfp.eco.core.config.ConfigType
+import com.willfp.eco.core.config.config
+import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.data.ServerProfile
 import com.willfp.eco.core.data.keys.PersistentDataKey
@@ -75,7 +78,7 @@ class Quest(
         }
 
     // The amount of tasks to use from the pool
-    val taskAmount = config.getInt("tasks-to-complete").let {
+    val taskAmount = config.getInt("task-amount").let {
         if (it < 0) {
             availableTasks.size
         } else {
@@ -83,8 +86,20 @@ class Quest(
         }
     }
 
+    private val savedTasksKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_tasks"),
+        PersistentDataKeyType.STRING_LIST,
+        emptyList()
+    )
+
     // The tasks that are actually in use
-    var tasks = availableTasks.randomlyPick(taskAmount)
+    var tasks = run {
+        if (isResettable) {
+            loadTasks() ?: availableTasks.randomlyPick(taskAmount)
+        } else {
+            availableTasks.randomlyPick(taskAmount)
+        }
+    }
         private set
 
     private val hasStartedKey: PersistentDataKey<Boolean> = PersistentDataKey(
@@ -125,6 +140,9 @@ class Quest(
     )
 
     private val resetTime = config.getInt("reset-time")
+
+    val isResettable: Boolean
+        get() = resetTime >= 0
 
     val minutesUntilReset: Int
         get() = if (resetTime < 0) {
@@ -173,6 +191,10 @@ class Quest(
     }
 
     override fun onRemove() {
+        if (isResettable) {
+            saveTasks()
+        }
+
         for (task in tasks) {
             task.unbind()
         }
@@ -238,7 +260,7 @@ class Quest(
         reset()
     }
 
-    private fun reset() {
+    fun reset() {
         ServerProfile.load().write(lastResetTimeKey, (System.currentTimeMillis() / 1000 / 60).toInt())
 
         for (player in Bukkit.getOnlinePlayers()) {
@@ -256,6 +278,44 @@ class Quest(
         for (task in tasks) {
             task.bind()
         }
+
+        // Save new tasks
+        saveTasks()
+    }
+
+    private fun loadTasks(): List<Task>? {
+        val serialized = ServerProfile.load().read(savedTasksKey)
+
+        if (serialized.isEmpty()) {
+            return null
+        }
+
+        val savedTasks = mutableListOf<Task>()
+
+        for (s in serialized) {
+            val split = s.split(":")
+            val taskId = split[0]
+            val xpExpr = split[1]
+
+            val template = Tasks[taskId] ?: continue
+
+            savedTasks += Task(
+                plugin,
+                template,
+                this,
+                xpExpr
+            )
+        }
+
+        return savedTasks
+    }
+
+    private fun saveTasks() {
+        val serialized = tasks.map {
+            "${it.template.id}:${it.xpExpr}"
+        }
+
+        ServerProfile.load().write(savedTasksKey, serialized)
     }
 
     fun checkCompletion(player: Player): Boolean {

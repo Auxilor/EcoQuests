@@ -10,4 +10,6 @@ messages:
   already-started: "&cThe player has already started this quest!"
 
   started-quest: "&fStarted the &a%quest% &fquest for &a%player%&f!"
-  reset-quest: "&fReset the &a%quest% &fquest for &a%player%&f!"
+  reset-quest-for-player: "&fReset the &a%quest% &fquest for &a%player%&f!"
+  reset-quest: "&fReset the &a%quest% &fquest!"
+  quest-not-resettable: "&cThis quest is not resettable!"

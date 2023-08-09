@@ -5,7 +5,6 @@ import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
-import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.util.evaluateExpression
 import com.willfp.eco.util.formatEco
@@ -24,7 +23,7 @@ class Task(
     private val plugin: EcoPlugin,
     val template: TaskTemplate,
     val quest: Quest,
-    private val xpExpr: String
+    internal val xpExpr: String
 ) {
     private val xpKey = PersistentDataKey(
         plugin.createNamespacedKey("${quest.id}_task_${template.id}_xp"),

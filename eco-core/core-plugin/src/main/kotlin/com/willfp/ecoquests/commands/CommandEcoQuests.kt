@@ -13,6 +13,7 @@ class CommandEcoQuests(plugin: EcoPlugin) : PluginCommand(
     init {
         this.addSubcommand(CommandReload(plugin))
             .addSubcommand(CommandStart(plugin))
+            .addSubcommand(CommandResetPlayer(plugin))
             .addSubcommand(CommandReset(plugin))
     }
 

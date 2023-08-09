@@ -7,28 +7,22 @@ import com.willfp.ecoquests.quests.Quests
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandReset(plugin: EcoPlugin) : PluginCommand(
+class CommandResetPlayer(plugin: EcoPlugin) : PluginCommand(
     plugin,
-    "reset",
-    "ecoquests.command.reset",
+    "resetplayer",
+    "ecoquests.command.resetplayer",
     false
 ) {
     override fun onExecute(sender: CommandSender, args: List<String>) {
-        val quest = notifyNull(Quests[args.getOrNull(0)], "invalid-quest")
+        val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
+        val quest = notifyNull(Quests[args.getOrNull(1)], "invalid-quest")
 
-        if (!quest.isResettable) {
-            sender.sendMessage(
-                plugin.langYml.getMessage("quest-not-resettable", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                    .replace("%quest%", quest.name)
-            )
-            return
-        }
-
-        quest.reset()
+        quest.reset(player)
 
         sender.sendMessage(
-            plugin.langYml.getMessage("reset-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+            plugin.langYml.getMessage("reset-quest-for-player", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
                 .replace("%quest%", quest.name)
+                .replace("%player%", player.name)
         )
     }
 
@@ -38,6 +32,14 @@ class CommandReset(plugin: EcoPlugin) : PluginCommand(
         if (args.size == 1) {
             StringUtil.copyPartialMatches(
                 args[0],
+                plugin.server.onlinePlayers.map { it.name },
+                completions
+            )
+        }
+
+        if (args.size == 2) {
+            StringUtil.copyPartialMatches(
+                args[1],
                 Quests.values().map { it.id },
                 completions
             )

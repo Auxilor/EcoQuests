@@ -22,6 +22,10 @@ tasks:
   - task: break_stone
     xp: 100
 
+# (For resettable tasks) The amount of tasks to select from the list above.
+# Set to -1 to use all tasks.
+task-amount: -1
+
 # The messages for the %rewards% placeholder in icons, messages, etc.
 reward-messages:
   - " &8» &r&f+2 %ecoskills_defense_name%"
