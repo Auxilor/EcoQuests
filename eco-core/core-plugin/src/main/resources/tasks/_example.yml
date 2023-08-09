@@ -1,3 +1,12 @@
+# The ID of the task is the name of the .yml file,
+# for example break_100_stone.yml has the ID of break_100_stone
+# You can place tasks anywhere in this folder,
+# including in subfolders if you want to organize your quest task
+# _example.yml is not loaded.
+
+# If multiple quests have the same task, gaining task XP for one quest
+# will gain task XP for all quests with the same task.
+
 # The description of the task.
 # %xp% - The amount of XP the player has in this task
 # %required-xp% - The amount of XP required to complete this task

@@ -75,19 +75,19 @@ class Quest(
 
     private val rewardMessages = config.getStrings("reward-messages")
 
-    val rewards = Effects.compileChain(
+    private val rewards = Effects.compileChain(
         config.getSubsections("rewards"),
         NormalExecutorFactory.create(),
         ViolationContext(plugin, "quest $id rewards")
     )
 
-    val startEffects = Effects.compileChain(
+    private val startEffects = Effects.compileChain(
         config.getSubsections("start-effects"),
         NormalExecutorFactory.create(),
         ViolationContext(plugin, "quest $id start-effects")
     )
 
-    val startConditions = Conditions.compile(
+    private val startConditions = Conditions.compile(
         config.getSubsections("start-conditions"),
         ViolationContext(plugin, "quest $id start-conditions")
     )

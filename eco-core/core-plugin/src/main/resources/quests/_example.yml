@@ -1,6 +1,12 @@
-name: "Example Quest"
+# The ID of the quest is the name of the .yml file,
+# for example master_miner.yml has the ID of master_miner
+# You can place quests anywhere in this folder,
+# including in subfolders if you want to organize your quest configs
+# _example.yml is not loaded.
 
-description: "Example Description"
+name: "Example Quest" # The name of the quest in-game
+
+description: "Example Description" # The quest description
 
 gui:
   enabled: true # If the quest should be shown in the GUI
@@ -35,4 +41,5 @@ start-effects: [ ]
 # A list of conditions required to start the quest.
 # The quest will be automatically started when these conditions are met.
 # Read https://plugins.auxilor.io/conditions/configuring-a-condition
+# not-met-lines will show up on the GUI item if gui.always is true.
 start-conditions: [ ]
