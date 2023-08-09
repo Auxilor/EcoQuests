@@ -1,0 +1,8 @@
+description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)"
+
+xp-gain-methods:
+  - trigger: mine_block
+    multiplier: 1
+    filters:
+      blocks:
+        - stone

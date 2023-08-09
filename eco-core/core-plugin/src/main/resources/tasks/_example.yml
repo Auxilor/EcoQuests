@@ -5,16 +5,12 @@
 # _example.yml is not loaded.
 
 # If multiple quests have the same task, gaining task XP for one quest
-# will gain task XP for all quests with the same task.
+# will not gain task XP for other quests with the same task.
 
 # The description of the task.
 # %xp% - The amount of XP the player has in this task
 # %required-xp% - The amount of XP required to complete this task
 description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)"
-
-# The amount of XP required to complete this task.
-# If the task is just one action, set this to 1.
-required-xp: 100
 
 # An XP gain method takes a trigger, a multiplier, conditions, and filters.
 # The multiplier takes the value produced by the trigger and multiplies it

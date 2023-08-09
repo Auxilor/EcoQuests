@@ -1,27 +1,26 @@
-# The ID of the quest is the name of the .yml file,
-# for example master_miner.yml has the ID of master_miner
-# You can place quests anywhere in this folder,
-# including in subfolders if you want to organize your quest configs
-# _example.yml is not loaded.
+name: "Resettable Quest"
 
-name: "Example Quest" # The name of the quest in-game
+description: "&fThis quest will reset in &a%time_until_reset%"
 
-description: "Example Description" # The quest description
-
+# Options for the /quests GUI
 gui:
   enabled: true # If the quest should be shown in the GUI
   always: false # If the quest should always be in the GUI, even if it's not started
+  # The item to show in the GUI, read https://plugins.auxilor.io/all-plugins/the-item-lookup-system
   item: paper name:"&eExample Quest"
 
 # How many minutes between this quest being reset (set to -1 to disable)
 # 1 Day: 1440
 # 1 Week: 10080
 # 1 Month: 43200
-reset-time: -1
+reset-time: 10
 
-# A list of task IDs required to complete this quest.
+# A list of tasks and their XP requirements to complete this quest.
+# If the task is one action, set XP to 1.
+# XP requirements can use placeholder math, for example %ecoskills_combat% * 100
 tasks:
-  - break_100_stone
+  - task: break_stone
+    xp: 100
 
 # The messages for the %rewards% placeholder in icons, messages, etc.
 reward-messages:
@@ -32,7 +31,7 @@ reward-messages:
 rewards: [ ]
 
 # If the player should be told when they have started the quest.
-announce-start: true
+announce-start: false
 
 # A list of effects to run when the quest is started.
 # Read https://plugins.auxilor.io/effects/configuring-an-effect
@@ -41,5 +40,4 @@ start-effects: [ ]
 # A list of conditions required to start the quest.
 # The quest will be automatically started when these conditions are met.
 # Read https://plugins.auxilor.io/conditions/configuring-a-condition
-# not-met-lines will show up on the GUI item if gui.always is true.
 start-conditions: [ ]

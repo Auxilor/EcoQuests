@@ -17,6 +17,7 @@ import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
+import com.willfp.ecoquests.tasks.Task
 import com.willfp.ecoquests.tasks.Tasks
 import com.willfp.ecoquests.util.formatDuration
 import com.willfp.libreforge.EmptyProvidedHolder
@@ -59,7 +60,9 @@ class Quest(
 
     val alwaysInGUI = config.getBool("gui.always")
 
-    val tasks = config.getStrings("tasks").mapNotNull { Tasks[it] }
+    val tasks = config.getStrings("tasks")
+        .mapNotNull { Tasks[it] }
+        .map { Task(plugin, it, this) }
 
     private val hasStartedKey: PersistentDataKey<Boolean> = PersistentDataKey(
         plugin.createNamespacedKey("quest_${id}_has_started"),

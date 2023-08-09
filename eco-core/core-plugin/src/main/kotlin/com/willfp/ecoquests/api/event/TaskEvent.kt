@@ -1,7 +1,7 @@
 package com.willfp.ecoquests.api.event
 
-import com.willfp.ecoquests.tasks.Task
+import com.willfp.ecoquests.tasks.TaskTemplate
 
 interface TaskEvent {
-    val task: Task
+    val task: TaskTemplate
 }

@@ -1,100 +1,82 @@
 package com.willfp.ecoquests.tasks
 
 import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
-import com.willfp.eco.core.integrations.placeholder.PlaceholderManager
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
-import com.willfp.eco.core.registry.KRegistrable
+import com.willfp.eco.core.placeholder.context.placeholderContext
+import com.willfp.eco.util.evaluateExpression
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
+import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
-import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.counters.Accumulator
-import com.willfp.libreforge.counters.Counters
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import kotlin.math.min
 
 class Task(
     private val plugin: EcoPlugin,
-    override val id: String,
-    val config: Config
-) : KRegistrable {
+    val template: TaskTemplate,
+    val quest: Quest,
+    private val xpExpr: String
+) {
     private val xpKey = PersistentDataKey(
-        plugin.createNamespacedKey("task_${id}_xp"),
+        plugin.createNamespacedKey("${quest.id}_task_${template.id}_xp"),
         PersistentDataKeyType.DOUBLE,
         0.0
     )
 
     private val hasCompletedKey = PersistentDataKey(
-        plugin.createNamespacedKey("task_${id}_has_completed"),
+        plugin.createNamespacedKey("${quest.id}_task_${template.id}_has_completed"),
         PersistentDataKeyType.BOOLEAN,
         false
     )
 
-    private val xpGainMethods = config.getSubsections("xp-gain-methods").mapNotNull {
-        Counters.compile(it, ViolationContext(plugin, "task $id tasks"))
-    }
+    private val xpGainMethods = template.xpGainMethods.map { it.clone() }
 
     private val accumulator = object : Accumulator {
         override fun accept(player: Player, count: Double) {
+            if (!quest.hasActive(player)) {
+                return
+            }
+
             this@Task.gainExperience(player, count)
         }
     }
 
     init {
-        PlayerPlaceholder(plugin, "task_${id}_required_xp") {
+        PlayerPlaceholder(plugin, "${quest.id}_task_${template.id}_required_xp") {
             getExperienceRequired(it).toNiceString()
         }.register()
 
-        PlayerPlaceholder(plugin, "task_${id}_xp") {
+        PlayerPlaceholder(plugin, "${quest.id}_task_${template.id}_xp") {
             getExperience(it).toNiceString()
         }.register()
 
-        PlayerPlaceholder(plugin, "task_${id}_description") {
+        PlayerPlaceholder(plugin, "${quest.id}_task_${template.id}_description") {
             getDescription(it)
         }.register()
 
-        PlayerPlaceholder(plugin, "task_${id}_completed") {
+        PlayerPlaceholder(plugin, "${quest.id}_task_${template.id}_completed") {
             hasCompleted(it).toNiceString()
         }.register()
     }
 
-    override fun onRegister() {
+    fun bind() {
         for (counter in xpGainMethods) {
             counter.bind(accumulator)
         }
     }
 
-    override fun onRemove() {
+    fun unbind() {
         for (counter in xpGainMethods) {
             counter.unbind()
-        }
-    }
-
-    fun getDescription(player: Player): String {
-        return config.getString("description")
-            .replace("%xp%", getExperience(player).toNiceString())
-            .replace("%required-xp%", getExperienceRequired(player).toNiceString())
-            .formatEco(player)
-    }
-
-    fun getCompletedDescription(player: Player): List<String> {
-        return if (hasCompleted(player)) {
-            plugin.configYml.getString("tasks.completed")
-                .replace("%description%", getDescription(player))
-                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
-        } else {
-            plugin.configYml.getString("tasks.not-completed")
-                .replace("%description%", getDescription(player))
-                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         }
     }
 
@@ -107,19 +89,24 @@ class Task(
         return player.profile.read(hasCompletedKey)
     }
 
-    fun getExperience(player: Player): Double {
-        return min(player.profile.read(xpKey), getExperienceRequired(player))
+    fun getExperienceRequired(player: Player): Double {
+        return evaluateExpression(
+            xpExpr,
+            placeholderContext(
+                player = player
+            )
+        )
     }
 
-    fun getExperienceRequired(player: Player): Double {
-        return config.getDoubleFromExpression("required-xp", player)
+    fun getExperience(player: Player): Double {
+        return min(player.profile.read(xpKey), getExperienceRequired(player))
     }
 
     /**
      * Gain experience naturally.
      */
     fun gainExperience(player: Player, amount: Double) {
-        val event = PlayerTaskExpGainEvent(player, this, amount)
+        val event = PlayerTaskExpGainEvent(player, template, quest, amount)
 
         Bukkit.getPluginManager().callEvent(event)
 
@@ -142,12 +129,31 @@ class Task(
         if (newXp >= requiredXp) {
             player.profile.write(hasCompletedKey, true)
 
-            Bukkit.getPluginManager().callEvent(PlayerTaskCompleteEvent(player, this))
+            Bukkit.getPluginManager().callEvent(PlayerTaskCompleteEvent(player, template, quest))
 
             // Then check if any quests are now completed
             for (quest in Quests.values()) {
                 quest.checkCompletion(player)
             }
+        }
+    }
+
+    fun getDescription(player: Player): String {
+        return template.config.getString("description")
+            .replace("%xp%", getExperience(player).toNiceString())
+            .replace("%required-xp%", getExperienceRequired(player).toNiceString())
+            .formatEco(player)
+    }
+
+    fun getCompletedDescription(player: Player): List<String> {
+        return if (hasCompleted(player)) {
+            plugin.configYml.getString("tasks.completed")
+                .replace("%description%", getDescription(player))
+                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
+        } else {
+            plugin.configYml.getString("tasks.not-completed")
+                .replace("%description%", getDescription(player))
+                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         }
     }
 }
