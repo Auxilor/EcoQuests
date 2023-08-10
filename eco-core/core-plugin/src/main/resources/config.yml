@@ -34,10 +34,13 @@ gui:
 
   quest-info:
     item: writable_book
-    name: "&aQuest Book"
+    name: "&fQuest Book"
     lore:
-      - "&eClick to view your"
-      - "&eprevious quests!"
+      - ""
+      - "&fQuests Completed: &f%ecoquests_quests_completed%"
+      - "&fQuests Active: &f%ecoquests_quests_active%"
+      - ""
+      - "&eClick to view past quests!"
 
     location:
       row: 1
@@ -130,12 +133,12 @@ completed-gui:
   custom-slots: [ ]
 
 tasks:
-  line-wrap: 32
-  completed: "&a&l✓ &r&f%description%"
-  not-completed: "&c&l✘ &r&f%description%"
+  completed: "&a&l✔ &r&f%description%"
+  not-completed: "&c&l❌ &r&f%description%"
 
 quests:
   icon:
+    line-wrap: 32
     lore:
       - "%description%"
       - ""

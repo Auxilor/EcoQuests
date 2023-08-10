@@ -1,8 +1,11 @@
 package com.willfp.ecoquests
 
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.eco.core.data.profile
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
+import com.willfp.eco.core.placeholder.context.PlaceholderContext
+import com.willfp.eco.core.placeholder.templates.SimpleInjectablePlaceholder
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
@@ -69,6 +72,10 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         PlayerPlaceholder(this, "quests_active") {
             Quests.getActiveQuests(it).size.toString()
         }.register()
+
+        PlayerPlaceholder(this, "recent_quest_name") {
+            Quests.getActiveQuests(it).minBy { quest -> quest.getTimeSinceStart(it) }.name
+        }
     }
 
     override fun handleReload() {

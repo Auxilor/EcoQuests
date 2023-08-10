@@ -14,6 +14,7 @@ import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.eco.util.formatEco
+import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
@@ -420,7 +421,7 @@ class Quest(
                 rewardMessages
                     .addMargin(margin)
             } else if (s.contains("%tasks%")) {
-                tasks.flatMap { task -> task.getCompletedDescription(player) }
+                tasks.map { task -> task.getCompletedDescription(player) }
                     .addMargin(margin)
             } else if (s.contains("%description%")) {
                 getDescription(player)
@@ -434,6 +435,6 @@ class Quest(
             placeholderContext(
                 player = player
             )
-        )
+        ).lineWrap(plugin.configYml.getInt("quests.icon.line-wrap"), true)
     }
 }

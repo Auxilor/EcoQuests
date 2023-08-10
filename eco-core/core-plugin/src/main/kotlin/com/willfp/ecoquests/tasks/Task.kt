@@ -145,15 +145,13 @@ class Task(
             .formatEco(player)
     }
 
-    fun getCompletedDescription(player: Player): List<String> {
+    fun getCompletedDescription(player: Player): String {
         return if (hasCompleted(player)) {
             plugin.configYml.getString("tasks.completed")
                 .replace("%description%", getDescription(player))
-                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         } else {
             plugin.configYml.getString("tasks.not-completed")
                 .replace("%description%", getDescription(player))
-                .lineWrap(plugin.configYml.getInt("tasks.line-wrap"), true)
         }
     }
 }
