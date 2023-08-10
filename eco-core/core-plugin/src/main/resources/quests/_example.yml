@@ -45,3 +45,7 @@ start-effects: [ ]
 # The quest will be automatically started when these conditions are met.
 # Read https://plugins.auxilor.io/conditions/configuring-a-condition
 start-conditions: [ ]
+
+# If the quest should auto start when all conditions are met
+# If this is set to false, the quest can only be started with /ecoquests start
+auto-start: true

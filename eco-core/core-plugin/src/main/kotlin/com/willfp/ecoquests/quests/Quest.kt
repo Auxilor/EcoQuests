@@ -44,6 +44,8 @@ class Quest(
 
     val announcesStart = config.getBool("announce-start")
 
+    val autoStarts = config.getBool("auto-start")
+
     private val guiItem = Items.lookup(config.getString("gui.item")).item
 
     val slot = slot({ player, _ ->
@@ -254,7 +256,7 @@ class Quest(
     }
 
     fun shouldStart(player: Player): Boolean {
-        return meetsStartConditions(player) && !hasStarted(player)
+        return meetsStartConditions(player) && !hasStarted(player) && autoStarts
     }
 
     fun hasStarted(player: OfflinePlayer): Boolean {
