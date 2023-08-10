@@ -12,6 +12,7 @@ import com.willfp.ecoquests.libreforge.ConditionHasCompletedTask
 import com.willfp.ecoquests.libreforge.ConditionHasQuestActive
 import com.willfp.ecoquests.libreforge.EffectGainTaskXp
 import com.willfp.ecoquests.libreforge.EffectGiveTaskXp
+import com.willfp.ecoquests.libreforge.EffectQuestXpMultiplier
 import com.willfp.ecoquests.libreforge.EffectStartQuest
 import com.willfp.ecoquests.libreforge.FilterQuest
 import com.willfp.ecoquests.libreforge.FilterTask
@@ -40,6 +41,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         Conditions.register(ConditionHasQuestActive)
         Effects.register(EffectGainTaskXp)
         Effects.register(EffectGiveTaskXp)
+        Effects.register(EffectQuestXpMultiplier)
         Effects.register(EffectStartQuest)
         Filters.register(FilterQuest)
         Filters.register(FilterTask)
