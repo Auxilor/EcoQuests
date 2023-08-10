@@ -37,8 +37,8 @@ gui:
     name: "&fQuest Book"
     lore:
       - ""
-      - "&fQuests Completed: &f%ecoquests_quests_completed%"
-      - "&fQuests Active: &f%ecoquests_quests_active%"
+      - "&7Quests Completed: &f%ecoquests_quests_completed%"
+      - "&7Quests Active: &f%ecoquests_quests_active%"
       - ""
       - "&eClick to view past quests!"
 

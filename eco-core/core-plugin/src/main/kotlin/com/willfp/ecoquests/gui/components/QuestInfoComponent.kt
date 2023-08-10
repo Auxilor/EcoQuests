@@ -16,8 +16,8 @@ class QuestInfoComponent(
 
     private val slot = slot({ player, _ ->
         baseItem.item.clone().modify {
-            setDisplayName(config.getString("name").formatEco(player))
-            addLoreLines(config.getStrings("lore").formatEco(player))
+            setDisplayName(config.getString("name").formatEco(player, formatPlaceholders = true))
+            addLoreLines(config.getStrings("lore").formatEco(player, formatPlaceholders = true))
         }
     }) {
         onLeftClick { player, _, _, _ ->
