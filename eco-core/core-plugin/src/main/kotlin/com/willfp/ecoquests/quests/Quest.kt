@@ -58,6 +58,8 @@ class Quest(
             addLoreLines(
                 startConditions.getNotMetLines(player, EmptyProvidedHolder)
             )
+
+            setDisplayName(this@Quest.name)
         }
     }) {
 
