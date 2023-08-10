@@ -31,6 +31,7 @@ import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.effects.executors.impl.NormalExecutorFactory
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class Quest(
@@ -208,11 +209,11 @@ class Quest(
         return addPlaceholdersInto(listOf(config.getString("description")), player)
     }
 
-    fun hasActive(player: Player): Boolean {
+    fun hasActive(player: OfflinePlayer): Boolean {
         return hasStarted(player) && !hasCompleted(player)
     }
 
-    fun hasCompleted(player: Player): Boolean {
+    fun hasCompleted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasCompletedKey)
     }
 
@@ -224,11 +225,11 @@ class Quest(
         return meetsStartConditions(player) && !hasStarted(player)
     }
 
-    fun hasStarted(player: Player): Boolean {
+    fun hasStarted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasStartedKey)
     }
 
-    fun reset(player: Player) {
+    fun reset(player: OfflinePlayer) {
         player.profile.write(hasStartedKey, false)
         player.profile.write(hasCompletedKey, false)
 
@@ -265,6 +266,15 @@ class Quest(
 
         for (player in Bukkit.getOnlinePlayers()) {
             reset(player)
+        }
+
+        // Offline players can be reset async
+        plugin.scheduler.runAsync {
+            for (player in Bukkit.getOfflinePlayers()) {
+                if (!player.isOnline) {
+                    reset(player)
+                }
+            }
         }
 
         // Unbind old tasks

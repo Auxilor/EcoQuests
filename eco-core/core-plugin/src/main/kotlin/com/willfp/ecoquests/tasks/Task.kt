@@ -16,6 +16,7 @@ import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.libreforge.counters.Accumulator
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import kotlin.math.min
 
@@ -79,12 +80,12 @@ class Task(
         }
     }
 
-    fun reset(player: Player) {
+    fun reset(player: OfflinePlayer) {
         player.profile.write(xpKey, 0.0)
         player.profile.write(hasCompletedKey, false)
     }
 
-    fun hasCompleted(player: Player): Boolean {
+    fun hasCompleted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasCompletedKey)
     }
 
@@ -97,8 +98,8 @@ class Task(
         )
     }
 
-    fun getExperience(player: Player): Double {
-        return min(player.profile.read(xpKey), getExperienceRequired(player))
+    fun getExperience(player: OfflinePlayer): Double {
+        return player.profile.read(xpKey)
     }
 
     /**
@@ -123,7 +124,7 @@ class Task(
         val requiredXp = getExperienceRequired(player)
         val newXp = player.profile.read(xpKey) + amount
 
-        player.profile.write(xpKey, newXp)
+        player.profile.write(xpKey, min(newXp, requiredXp))
 
         if (newXp >= requiredXp) {
             player.profile.write(hasCompletedKey, true)
