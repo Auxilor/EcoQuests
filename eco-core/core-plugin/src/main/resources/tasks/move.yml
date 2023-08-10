@@ -1,0 +1,4 @@
+description: "&fMove distance (&a%xp%&8/&a%required-xp%&f)"
+
+xp-gain-methods:
+  - trigger: move

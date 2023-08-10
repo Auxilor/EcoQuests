@@ -1,26 +1,26 @@
-name: "Resettable Quest"
+name: "Traveller"
 
-description: "&fThis quest will reset in &a%time_until_reset%"
+description: "&7Stretch your legs! Walk around Lumoria and find new places to explore."
 
 # Options for the /quests GUI
 gui:
   enabled: true # If the quest should be shown in the GUI
   always: false # If the quest should always be in the GUI, even if it's not started
   # The item to show in the GUI, read https://plugins.auxilor.io/all-plugins/the-item-lookup-system
-  item: paper name:"&eExample Quest"
+  item: paper
 
 # How many minutes between this quest being reset (set to -1 to disable)
 # 1 Day: 1440
 # 1 Week: 10080
 # 1 Month: 43200
-reset-time: 10
+reset-time: -1
 
 # A list of tasks and their XP requirements to complete this quest.
 # If the task is one action, set XP to 1.
 # XP requirements can use placeholder math, for example %ecoskills_combat% * 100
 tasks:
-  - task: break_stone
-    xp: 100
+  - task: move
+    xp: 1000
 
 # (For resettable tasks) The amount of tasks to select from the list above.
 # Set to -1 to use all tasks.
