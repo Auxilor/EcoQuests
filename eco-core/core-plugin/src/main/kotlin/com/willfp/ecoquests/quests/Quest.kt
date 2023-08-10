@@ -61,7 +61,12 @@ class Quest(
                 startConditions.getNotMetLines(player, EmptyProvidedHolder)
             )
 
-            setDisplayName(this@Quest.name)
+            setDisplayName(
+                addPlaceholdersInto(
+                    listOf(plugin.configYml.getString("quests.icon.name")),
+                    player
+                ).first()
+            )
         }
     }) {
 

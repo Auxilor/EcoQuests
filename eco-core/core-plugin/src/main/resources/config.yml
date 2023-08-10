@@ -138,7 +138,8 @@ tasks:
 
 quests:
   icon:
-    line-wrap: 32
+    name: "&e%quest%" # The name of the icon
+    line-wrap: 32 # Lore line-wrapping
     lore:
       - "%description%"
       - ""
