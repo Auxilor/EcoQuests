@@ -4,6 +4,6 @@ environment:
 
 options:
   color: "&#eacda3"
-  resource-id: 0
-  bstats-id: 0
+  resource-id: 4600
+  bstats-id: 19455
   uses-reflective-reload: false
