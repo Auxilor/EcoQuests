@@ -75,7 +75,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
         PlayerPlaceholder(this, "recent_quest_name") {
             Quests.getActiveQuests(it).minBy { quest -> quest.getTimeSinceStart(it) }.name
-        }
+        }.register()
     }
 
     override fun handleReload() {
