@@ -3,6 +3,7 @@ package com.willfp.ecoquests
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
+import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
@@ -56,6 +57,13 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
         PlayerPlaceholder(this, "quests_completed") {
             Quests.getCompletedQuests(it).size.toString()
+        }.register()
+
+        PlayerPlaceholder(this, "quests_percent_completed") {
+            val completed = Quests.getCompletedQuests(it).size
+            val total = Quests.values().size
+            val percent = completed.toDouble() / total.toDouble() * 100.0
+            percent.toNiceString()
         }.register()
 
         PlayerPlaceholder(this, "quests_active") {
