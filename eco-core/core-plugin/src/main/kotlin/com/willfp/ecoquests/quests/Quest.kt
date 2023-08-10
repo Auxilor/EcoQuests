@@ -69,13 +69,8 @@ class Quest(
     // The pool of available tasks to pick from
     private val availableTasks = config.getSubsections("tasks")
         .mapNotNull {
-            Task(
-                plugin,
-                // Could probably clean
-                Tasks[it.getString("task")] ?: return@mapNotNull null,
-                this,
-                it.getString("xp")
-            )
+            Tasks[it.getString("task")]
+                ?.create(this, it.getString("xp"))
         }
 
     // The amount of tasks to use from the pool
@@ -309,12 +304,7 @@ class Quest(
 
             val template = Tasks[taskId] ?: continue
 
-            savedTasks += Task(
-                plugin,
-                template,
-                this,
-                xpExpr
-            )
+            savedTasks += template.create(this, xpExpr)
         }
 
         return savedTasks
