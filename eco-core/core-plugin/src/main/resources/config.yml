@@ -3,7 +3,7 @@
 # by Auxilor
 #
 
-scan-interval: 20 # How often to scan for quest starting / completion (in ticks)
+scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 gui:
   title: "Quest Book"
@@ -133,7 +133,9 @@ completed-gui:
   custom-slots: [ ]
 
 tasks:
+  # The line to show when a task is completed
   completed: "&a&l✔ &r&f%description%"
+    # The line to show when a task is not completed
   not-completed: "&c&l❌ &r&f%description%"
 
 quests:
