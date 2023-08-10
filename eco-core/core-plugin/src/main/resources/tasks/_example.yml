@@ -1,7 +1,7 @@
 # The ID of the task is the name of the .yml file,
 # for example break_100_stone.yml has the ID of break_100_stone
 # You can place tasks anywhere in this folder,
-# including in subfolders if you want to organize your quest task
+# including in subfolders if you want to organize your task configs
 # _example.yml is not loaded.
 
 # If multiple quests have the same task, gaining task XP for one quest

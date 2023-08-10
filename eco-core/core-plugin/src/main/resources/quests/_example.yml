@@ -1,3 +1,9 @@
+# The ID of the quest is the name of the .yml file,
+# for example traveller.yml has the ID of traveller
+# You can place quests anywhere in this folder,
+# including in subfolders if you want to organize your quest configs
+# _example.yml is not loaded.
+
 name: "Traveller"
 
 description: "&7Stretch your legs! Walk around Lumoria and find new places to explore."
