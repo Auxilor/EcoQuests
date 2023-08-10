@@ -5,17 +5,21 @@ import com.willfp.eco.core.gui.onLeftClick
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
+import com.willfp.eco.core.items.builder.modify
+import com.willfp.eco.util.formatEco
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 
 class QuestInfoComponent(
     config: Config
 ) : PositionedComponent {
-    private val slot = slot(
-        ItemStackBuilder(Items.lookup(config.getString("item")))
-            .setDisplayName(config.getFormattedString("name"))
-            .addLoreLines(config.getFormattedStrings("lore"))
-            .build()
-    ) {
+    private val baseItem = Items.lookup(config.getString("item"))
+
+    private val slot = slot({ player, _ ->
+        baseItem.item.clone().modify {
+            setDisplayName(config.getString("name").formatEco(player))
+            addLoreLines(config.getStrings("lore").formatEco(player))
+        }
+    }) {
         onLeftClick { player, _, _, _ ->
             PreviousQuestsGUI.open(player)
         }

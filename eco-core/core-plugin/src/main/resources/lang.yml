@@ -13,3 +13,8 @@ messages:
   reset-quest-for-player: "&fReset the &a%quest% &fquest for &a%player%&f!"
   reset-quest: "&fReset the &a%quest% &fquest!"
   quest-not-resettable: "&cThis quest is not resettable!"
+
+time-since:
+  never: "&cNot started yet!"
+  started: "&7Started %time% ago"
+  completed: "&7Completed %time% ago"

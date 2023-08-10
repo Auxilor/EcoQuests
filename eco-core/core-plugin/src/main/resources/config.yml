@@ -144,6 +144,8 @@ quests:
       - ""
       - "&fRewards:"
       - " %rewards%"
+      - ""
+      - "%time_since%"
 
   complete:
     message:

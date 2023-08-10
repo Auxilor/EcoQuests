@@ -1,9 +1,6 @@
 package com.willfp.ecoquests.quests
 
 import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.config
-import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.data.ServerProfile
 import com.willfp.eco.core.data.keys.PersistentDataKey
@@ -33,6 +30,9 @@ import com.willfp.libreforge.effects.executors.impl.NormalExecutorFactory
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+
+val currentTimeMinutes: Int
+    get() = (System.currentTimeMillis() / 1000 / 60).toInt()
 
 class Quest(
     private val plugin: EcoPlugin,
@@ -98,16 +98,28 @@ class Quest(
     }
         private set
 
-    private val hasStartedKey: PersistentDataKey<Boolean> = PersistentDataKey(
+    private val hasStartedKey = PersistentDataKey(
         plugin.createNamespacedKey("quest_${id}_has_started"),
         PersistentDataKeyType.BOOLEAN,
         false
     )
 
-    private val hasCompletedKey: PersistentDataKey<Boolean> = PersistentDataKey(
+    private val startedTimeKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_started_time"),
+        PersistentDataKeyType.INT,
+        Int.MAX_VALUE
+    )
+
+    private val hasCompletedKey = PersistentDataKey(
         plugin.createNamespacedKey("quest_${id}_has_completed"),
         PersistentDataKeyType.BOOLEAN,
         false
+    )
+
+    private val completedTimeKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_completed_time"),
+        PersistentDataKeyType.INT,
+        Int.MAX_VALUE
     )
 
     private val rewardMessages = config.getStrings("reward-messages")
@@ -144,10 +156,9 @@ class Quest(
         get() = if (resetTime < 0) {
             Int.MAX_VALUE
         } else {
-            val currentTime = (System.currentTimeMillis() / 1000 / 60).toInt()
             val previousTime = ServerProfile.load().read(lastResetTimeKey)
 
-            resetTime - currentTime + previousTime
+            resetTime - currentTimeMinutes + previousTime
         }
 
     init {
@@ -177,6 +188,29 @@ class Quest(
 
         PlayerlessPlaceholder(plugin, "quest_${id}_time_until_reset") {
             formatDuration(this.minutesUntilReset)
+        }.register()
+
+        PlayerPlaceholder(plugin, "quest_${id}_time_since_start") {
+            formatDuration(this.getTimeSinceStart(it))
+        }.register()
+
+        PlayerPlaceholder(plugin, "quest_${id}_time_since_completed") {
+            formatDuration(this.getTimeSinceCompletion(it))
+        }.register()
+
+        PlayerPlaceholder(plugin, "quest_${id}_time_since") {
+            if (hasCompleted(it)) {
+                plugin.langYml.getString("time-since.completed")
+                    .replace("%time%", formatDuration(this.getTimeSinceCompletion(it)))
+                    .formatEco(it)
+            } else if (hasStarted(it)) {
+                plugin.langYml.getString("time-since.started")
+                    .replace("%time%", formatDuration(this.getTimeSinceStart(it)))
+                    .formatEco(it)
+            } else {
+                plugin.langYml.getString("time-since.never")
+                    .formatEco(it)
+            }
         }.register()
     }
 
@@ -240,8 +274,32 @@ class Quest(
 
         startEffects?.trigger(player)
         player.profile.write(hasStartedKey, true)
+        player.profile.write(startedTimeKey, currentTimeMinutes)
 
         Bukkit.getPluginManager().callEvent(PlayerQuestStartEvent(player, this))
+    }
+
+    fun getTimeSinceStart(player: OfflinePlayer): Int {
+        return currentTimeMinutes - player.profile.read(startedTimeKey)
+    }
+
+    fun getTimeSinceCompletion(player: OfflinePlayer): Int {
+        return currentTimeMinutes - player.profile.read(completedTimeKey)
+    }
+
+    fun getTimeSincePlaceholder(player: Player): String {
+        return if (hasCompleted(player)) {
+            plugin.langYml.getString("time-since.completed")
+                .replace("%time%", formatDuration(this.getTimeSinceCompletion(player)))
+                .formatEco(player)
+        } else if (hasStarted(player)) {
+            plugin.langYml.getString("time-since.started")
+                .replace("%time%", formatDuration(this.getTimeSinceStart(player)))
+                .formatEco(player)
+        } else {
+            plugin.langYml.getString("time-since.never")
+                .formatEco(player)
+        }
     }
 
     fun resetIfNeeded() {
@@ -325,15 +383,19 @@ class Quest(
         }
 
         if (tasks.all { it.hasCompleted(player) }) {
-            player.profile.write(hasCompletedKey, true)
-            rewards?.trigger(player)
-
-            Bukkit.getPluginManager().callEvent(PlayerQuestCompleteEvent(player, this))
-
+            complete(player)
             return true
         }
 
         return false
+    }
+
+    private fun complete(player: Player) {
+        player.profile.write(hasCompletedKey, true)
+        player.profile.write(completedTimeKey, currentTimeMinutes)
+        rewards?.trigger(player)
+
+        Bukkit.getPluginManager().callEvent(PlayerQuestCompleteEvent(player, this))
     }
 
     private fun List<String>.addMargin(margin: Int): List<String> {
@@ -348,6 +410,7 @@ class Quest(
         fun String.addPlaceholders() = this
             .replace("%quest%", quest.name)
             .replace("%time_until_reset%", formatDuration(quest.minutesUntilReset))
+            .replace("%time_since%", getTimeSincePlaceholder(player))
 
         // Replace multi-line placeholders.
         val processed = strings.flatMap { s ->
