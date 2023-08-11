@@ -7,6 +7,8 @@ import com.willfp.libreforge.loader.configs.ConfigCategory
 import org.bukkit.entity.Player
 
 object Quests : ConfigCategory("quest", "quests") {
+    override val supportsSharing = false
+
     private val registry = Registry<Quest>()
 
     override fun clear(plugin: LibreforgePlugin) {
