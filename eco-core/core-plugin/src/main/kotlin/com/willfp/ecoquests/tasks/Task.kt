@@ -32,6 +32,12 @@ class Task(
         0.0
     )
 
+    private val xpRequiredKey = PersistentDataKey(
+        plugin.createNamespacedKey("${quest.id}_task_${template.id}_xp_required"),
+        PersistentDataKeyType.DOUBLE,
+        0.0
+    )
+
     private val hasCompletedKey = PersistentDataKey(
         plugin.createNamespacedKey("${quest.id}_task_${template.id}_has_completed"),
         PersistentDataKeyType.BOOLEAN,
@@ -89,13 +95,31 @@ class Task(
         return player.profile.read(hasCompletedKey)
     }
 
-    fun getExperienceRequired(player: Player): Double {
+    private fun generateExperienceRequired(player: Player): Double {
         return evaluateExpression(
             xpExpr,
             placeholderContext(
                 player = player
             )
         )
+    }
+
+    fun getExperienceRequired(player: Player): Double {
+        val required = player.profile.read(xpRequiredKey)
+
+        return if (required <= 0) {
+            val newRequired = generateExperienceRequired(player)
+
+            if (newRequired <= 0) {
+                throw IllegalStateException("Invalid XP Required for task ${template.id} in quest ${quest.id}" +
+                        "(Requirement was $newRequired, which is less than or equal to 0)")
+            }
+
+            player.profile.write(xpRequiredKey, newRequired)
+            newRequired
+        } else {
+            required
+        }
     }
 
     fun getExperience(player: OfflinePlayer): Double {

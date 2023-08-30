@@ -286,6 +286,11 @@ class Quest(
         player.profile.write(hasStartedKey, true)
         player.profile.write(startedTimeKey, currentTimeMinutes)
 
+        // Reset tasks to generate new xp requirements
+        for (task in tasks) {
+            task.reset(player)
+        }
+
         Bukkit.getPluginManager().callEvent(PlayerQuestStartEvent(player, this))
     }
 
