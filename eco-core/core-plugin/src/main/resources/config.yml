@@ -3,6 +3,11 @@
 # by Auxilor
 #
 
+# Even if eco is set up to use a database, you can
+# force EcoQuests to save to local storage to disable
+# cross-server sync.
+use-local-storage: false
+
 scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 gui:
