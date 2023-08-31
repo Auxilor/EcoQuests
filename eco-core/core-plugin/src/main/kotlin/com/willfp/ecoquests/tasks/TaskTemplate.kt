@@ -6,6 +6,7 @@ import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.counters.Counters
+import com.willfp.libreforge.effects.Effects
 
 class TaskTemplate(
     private val plugin: EcoPlugin,
@@ -15,6 +16,11 @@ class TaskTemplate(
     val xpGainMethods = config.getSubsections("xp-gain-methods").mapNotNull {
         Counters.compile(it, ViolationContext(plugin, "task $id tasks"))
     }
+
+    val onComplete = Effects.compileChain(
+        config.getSubsections("on-complete"),
+        ViolationContext(plugin, "task $id on-complete")
+    )
 
     fun create(quest: Quest, xpExpr: String) =
         Task(plugin, this, quest, xpExpr)

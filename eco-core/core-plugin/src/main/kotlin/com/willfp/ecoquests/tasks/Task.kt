@@ -152,6 +152,7 @@ class Task(
 
         if (newXp >= requiredXp) {
             player.profile.write(hasCompletedKey, true)
+            template.onComplete?.trigger(player)
 
             Bukkit.getPluginManager().callEvent(PlayerTaskCompleteEvent(player, template, quest))
 

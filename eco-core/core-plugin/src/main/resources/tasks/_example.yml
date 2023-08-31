@@ -21,3 +21,10 @@ xp-gain-methods:
     filters:
       blocks:
         - stone
+
+# An optional list of effects to run when a player completes the task
+# Read here: https://plugins.auxilor.io/effects/configuring-an-effect
+on-complete:
+  - id: send_message
+    args:
+      message: "Task Completed!"
