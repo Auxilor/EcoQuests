@@ -12,7 +12,7 @@ class PositionedPageChanger(
     direction: PageChanger.Direction
 ): PositionedComponent {
     private val pageChanger = PageChanger(
-        Items.lookup("item").item,
+        Items.lookup(config.getString("item")).item,
         direction
     )
 
