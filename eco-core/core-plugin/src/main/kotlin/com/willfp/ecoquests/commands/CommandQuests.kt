@@ -3,8 +3,6 @@ package com.willfp.ecoquests.commands
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.ecoquests.gui.QuestsGUI
-import com.willfp.libreforge.commands.CommandReload
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class CommandQuests(plugin: EcoPlugin) : PluginCommand(
