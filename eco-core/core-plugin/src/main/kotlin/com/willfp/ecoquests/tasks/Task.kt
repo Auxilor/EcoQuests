@@ -15,6 +15,7 @@ import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.libreforge.counters.Accumulator
+import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -152,7 +153,7 @@ class Task(
 
         if (newXp >= requiredXp) {
             player.profile.write(hasCompletedKey, true)
-            template.onComplete?.trigger(player)
+            template.onComplete?.trigger(player.toDispatcher())
 
             Bukkit.getPluginManager().callEvent(PlayerTaskCompleteEvent(player, template, quest))
 

@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.libreforge
 
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
+import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.Trigger
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.libreforge.triggers.TriggerParameter
@@ -17,7 +18,7 @@ object TriggerStartQuest : Trigger("start_quest") {
         val player = event.player
 
         this.dispatch(
-            player,
+            player.toDispatcher(),
             TriggerData(
                 player = player,
                 event = event

@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.libreforge
 
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
+import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.Trigger
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.libreforge.triggers.TriggerParameter
@@ -19,7 +20,7 @@ object TriggerGainTaskXp : Trigger("gain_task_xp") {
         val player = event.player
 
         this.dispatch(
-            player,
+            player.toDispatcher(),
             TriggerData(
                 player = player,
                 event = event,
