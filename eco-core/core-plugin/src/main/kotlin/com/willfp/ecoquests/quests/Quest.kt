@@ -223,6 +223,28 @@ class Quest(
                     .formatEco(it)
             }
         }.register()
+
+        for (i in 1..this.tasks.size+1) {
+            PlayerPlaceholder(plugin, "quest_${id}_task_${i}_required_xp") {
+                this.tasks[i-1].getExperienceRequired(it).toNiceString()
+            }.register()
+
+            PlayerPlaceholder(plugin, "quest_${id}_task_${i}_xp") {
+                this.tasks[i-1].getExperience(it).toNiceString()
+            }.register()
+
+            PlayerPlaceholder(plugin, "quest_${id}_task_${i}_description") {
+                this.tasks[i-1].getDescription(it)
+            }.register()
+
+            PlayerPlaceholder(plugin, "quest_${id}_task_${i}_completed") {
+                this.tasks[i-1].hasCompleted(it).toNiceString()
+            }.register()
+
+            PlayerPlaceholder(plugin, "quest_${id}_task_${i}_completed_description") {
+                this.tasks[i-1].getCompletedDescription(it)
+            }.register()
+        }
     }
 
     override fun onRegister() {
