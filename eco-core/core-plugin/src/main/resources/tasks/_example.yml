@@ -10,15 +10,15 @@
 # The description of the task.
 # %xp% - The amount of XP the player has in this task
 # %required-xp% - The amount of XP required to complete this task
-description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)"
+description: "&fBreak stone blocks (&a%xp%&8/&a%required-xp%&f)" # The description of the task.
 
 # An XP gain method takes a trigger, a multiplier, conditions, and filters.
-# The multiplier takes the value produced by the trigger and multiplies it
-# by some value to calculate the experience that should be given.
+# The 'multiplier' takes the value produced by the trigger and multiplies it
+# Alternatively, you can use 'value' to count a specific number and not a multiplier
 xp-gain-methods:
-  - trigger: mine_block
-    multiplier: 1
-    filters:
+  - trigger: mine_block # See list of triggers: https://plugins.auxilor.io/effects/all-triggers
+    multiplier: 1 # You can also use "value" here (see above comment)
+    filters: # (Optional) Example of using filters in tasks
       blocks:
         - stone
 
