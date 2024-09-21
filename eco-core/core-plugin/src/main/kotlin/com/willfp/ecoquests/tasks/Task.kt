@@ -146,6 +146,11 @@ class Task(
      * Give experience directly
      */
     fun giveExperience(player: Player, amount: Double) {
+
+        if (player.profile.read(hasCompletedKey)) {
+            return
+        }
+
         val requiredXp = getExperienceRequired(player)
         val newXp = player.profile.read(xpKey) + amount
 
