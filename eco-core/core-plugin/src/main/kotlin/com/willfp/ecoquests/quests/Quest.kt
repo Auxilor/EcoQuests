@@ -101,10 +101,20 @@ class Quest(
 
     // The tasks that are actually in use
     var tasks = run {
-        if (isResettable) {
-            loadTasks() ?: availableTasks.randomlyPick(taskAmount)
+        if (taskAmount == availableTasks.size) {
+            // If taskAmount is equal to availableTasks.size then tasks are ordered as configured
+            if (isResettable) {
+                availableTasks.take(taskAmount)
+            } else {
+                availableTasks.shuffled().take(taskAmount)
+            }
         } else {
-            availableTasks.randomlyPick(taskAmount)
+            // If taskAmount is less than availableTasks.size then tasks are selected and ordered randomly.
+            if (isResettable) {
+                loadTasks() ?: availableTasks.randomlyPick(taskAmount)
+            } else {
+                availableTasks.randomlyPick(taskAmount)
+            }
         }
     }
         private set
@@ -268,7 +278,8 @@ class Quest(
     }
 
     fun getDescription(player: Player): List<String> {
-        return addPlaceholdersInto(listOf(config.getString("description")), player)
+        val descriptions = config.getStrings("description")
+        return addPlaceholdersInto(descriptions, player)
     }
 
     fun hasActive(player: OfflinePlayer): Boolean {
