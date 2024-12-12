@@ -35,6 +35,7 @@ permissions:
       ecoquests.command.start: true
       ecoquests.command.reset: true
       ecoquests.command.resetplayer: true
+      ecoquests.command.addexp: true
 
   ecoquests.command.reload:
     description: Allows reloading the config
