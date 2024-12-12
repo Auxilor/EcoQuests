@@ -55,3 +55,6 @@ permissions:
   ecoquests.command.resetplayer:
     description: Allows using /ecoquests resetplayer.
     default: op
+  ecoquests.command.addexp:
+    description: Allows using /ecoquests addexp.
+    default: op
