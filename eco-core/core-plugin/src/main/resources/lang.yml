@@ -7,12 +7,15 @@ messages:
 
   invalid-player: "&cInvalid player!"
   invalid-quest: "&cInvalid quest!"
+  invalid-task: "&cInvalid task! Should be exist in quest."
+  invalid-exp-value: "&cInvalid exp value! Should be a double (like 1.0)."
   already-started: "&cThe player has already started this quest!"
 
   started-quest: "&fStarted the &a%quest% &fquest for &a%player%&f!"
   reset-quest-for-player: "&fReset the &a%quest% &fquest for &a%player%&f!"
   reset-quest: "&fReset the &a%quest% &fquest!"
   quest-not-resettable: "&cThis quest is not resettable!"
+  exp-added: "&aAdded &f%xp% &aXP in quest &f%quest%&a, task &f%task%&a for &f%player%&a!"
 
 time-since:
   never: "&cNot started yet!"
