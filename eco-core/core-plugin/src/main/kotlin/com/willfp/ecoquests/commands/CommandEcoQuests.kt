@@ -15,6 +15,7 @@ class CommandEcoQuests(plugin: EcoPlugin) : PluginCommand(
             .addSubcommand(CommandStart(plugin))
             .addSubcommand(CommandResetPlayer(plugin))
             .addSubcommand(CommandReset(plugin))
+            .addSubcommand(CommandAddExp(plugin))
     }
 
     override fun onExecute(sender: CommandSender, args: List<String>) {
