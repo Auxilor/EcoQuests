@@ -2,7 +2,6 @@ package com.willfp.ecoquests.gui.components
 
 import com.willfp.eco.core.gui.GUIComponent
 import com.willfp.eco.core.gui.menu.MenuBuilder
-import com.willfp.eco.core.gui.menu.MenuLayer
 
 interface PositionedComponent : GUIComponent {
     val row: Int

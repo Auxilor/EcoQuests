@@ -8,8 +8,6 @@ import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.ecoquests.gui.components.BackButton
-import com.willfp.ecoquests.gui.components.CloseButton
-import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.gui.components.PositionedPageChanger
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent

@@ -8,7 +8,6 @@ import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.util.evaluateExpression
 import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
