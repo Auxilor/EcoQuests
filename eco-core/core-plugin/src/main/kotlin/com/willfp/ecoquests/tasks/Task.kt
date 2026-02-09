@@ -1,6 +1,5 @@
 package com.willfp.ecoquests.tasks
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
@@ -11,6 +10,7 @@ import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
+import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.libreforge.counters.Accumulator
@@ -21,7 +21,6 @@ import org.bukkit.entity.Player
 import kotlin.math.min
 
 class Task(
-    private val plugin: EcoPlugin,
     val template: TaskTemplate,
     val quest: Quest,
     internal val xpExpr: String

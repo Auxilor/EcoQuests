@@ -13,7 +13,7 @@ object Tasks : ConfigCategory("task", "tasks") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        registry.register(TaskTemplate(plugin, id, config))
+        registry.register(TaskTemplate(id, config))
     }
 
     operator fun get(id: String?) = registry[id ?: ""]

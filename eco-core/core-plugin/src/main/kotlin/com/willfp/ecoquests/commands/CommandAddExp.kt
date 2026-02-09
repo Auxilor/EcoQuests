@@ -1,15 +1,15 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.commands.notifyNull
 import com.willfp.eco.util.StringUtils
+import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandAddExp(plugin: EcoPlugin) : PluginCommand(
+object CommandAddExp : PluginCommand(
     plugin,
     "addexp",
     "ecoquests.command.addexp",

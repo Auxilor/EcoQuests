@@ -1,6 +1,5 @@
 package com.willfp.ecoquests.gui
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
@@ -11,13 +10,14 @@ import com.willfp.ecoquests.gui.components.BackButton
 import com.willfp.ecoquests.gui.components.PositionedPageChanger
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
+import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 object PreviousQuestsGUI {
     private lateinit var menu: Menu
 
-    fun reload(plugin: EcoPlugin) {
+    fun reload() {
         val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("completed-gui.quest-area")) {
             Quests.getShownCompletedQuests(it)
         }
