@@ -187,6 +187,8 @@ quests:
       pitch: 1.5
       # The volume
       volume: 1.0
+      # The category
+      category: player
 
   start:
     message:
@@ -217,3 +219,5 @@ quests:
       pitch: 1.9
       # The volume
       volume: 1.0
+      # The category
+      category: player

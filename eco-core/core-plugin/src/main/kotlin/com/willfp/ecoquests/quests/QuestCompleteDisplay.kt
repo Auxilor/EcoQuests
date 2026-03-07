@@ -12,11 +12,9 @@ import java.time.Duration
 class QuestCompleteDisplay(
     private val plugin: EcoPlugin
 ) : Listener {
-    private val sound = if (plugin.configYml.getBool("quests.complete.sound.enabled")) {
-        PlayableSound.create(
-            plugin.configYml.getSubsection("quests.complete.sound")
-        )
-    } else null
+    private val sound = PlayableSound.create(
+        plugin.configYml.getSubsection("quests.complete.sound")
+    )
 
     @EventHandler
     fun handle(event: PlayerQuestCompleteEvent) {

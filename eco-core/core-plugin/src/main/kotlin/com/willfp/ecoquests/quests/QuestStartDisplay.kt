@@ -12,11 +12,9 @@ import java.time.Duration
 class QuestStartDisplay(
     private val plugin: EcoPlugin
 ) : Listener {
-    private val sound = if (plugin.configYml.getBool("quests.start.sound.enabled")) {
-        PlayableSound.create(
-            plugin.configYml.getSubsection("quests.start.sound")
-        )
-    } else null
+    private val sound = PlayableSound.create(
+        plugin.configYml.getSubsection("quests.start.sound")
+    )
 
     @EventHandler
     fun handle(event: PlayerQuestStartEvent) {
