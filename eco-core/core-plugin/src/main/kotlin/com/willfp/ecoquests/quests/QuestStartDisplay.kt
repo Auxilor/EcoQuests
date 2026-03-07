@@ -10,11 +10,9 @@ import org.bukkit.event.Listener
 import java.time.Duration
 
 object QuestStartDisplay : Listener {
-    private val sound = if (plugin.configYml.getBool("quests.start.sound.enabled")) {
-        PlayableSound.create(
-            plugin.configYml.getSubsection("quests.start.sound")
-        )
-    } else null
+    private val sound = PlayableSound.create(
+        plugin.configYml.getSubsection("quests.start.sound")
+    )
 
     @EventHandler
     fun handle(event: PlayerQuestStartEvent) {
