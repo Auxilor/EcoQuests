@@ -1,11 +1,8 @@
 package com.willfp.ecoquests
 
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.data.profile
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
-import com.willfp.eco.core.placeholder.context.PlaceholderContext
-import com.willfp.eco.core.placeholder.templates.SimpleInjectablePlaceholder
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
@@ -37,8 +34,14 @@ import com.willfp.libreforge.triggers.Triggers
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 
+internal lateinit var plugin: EcoQuestsPlugin
+    private set
 
 class EcoQuestsPlugin : LibreforgePlugin() {
+    init {
+        plugin = this
+    }
+
     override fun handleEnable() {
         Conditions.register(ConditionHasCompletedQuest)
         Conditions.register(ConditionHasCompletedTask)
@@ -79,8 +82,8 @@ class EcoQuestsPlugin : LibreforgePlugin() {
     }
 
     override fun handleReload() {
-        PreviousQuestsGUI.reload(this)
-        QuestsGUI.reload(this)
+        PreviousQuestsGUI.reload()
+        QuestsGUI.reload()
     }
 
     override fun createTasks() {
@@ -104,15 +107,15 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
     override fun loadListeners(): List<Listener> {
         return listOf(
-            QuestCompleteDisplay(this),
-            QuestStartDisplay(this)
+            QuestCompleteDisplay,
+            QuestStartDisplay
         )
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {
         return listOf(
-            CommandEcoQuests(this),
-            CommandQuests(this)
+            CommandEcoQuests,
+            CommandQuests
         )
     }
 

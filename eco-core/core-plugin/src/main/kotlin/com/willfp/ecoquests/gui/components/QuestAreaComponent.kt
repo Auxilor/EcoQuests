@@ -5,7 +5,6 @@ import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.util.MenuUtils
 import com.willfp.ecoquests.quests.Quest
-import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 class QuestAreaComponent(

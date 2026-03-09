@@ -1,11 +1,11 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.ecoquests.gui.QuestsGUI
+import com.willfp.ecoquests.plugin
 import org.bukkit.entity.Player
 
-class CommandQuests(plugin: EcoPlugin) : PluginCommand(
+object CommandQuests : PluginCommand(
     plugin,
     "quests",
     "ecoquests.command.quests",

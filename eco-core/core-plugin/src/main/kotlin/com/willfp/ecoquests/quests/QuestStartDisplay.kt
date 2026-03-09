@@ -1,17 +1,15 @@
 package com.willfp.ecoquests.quests
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.eco.util.toComponent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
+import com.willfp.ecoquests.plugin
 import net.kyori.adventure.title.Title
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import java.time.Duration
 
-class QuestStartDisplay(
-    private val plugin: EcoPlugin
-) : Listener {
+object QuestStartDisplay : Listener {
     private val sound = PlayableSound.create(
         plugin.configYml.getSubsection("quests.start.sound")
     )

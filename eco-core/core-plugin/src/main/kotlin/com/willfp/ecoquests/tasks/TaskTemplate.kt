@@ -1,15 +1,14 @@
 package com.willfp.ecoquests.tasks
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.KRegistrable
+import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.counters.Counters
 import com.willfp.libreforge.effects.Effects
 
 class TaskTemplate(
-    private val plugin: EcoPlugin,
     override val id: String,
     val config: Config
 ) : KRegistrable {
@@ -23,5 +22,5 @@ class TaskTemplate(
     )
 
     fun create(quest: Quest, xpExpr: String) =
-        Task(plugin, this, quest, xpExpr)
+        Task(this, quest, xpExpr)
 }
