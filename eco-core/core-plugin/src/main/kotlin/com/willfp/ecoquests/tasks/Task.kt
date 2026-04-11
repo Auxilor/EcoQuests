@@ -37,6 +37,12 @@ class Task(
         0.0
     )
 
+    private val xpExprKey = PersistentDataKey(
+        plugin.createNamespacedKey("${quest.id}_task_${template.id}_xp_expr"),
+        PersistentDataKeyType.STRING,
+        ""
+    )
+
     private val hasCompletedKey = PersistentDataKey(
         plugin.createNamespacedKey("${quest.id}_task_${template.id}_has_completed"),
         PersistentDataKeyType.BOOLEAN,
@@ -87,6 +93,8 @@ class Task(
 
     fun reset(player: OfflinePlayer) {
         player.profile.write(xpKey, 0.0)
+        player.profile.write(xpRequiredKey, 0.0)
+        player.profile.write(xpExprKey, "")
         player.profile.write(hasCompletedKey, false)
     }
 
@@ -105,8 +113,9 @@ class Task(
 
     fun getExperienceRequired(player: Player): Double {
         val required = player.profile.read(xpRequiredKey)
+        val cachedExpr = player.profile.read(xpExprKey)
 
-        return if (required <= 0) {
+        return if (required <= 0 || cachedExpr != xpExpr) {
             val newRequired = generateExperienceRequired(player)
 
             if (newRequired <= 0) {
@@ -115,6 +124,7 @@ class Task(
             }
 
             player.profile.write(xpRequiredKey, newRequired)
+            player.profile.write(xpExprKey, xpExpr)
             newRequired
         } else {
             required
