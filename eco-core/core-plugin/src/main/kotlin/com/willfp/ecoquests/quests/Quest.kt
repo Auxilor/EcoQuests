@@ -371,7 +371,7 @@ class Quest(
         }
 
         // Offline players can be reset async
-        plugin.scheduler.runAsync {
+        plugin.scheduler.runTaskAsync {
             for (player in Bukkit.getOfflinePlayers()) {
                 if (!player.isOnline) {
                     reset(player)
