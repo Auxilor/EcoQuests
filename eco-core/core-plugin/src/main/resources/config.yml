@@ -15,6 +15,9 @@ gui:
 
   rows: 6
 
+  # If true, players can left-click a quest icon in this GUI to start that quest.
+  click-to-start: true
+
   mask:
     # The way the mask works is by having a list of materials
     # And then a pattern to use those materials.
@@ -157,6 +160,13 @@ quests:
       - " %rewards%"
       - ""
       - "%time_since%"
+
+    # Lore lines appended to the icon when the quest is currently startable
+    # (not started, not completed, start-conditions met, click-to-start enabled).
+    # Set to [] to disable the hint.
+    click-to-start-lore:
+      - ""
+      - "&eClick to start!"
 
   complete:
     message:
