@@ -5,10 +5,9 @@ api-version: 1.17
 authors: [ Auxilor ]
 website: willfp.com
 load: STARTUP
-folia-supported: true
-
 depend:
   - eco
+
 
 commands:
   ecoquests:

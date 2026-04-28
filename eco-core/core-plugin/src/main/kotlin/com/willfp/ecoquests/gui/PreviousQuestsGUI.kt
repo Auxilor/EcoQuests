@@ -61,7 +61,7 @@ object PreviousQuestsGUI {
             }
 
             onClose { event, _ ->
-                plugin.scheduler.runTask(event.player) {
+                plugin.scheduler.run {
                     QuestsGUI.open(event.player as Player)
                 }
             }
