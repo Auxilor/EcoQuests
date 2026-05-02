@@ -6,6 +6,8 @@ import com.willfp.eco.core.data.ServerProfile
 import com.willfp.eco.core.data.keys.PersistentDataKey
 import com.willfp.eco.core.data.keys.PersistentDataKeyType
 import com.willfp.eco.core.data.profile
+import com.willfp.eco.core.gui.menu.Menu
+import com.willfp.eco.core.gui.onLeftClick
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.modify
@@ -62,6 +64,18 @@ class Quest(
                 startConditions.getNotMetLines(player.toDispatcher(), EmptyProvidedHolder)
             )
 
+            if (
+                plugin.configYml.getBool("gui.click-to-start") &&
+                isStartableBy(player)
+            ) {
+                addLoreLines(
+                    addPlaceholdersInto(
+                        plugin.configYml.getStrings("quests.icon.click-to-start-lore"),
+                        player
+                    )
+                )
+            }
+
             setDisplayName(
                 addPlaceholdersInto(
                     listOf(plugin.configYml.getString("quests.icon.name")),
@@ -70,7 +84,9 @@ class Quest(
             )
         }
     }) {
-
+        onLeftClick { player, _, _, menu ->
+            tryStartFromGui(player, menu)
+        }
     }
 
     val showsInGui = config.getBool("gui.enabled")
@@ -309,6 +325,40 @@ class Quest(
         for (task in tasks) {
             task.reset(player)
         }
+    }
+
+    fun isStartableBy(player: Player): Boolean {
+        return !hasCompleted(player) && !hasStarted(player) && meetsStartConditions(player)
+    }
+
+    fun tryStartFromGui(player: Player, menu: Menu) {
+        if (!plugin.configYml.getBool("gui.click-to-start")) {
+            return
+        }
+
+        if (hasCompleted(player)) {
+            player.sendMessage(plugin.langYml.getMessage("cannot-start-completed"))
+            return
+        }
+
+        if (hasStarted(player)) {
+            player.sendMessage(plugin.langYml.getMessage("already-started"))
+            return
+        }
+
+        if (!meetsStartConditions(player)) {
+            player.sendMessage(plugin.langYml.getMessage("cannot-start-conditions"))
+            return
+        }
+
+        start(player)
+
+        player.sendMessage(
+            plugin.langYml.getMessage("started-quest-self")
+                .replace("%quest%", name)
+        )
+
+        menu.refresh(player)
     }
 
     fun start(player: Player) {
