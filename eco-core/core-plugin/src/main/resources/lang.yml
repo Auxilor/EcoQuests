@@ -18,6 +18,8 @@ messages:
   reset-quest-for-player: "&fReset the &a%quest% &fquest for &a%player%&f!"
   reset-quest: "&fReset the &a%quest% &fquest!"
   quest-not-resettable: "&cThis quest is not resettable!"
+  quest-not-active: "&cYou don't have this quest active!"
+  cancelled-quest: "&aYou cancelled the &f%quest% &aquest!"
   exp-added: "&aAdded &f%xp% &aXP in quest &f%quest%&a, task &f%task%&a for &f%player%&a!"
 
 time-since:
