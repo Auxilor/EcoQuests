@@ -1,5 +1,6 @@
 package com.willfp.ecoquests
 
+import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
@@ -125,4 +126,21 @@ class EcoQuestsPlugin : LibreforgePlugin() {
             Quests
         )
     }
+
+    override fun getCustomCharts() = listOf(
+        EcoMetricsChart.SingleLine("total_quests") { Quests.values().size },
+        EcoMetricsChart.SingleLine("total_tasks") { Tasks.values().size },
+        EcoMetricsChart.SimplePie("click_to_start") {
+            if (configYml.getBool("click-to-start")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("complete_title_enabled") {
+            if (configYml.getBool("complete.title.enabled")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("start_title_enabled") {
+            if (configYml.getBool("start.title.enabled")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("use_local_storage") {
+            if (configYml.getBool("use-local-storage")) "local" else "shared"
+        }
+    )
 }
