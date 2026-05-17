@@ -11,6 +11,10 @@ object CommandQuests : PluginCommand(
     "ecoquests.command.quests",
     true
 ) {
+    init {
+        this.addSubcommand(CommandCancel)
+    }
+
     override fun getAliases(): List<String> {
         return listOf(
             "q",

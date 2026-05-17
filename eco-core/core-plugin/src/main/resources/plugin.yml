@@ -32,6 +32,7 @@ permissions:
     children:
       ecoquests.command.reload: true
       ecoquests.command.quests: true
+      ecoquests.command.quests.cancel: true
       ecoquests.command.start: true
       ecoquests.command.reset: true
       ecoquests.command.resetplayer: true
@@ -45,6 +46,9 @@ permissions:
     default: true
   ecoquests.command.quests:
     description: Allows the use of /quests.
+    default: true
+  ecoquests.command.quests.cancel:
+    description: Allows using /quests cancel.
     default: true
   ecoquests.command.start:
     description: Allows using /ecoquests start.
