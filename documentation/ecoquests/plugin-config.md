@@ -1,0 +1,237 @@
+---
+title: "Plugin Config"
+sidebar_position: 6
+---
+
+## Default config.yml
+
+```yaml
+# Even if eco is set up to use a database, you can
+# force EcoQuests to save to local storage to disable
+# cross-server sync.
+use-local-storage: false
+
+scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
+
+gui:
+  title: "Quest Book"
+
+  rows: 6
+
+  # If true, players can left-click a quest icon in this GUI to start that quest.
+  click-to-start: true
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    materials:
+      - gray_stained_glass_pane
+      - black_stained_glass_pane
+    pattern:
+      - "111101111"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "111111111"
+
+  quest-info:
+    item: writable_book
+    name: "&fQuest Book"
+    lore:
+      - ""
+      - "&7Quests Completed: &f%ecoquests_quests_completed%"
+      - "&7Quests Active: &f%ecoquests_quests_active%"
+      - ""
+      - "&eClick to view past quests!"
+
+    location:
+      row: 1
+      column: 5
+
+  quest-area:
+    top-left:
+      row: 2
+      column: 2
+    bottom-right:
+      row: 5
+      column: 8
+
+  prev-page:
+    item: arrow name:"&fPrevious Page"
+    location:
+      row: 6
+      column: 4
+
+  next-page:
+    item: arrow name:"&fNext Page"
+    location:
+      row: 6
+      column: 6
+
+  close:
+    item: barrier
+    name: "&cClose"
+    location:
+      row: 6
+      column: 5
+
+  # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  custom-slots: [ ]
+
+completed-gui:
+  title: "Completed Quests"
+
+  rows: 6
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    materials:
+      - gray_stained_glass_pane
+      - black_stained_glass_pane
+    pattern:
+      - "111111111"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "011111111"
+
+  quest-area:
+    top-left:
+      row: 2
+      column: 2
+    bottom-right:
+      row: 5
+      column: 8
+
+  prev-page:
+    item: arrow name:"&fPrevious Page"
+    location:
+      row: 6
+      column: 4
+
+  next-page:
+    item: arrow name:"&fNext Page"
+    location:
+      row: 6
+      column: 6
+
+  back:
+    item: arrow name:"&fBack"
+    location:
+      row: 6
+      column: 1
+
+  # Custom GUI slots; see here for a how-to: https://plugins.auxilor.io/all-plugins/custom-gui-slots
+  custom-slots: [ ]
+
+tasks:
+  # The line to show when a task is completed
+  completed: "&a&l✔ &r&f%description%"
+    # The line to show when a task is not completed
+  not-completed: "&c&l❌ &r&f%description%"
+
+quests:
+  icon:
+    name: "&e%quest%" # The name of the icon
+    line-wrap: 32 # Lore line-wrapping
+    lore:
+      - "%description%"
+      - ""
+      - "&fTasks:"
+      - " %tasks%"
+      - ""
+      - "&fRewards:"
+      - " %rewards%"
+      - ""
+      - "%time_since%"
+
+    # Lore lines appended to the icon when the quest is currently startable
+    # (not started, not completed, start-conditions met, click-to-start enabled).
+    # Set to [] to disable the hint.
+    click-to-start-lore:
+      - ""
+      - "&eClick to start!"
+
+  complete:
+    message:
+      enabled: true
+      message:
+        - "&f"
+        - " &#eacda3&lQUEST COMPLETE: &f%quest%"
+        - "&f"
+        - " &#eacda3&lREWARDS:"
+        - "%rewards%"
+        - "&f"
+    title:
+      enabled: true
+
+      # Durations are in seconds
+      fade-in: 0.5
+      stay: 4
+      fade-out: 0.5
+
+      title: "&#eacda3&lQuest Complete!"
+      subtitle: "&f%quest%"
+    sound:
+      # If a sound should be played
+      enabled: true
+      # The sound that should be played
+      sound: ui_toast_challenge_complete
+      # Pitch between 0.5 and 2
+      pitch: 1.5
+      # The volume
+      volume: 1.0
+      # The category
+      category: player
+
+  start:
+    message:
+      enabled: true
+      message:
+        - "&f"
+        - " &#eacda3&lNEW QUEST: &f%quest%"
+        - "&f"
+        - " &#eacda3&lREWARDS:"
+        - "%rewards%"
+        - "&f"
+    title:
+      enabled: false
+
+      # Durations are in seconds
+      fade-in: 0.5
+      stay: 4
+      fade-out: 0.5
+
+      title: "&#eacda3&lNew Quest!"
+      subtitle: "&f%quest%"
+    sound:
+      # If a sound should be played
+      enabled: true
+      # The sound that should be played
+      sound: entity_player_levelup
+      # Pitch between 0.5 and 2
+      pitch: 1.9
+      # The volume
+      volume: 1.0
+      # The category
+      category: player
+```
