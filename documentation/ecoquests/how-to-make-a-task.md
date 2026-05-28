@@ -1,4 +1,4 @@
----
+﻿---
 title: How to make a Task
 sidebar_position: 2
 ---
@@ -53,7 +53,7 @@ xp-gain-methods:
 ```
 
 ### The On-Complete Effects Section
-:::dangerEffects Section
+:::danger Effects Section
 
 The effects section is the core functionality of the task. You can configure effects, conditions, filters, and mutators in this section to run when the task is completed.
 
