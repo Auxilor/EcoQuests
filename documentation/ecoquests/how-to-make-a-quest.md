@@ -1,4 +1,4 @@
----
+﻿---
 title: How to make a Quest
 sidebar_position: 1
 ---
@@ -70,7 +70,7 @@ task-amount: -1
 ```
 
 ### The Rewards Section
-:::dangerEffects Section
+:::danger Effects Section
 
 The rewards section uses the effects system. You can configure effects, conditions, filters, and mutators in this section to run when the quest is completed.
 
@@ -94,7 +94,7 @@ rewards:
 ```
 
 ### The Quest Start Section
-:::dangerEffects Section
+:::danger Effects Section
 
 The start section uses the effects system. You can configure effects, conditions, filters, and mutators in this section to run when the quest is started.
 
