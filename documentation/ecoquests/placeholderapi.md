@@ -3,6 +3,8 @@ title: "PlaceholderAPI"
 sidebar_position: 4
 ---
 
+EcoQuests exposes these placeholders for use anywhere PlaceholderAPI is supported, e.g. scoreboards, holograms, and chat. Swap `<quest>` and `<task>` for the relevant IDs.
+
 | Placeholder                                         | Description                                                 |
 |-----------------------------------------------------| ----------------------------------------------------------- |
 | `%ecoquests_quests_amount%`                         | The total amount of quests on the server                    |
@@ -25,8 +27,8 @@ sidebar_position: 4
 | `%ecoquests_quest_<quest>_task_<task>_description%` | The description of the task                                 |
 | `%ecoquests_quest_<quest>_task_<task>_completed%`   | If the player has completed the task (true / false)         |
 
-### Task-Amount Placeholders
-These placeholders are dependent on the amount of tasks in the quest, they return the info on the active tasks.
+### Task-amount placeholders
+These placeholders depend on the number of tasks in the quest; they return info on the active tasks.
 
 Example: `task-amount: 1` You would use `%ecoquests_quest_<quest>_task_1_required_xp%` to see XP required for the 1st task.
 
@@ -37,3 +39,10 @@ Example: `task-amount: 1` You would use `%ecoquests_quest_<quest>_task_1_require
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_completed%`             | If the player has completed the [numbered] active task (true / false) |
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_description%`           | The description of the [numbered] active task                         |
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_completed_description%` | The description (including completion) of the [numbered] active task  |
+
+<hr/>
+
+## Where to go next
+
+- **Use them in quests:** [How to make a quest](how-to-make-a-quest) shows where quest placeholders apply.
+- **Commands:** [Commands and permissions](commands-and-permissions) lists the in-game commands.

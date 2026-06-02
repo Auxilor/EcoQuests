@@ -1,139 +1,158 @@
-﻿---
-title: How to make a Quest
+---
+title: "How to Make a Quest"
 sidebar_position: 1
 ---
 
-## How to add quests
-Each quest is its own config file, placed in the `/quests/` folder, and you can add or remove them as you please. There's an example config called `_example.yml` to help you out!
+A **quest** is a goal made up of one or more **tasks**; when a player finishes every selected task, the quest completes and runs its **rewards**. Each quest is its own config file, and this page walks you through building one from scratch.
 
-The ID of the Quest is the file name. This is what you use in commands and placeholders.
-ID's must be lowercase letters, numbers, and underscores only.
+## Quick start
 
-Quests are made up of specific [tasks](https://plugins.auxilor.io/ecoquests/how-to-make-a-task), and when all tasks are completed the quest will complete, giving the player rewards!
+1. Open the `/quests/` folder and copy `_example.yml` to a new file, e.g. `traveller.yml`. The file name is the quest ID.
+2. Set the `name`, `description`, and `reset-time` for your quest.
+3. Add one or more entries under `tasks`, each referencing a task ID and its `xp` requirement.
+4. Configure the `rewards` to run when the quest completes.
+5. Run `/ecoquests reload`, then open `/quests` and confirm your quest shows up in the book.
 
-## Example Quest Config
+:::tip
+`_example.yml` is included as a reference and is **never loaded**, so copy or rename it to make a real quest. You can also organise quests into subfolders inside `quests/`, and they'll still load.
+:::
+
+## Naming and IDs
+
+The file name without `.yml` is the quest ID; it's what you use in commands and placeholders. Items referenced anywhere in the file (e.g. the GUI icon) use the [Item Lookup System](https://plugins.auxilor.io/the-item-lookup-system).
+
+:::warning ID rules
+IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). No spaces, capitals, or hyphens, or the quest will not load.
+:::
+
+## The structure of a quest
+
+| Part | What it controls |
+| --- | --- |
+| **Quest info** | The name, description, and reset timer |
+| **Tasks** | The goals players complete and their XP requirements |
+| **Rewards** | What the player gets when the quest completes |
+| **Quest start** | When and how the quest begins |
+| **GUI** | How the quest appears in the `/quests` menu |
 
 ```yaml
-name: "Traveller"
+# === Quest info: name, description, reset ===
+name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
-reset-time: -1
+reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
 
+# === Tasks: the goals and their XP requirements ===
 tasks:
-  - task: move
-    xp: 1000
-task-amount: -1
+  - task: move # A task ID from the /tasks/ folder
+    xp: 1000 # XP needed on this task; use 1 for a single-action task
+task-amount: -1 # How many of the above tasks to pick (resettable quests); -1 uses all
 
-reward-messages:
+# === Rewards: what the player gets on completion ===
+reward-messages: # Lines shown by the %rewards% placeholder in icons and messages
   - " &8» &r&f+2 %ecoskills_defense_name%"
-rewards: []
+rewards: # Effects run when the quest completes
+  - id: give_item
+    args:
+      items:
+        - emerald 5
 
-announce-start: false
-start-effects: []
-start-conditions:
+# === Quest start: when and how the quest begins ===
+announce-start: false # Tell the player when the quest auto-starts
+start-effects: [] # Effects run when the quest starts
+start-conditions: # Conditions that auto-start the quest when met
   - id: in_world
     args:
       world: world_nether
-auto-start: true
+auto-start: true # Start automatically when conditions are met; if false, only /ecoquests start works
 
+# === GUI: how the quest appears in /quests ===
 gui:
-  enabled: true
-  always: false
-  item: paper
+  enabled: true # Show this quest in the GUI
+  always: false # Show even when not started
+  item: paper # GUI icon, read via the Item Lookup System
 ```
 
-## Understanding all the sections
+### Quest info
 
-### The Quest Info Section
+The basic identity of the quest and how often it resets.
+
 ```yaml
-name: "Traveller" # The name of the task
+name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
-
-# How many minutes between this quest being reset (set to -1 to disable)
-# 1 Day: 1440
-# 1 Week: 10080
-# 1 Month: 43200
-reset-time: -1
+reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
 ```
 
-### The Tasks Section
-```yaml
-# A list of tasks and their XP requirements to complete this quest.
-# If the task is one action, set XP to 1.
-# XP requirements can use placeholder math, for example %ecoskills_combat% * 100, or random values, like random(min,max)
-tasks:
-  - task: move
-    xp: 1000
+### Tasks
 
-# (For resettable tasks) The amount of tasks to select from the list above.
-# Set to -1 to use all tasks.
+The list of tasks the player must complete, each with the XP needed to finish it.
+
+```yaml
+# XP requirements accept placeholder math, e.g. %ecoskills_combat% * 100, or random(min,max)
+tasks:
+  - task: move # A task ID from the /tasks/ folder
+    xp: 1000 # Use 1 when the task is a single action
+
+# For resettable quests, how many of the above tasks to select; -1 uses all
 task-amount: -1
 ```
 
-### The Rewards Section
-:::danger Effects Section
+### Rewards
 
-The rewards section uses the effects system. You can configure effects, conditions, filters, and mutators in this section to run when the quest is completed.
+What the player receives when every task is done.
 
-Check out [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect) to understand how to configure this section correctly.
-
-For more advanced users or setups, you can configure chains in this section to string together different effects under one trigger. Check out [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain) for more info.
-
-:::
 ```yaml
-# The messages for the %rewards% placeholder in icons, messages, etc.
-reward-messages:
+reward-messages: # Lines shown by the %rewards% placeholder in icons and messages
   - " &8» &r&f+2 %ecoskills_defense_name%"
-
-# A list of effects to run when the quest is completed.
-# Read https://plugins.auxilor.io/effects/configuring-an-effect
-rewards:
+rewards: # Effects run when the quest completes
   - id: give_item
     args:
       items:
         - emerald 5
 ```
 
-### The Quest Start Section
-:::danger Effects Section
+:::danger Effects are their own system
+`rewards`, `start-effects`, and `start-conditions` all run on the effect and condition system, which is shared across every eco plugin and documented separately.
 
-The start section uses the effects system. You can configure effects, conditions, filters, and mutators in this section to run when the quest is started.
-
-Check out [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect) to understand how to configure this section correctly.
-
-For more advanced users or setups, you can configure chains in this section to string together different effects under one trigger. Check out [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain) for more info.
-
+- [Configuring an Effect](https://plugins.auxilor.io/effects/configuring-an-effect)
+- [Configuring an Effect Chain](https://plugins.auxilor.io/effects/configuring-a-chain)
 :::
+
+### Quest start
+
+Controls when the quest begins and what happens at that moment.
+
 ```yaml
-# If the player should be told when they have started the quest.
-announce-start: false
-
-# A list of effects to run when the quest is started.
-# Read https://plugins.auxilor.io/effects/configuring-an-effect
-start-effects: []
-
-# A list of conditions required to start the quest.
-# The quest will be automatically started when these conditions are met.
-# Read https://plugins.auxilor.io/conditions/configuring-a-condition
-# If gui.always is true, then not-met-lines will show up on the GUI icon!
-start-conditions: []
-
-# If the quest should auto start when all conditions are met
-# If this is set to false, the quest can only be started with /ecoquests start
-auto-start: true
+announce-start: false # Tell the player when the quest auto-starts
+start-effects: [] # Effects run the moment the quest starts
+start-conditions: # When all are met, the quest auto-starts (if auto-start is true)
+  - id: in_world
+    args:
+      world: world_nether
+# If gui.always is true, unmet start-conditions show as not-met lines on the GUI icon
+auto-start: true # If false, the quest can only be started with /ecoquests start
 ```
 
-### The GUI Section
+### GUI
+
+How the quest is displayed in the `/quests` book.
+
 ```yaml
-# Options for the /quests GUI
 gui:
-  enabled: true # If the quest should be shown in the GUI
-  always: false # If the quest should always be in the GUI, even if it's not started
-  # The item to show in the GUI, read https://plugins.auxilor.io/the-item-lookup-system
-  item: paper
+  enabled: true # Show this quest in the GUI
+  always: false # Show even when the player hasn't started it
+  item: paper # GUI icon, read via the Item Lookup System
 ```
+
+:::tip Troubleshooting
+- **Quest not loading?** Check the file name is lowercase letters, numbers, and underscores only, and that it isn't prefixed with `_`.
+- **Quest missing from the GUI?** Set `gui.enabled` to true, and `gui.always` to true if you want it visible before it's started.
+- **Quest never auto-starts?** Confirm `auto-start` is true and the player actually meets every entry under `start-conditions`.
+:::
 
 <hr/>
 
-## Default configs
-The default configs can be found [here](https://github.com/Auxilor/EcoQuests/tree/master/eco-core/core-plugin/src/main/resources/quests). <br/>
-You can find additional user-created configs on [lrcdb](https://lrcdb.auxilor.io/).
+## Where to go next
+
+- **Build the goals:** [How to make a task](how-to-make-a-task) covers the tasks a quest references.
+- **Default examples:** the shipped quest configs are [here](https://github.com/Auxilor/EcoQuests/tree/master/eco-core/core-plugin/src/main/resources/quests).
+- **Community configs:** browse and import more on [lrcdb](https://lrcdb.auxilor.io/).
