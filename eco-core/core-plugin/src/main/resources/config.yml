@@ -11,7 +11,7 @@ use-local-storage: false
 scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 gui:
-  title: "Quest Book"
+  title: "Quest Book (Page %page%/%max_page%)"
 
   rows: 6
 
@@ -64,15 +64,23 @@ gui:
 
   prev-page:
     item: arrow name:"&fPrevious Page"
+    item-inactive: gray_dye name:"&7Previous Page"
     location:
       row: 6
       column: 4
 
   next-page:
     item: arrow name:"&fNext Page"
+    item-inactive: gray_dye name:"&7Next Page"
     location:
       row: 6
       column: 6
+
+  page-change-sound:
+    enabled: true
+    sound: ui.button.click
+    pitch: 1.0
+    volume: 1.0
 
   close:
     item: barrier
@@ -85,7 +93,7 @@ gui:
   custom-slots: [ ]
 
 completed-gui:
-  title: "Completed Quests"
+  title: "Completed Quests (Page %page%/%max_page%)"
 
   rows: 6
 
@@ -121,15 +129,23 @@ completed-gui:
 
   prev-page:
     item: arrow name:"&fPrevious Page"
+    item-inactive: gray_dye name:"&7Previous Page"
     location:
       row: 6
       column: 4
 
   next-page:
     item: arrow name:"&fNext Page"
+    item-inactive: gray_dye name:"&7Next Page"
     location:
       row: 6
       column: 6
+
+  page-change-sound:
+    enabled: true
+    sound: ui.button.click
+    pitch: 1.0
+    volume: 1.0
 
   back:
     item: arrow name:"&fBack"
