@@ -38,7 +38,7 @@ object EffectGiveTaskXp : Effect<NoCompileData>("give_task_xp") {
         require(
             "xp",
             "You must specify the amount of xp to give!",
-            description = "The amount of task experience to give. Supports expressions.",
+            description = "The amount of task experience to give.",
             type = ArgType.EXPRESSION
         )
     }
