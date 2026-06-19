@@ -1,13 +1,14 @@
 package com.willfp.ecoquests.gui
 
+import com.willfp.eco.core.gui.addPageChanger
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
 import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
+import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.BackButton
-import com.willfp.ecoquests.gui.components.PositionedPageChanger
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
 import com.willfp.ecoquests.plugin
@@ -21,6 +22,8 @@ object PreviousQuestsGUI {
         val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("completed-gui.quest-area")) {
             Quests.getShownCompletedQuests(it)
         }
+
+        val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("completed-gui.page-change-sound"))
 
         menu = menu(plugin.configYml.getInt("completed-gui.rows")) {
             title = plugin.configYml.getFormattedString("completed-gui.title")
@@ -36,19 +39,9 @@ object PreviousQuestsGUI {
 
             addComponent(BackButton(plugin.configYml.getSubsection("completed-gui.back")))
 
-            addComponent(
-                PositionedPageChanger(
-                    plugin.configYml.getSubsection("completed-gui.prev-page"),
-                    PageChanger.Direction.BACKWARDS
-                )
-            )
+            addPageChanger(plugin.configYml, "completed-gui.prev-page", PageChanger.Direction.BACKWARDS, pageChangeSound)
 
-            addComponent(
-                PositionedPageChanger(
-                    plugin.configYml.getSubsection("completed-gui.next-page"),
-                    PageChanger.Direction.FORWARDS
-                )
-            )
+            addPageChanger(plugin.configYml, "completed-gui.next-page", PageChanger.Direction.FORWARDS, pageChangeSound)
 
             addComponent(questAreaComponent)
 

@@ -19,7 +19,7 @@ use-local-storage: false
 scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 gui:
-  title: "Quest Book" # Title of the /quests GUI
+  title: "Quest Book (Page %page%/%max_page%)" # Title of the /quests GUI. Supports %page% and %max_page% placeholders
 
   rows: 6 # Number of rows in the GUI
 
@@ -66,15 +66,23 @@ gui:
 
   prev-page: # Previous-page button
     item: arrow name:"&fPrevious Page"
+    item-inactive: gray_dye name:"&7Previous Page"
     location:
       row: 6
       column: 4
 
   next-page: # Next-page button
     item: arrow name:"&fNext Page"
+    item-inactive: gray_dye name:"&7Next Page"
     location:
       row: 6
       column: 6
+
+  page-change-sound:
+    enabled: true
+    sound: ui.button.click
+    pitch: 1.0
+    volume: 1.0
 
   close: # Close button
     item: barrier
@@ -87,7 +95,7 @@ gui:
   custom-slots: [ ]
 
 completed-gui: # The GUI listing quests the player has finished
-  title: "Completed Quests" # Title of the completed-quests GUI
+  title: "Completed Quests (Page %page%/%max_page%)" # Title of the completed-quests GUI. Supports %page% and %max_page% placeholders
 
   rows: 6 # Number of rows in the GUI
 
@@ -114,15 +122,23 @@ completed-gui: # The GUI listing quests the player has finished
 
   prev-page: # Previous-page button
     item: arrow name:"&fPrevious Page"
+    item-inactive: gray_dye name:"&7Previous Page"
     location:
       row: 6
       column: 4
 
   next-page: # Next-page button
     item: arrow name:"&fNext Page"
+    item-inactive: gray_dye name:"&7Next Page"
     location:
       row: 6
       column: 6
+
+  page-change-sound:
+    enabled: true
+    sound: ui.button.click
+    pitch: 1.0
+    volume: 1.0
 
   back: # Button returning to the main quest book
     item: arrow name:"&fBack"
