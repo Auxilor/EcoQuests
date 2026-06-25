@@ -329,6 +329,7 @@ class Quest(
 
     fun isStartableBy(player: Player): Boolean {
         return !hasCompleted(player) && !hasStarted(player) && meetsStartConditions(player)
+            && !Quests.hasReachedMaxActiveQuests(player)
     }
 
     fun tryStartFromGui(player: Player, menu: Menu) {
@@ -348,6 +349,11 @@ class Quest(
 
         if (!meetsStartConditions(player)) {
             player.sendMessage(plugin.langYml.getMessage("cannot-start-conditions"))
+            return
+        }
+
+        if (Quests.hasReachedMaxActiveQuests(player)) {
+            player.sendMessage(plugin.langYml.getMessage("max-active-quests"))
             return
         }
 

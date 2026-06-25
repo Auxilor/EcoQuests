@@ -92,7 +92,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         this.scheduler.runTimer(scanInterval, scanInterval) {
             for (quest in Quests.values()) {
                 for (player in Bukkit.getOnlinePlayers()) {
-                    if (quest.shouldStart(player)) {
+                    if (quest.shouldStart(player) && !Quests.hasReachedMaxActiveQuests(player)) {
                         quest.start(player)
                     }
                 }
