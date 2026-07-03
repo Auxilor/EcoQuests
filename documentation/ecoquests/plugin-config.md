@@ -157,6 +157,10 @@ quests:
   icon: # How each quest renders in the GUI
     name: "&e%quest%" # The name of the icon
     line-wrap: 32 # Wrap lore lines at this character width
+    # Available placeholders: %quest%, %category%, %description%, %tasks%, %rewards%,
+    # %time_since%, %time_until_reset%
+    # %category% returns the category display name, or an empty string if the quest has no category.
+    # %tasks% and %rewards% expand into multiple lines; all others are single-line.
     lore: # Icon lore; supports quest placeholders
       - "%description%"
       - ""

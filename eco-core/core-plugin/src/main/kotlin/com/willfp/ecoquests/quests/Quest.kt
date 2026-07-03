@@ -20,6 +20,8 @@ import com.willfp.eco.util.lineWrap
 import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
+import com.willfp.ecoquests.categories.Categories
+import com.willfp.ecoquests.categories.Category
 import com.willfp.ecoquests.tasks.Task
 import com.willfp.ecoquests.tasks.TaskTemplate
 import com.willfp.ecoquests.tasks.Tasks
@@ -44,6 +46,17 @@ class Quest(
     val config: Config
 ) : KRegistrable {
     val name = config.getFormattedString("name")
+
+    val category: Category? = runCatching { config.getString("category") }
+        .getOrElse { "" }
+        .takeIf { it.isNotBlank() }
+        ?.let { categoryId ->
+            Categories[categoryId].also { cat ->
+                if (cat == null) {
+                    plugin.logger.warning("Quest $id references unknown category '$categoryId'")
+                }
+            }
+        }
 
     val announcesStart = config.getBool("announce-start")
 
@@ -495,6 +508,7 @@ class Quest(
         rewards?.trigger(player.toDispatcher())
 
         Bukkit.getPluginManager().callEvent(PlayerQuestCompleteEvent(player, this))
+        category?.checkAndComplete(player)
     }
 
     private fun List<String>.addMargin(margin: Int): List<String> {
@@ -508,6 +522,7 @@ class Quest(
         val quest = this // I just hate the @ notation kotlin uses
         fun String.addPlaceholders() = this
             .replace("%quest%", quest.name)
+            .replace("%category%", quest.category?.name ?: plugin.langYml.getString("no-category"))
             .replace("%time_until_reset%", formatDuration(quest.minutesUntilReset))
             .replace("%time_since%", getTimeSincePlaceholder(player))
 

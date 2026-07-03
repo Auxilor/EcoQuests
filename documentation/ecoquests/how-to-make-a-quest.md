@@ -30,6 +30,7 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 | Part | What it controls |
 | --- | --- |
 | **Quest info** | The name, description, and reset timer |
+| **Category** | The optional category this quest belongs to |
 | **Tasks** | The goals players complete and their XP requirements |
 | **Rewards** | What the player gets when the quest completes |
 | **Quest start** | When and how the quest begins |
@@ -40,6 +41,9 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
 reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
+
+# === Category: optional grouping ===
+category: easy # The ID of a category file in /categories/; omit if not using categories
 
 # === Tasks: the goals and their XP requirements ===
 tasks:
@@ -81,6 +85,16 @@ name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
 reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
 ```
+
+### Category
+
+Assign the quest to a category so it counts toward category completion. The value must match a file name (without `.yml`) in the `/categories/` folder.
+
+```yaml
+category: easy # Omit this line if the quest does not belong to a category
+```
+
+See [How to make a category](how-to-make-a-category) for the full category setup.
 
 ### Tasks
 
@@ -154,5 +168,6 @@ gui:
 ## Where to go next
 
 - **Build the goals:** [How to make a task](how-to-make-a-task) covers the tasks a quest references.
+- **Group quests:** [How to make a category](how-to-make-a-category) covers grouping quests and rewarding category completion.
 - **Default examples:** the shipped quest configs are [here](https://github.com/Auxilor/EcoQuests/tree/master/eco-core/core-plugin/src/main/resources/quests).
 - **Community configs:** browse and import more on [lrcdb](https://lrcdb.auxilor.io/).

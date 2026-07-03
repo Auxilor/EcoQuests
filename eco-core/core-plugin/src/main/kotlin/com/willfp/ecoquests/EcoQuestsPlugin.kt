@@ -5,10 +5,12 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.util.toNiceString
+import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
+import com.willfp.ecoquests.libreforge.ConditionHasCompletedCategory
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedQuest
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedTask
 import com.willfp.ecoquests.libreforge.ConditionHasQuestActive
@@ -16,8 +18,10 @@ import com.willfp.ecoquests.libreforge.EffectGainTaskXp
 import com.willfp.ecoquests.libreforge.EffectGiveTaskXp
 import com.willfp.ecoquests.libreforge.EffectQuestXpMultiplier
 import com.willfp.ecoquests.libreforge.EffectStartQuest
+import com.willfp.ecoquests.libreforge.FilterCategory
 import com.willfp.ecoquests.libreforge.FilterQuest
 import com.willfp.ecoquests.libreforge.FilterTask
+import com.willfp.ecoquests.libreforge.TriggerCompleteCategory
 import com.willfp.ecoquests.libreforge.TriggerCompleteQuest
 import com.willfp.ecoquests.libreforge.TriggerCompleteTask
 import com.willfp.ecoquests.libreforge.TriggerGainTaskXp
@@ -44,6 +48,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
     }
 
     override fun handleEnable() {
+        Conditions.register(ConditionHasCompletedCategory)
         Conditions.register(ConditionHasCompletedQuest)
         Conditions.register(ConditionHasCompletedTask)
         Conditions.register(ConditionHasQuestActive)
@@ -51,8 +56,10 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         Effects.register(EffectGiveTaskXp)
         Effects.register(EffectQuestXpMultiplier)
         Effects.register(EffectStartQuest)
+        Filters.register(FilterCategory)
         Filters.register(FilterQuest)
         Filters.register(FilterTask)
+        Triggers.register(TriggerCompleteCategory)
         Triggers.register(TriggerCompleteQuest)
         Triggers.register(TriggerCompleteTask)
         Triggers.register(TriggerGainTaskXp)
@@ -75,6 +82,14 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
         PlayerPlaceholder(this, "quests_active") {
             Quests.getActiveQuests(it).size.toString()
+        }.register()
+
+        PlayerPlaceholder(this, "quests_not_resettable_quests_completed") { player ->
+            Quests.values().count { quest -> !quest.isResettable && quest.hasCompleted(player) }.toString()
+        }.register()
+
+        PlayerPlaceholder(this, "quests_resettable_quests_completed") { player ->
+            Quests.values().count { quest -> quest.isResettable && quest.hasCompleted(player) }.toString()
         }.register()
 
         PlayerPlaceholder(this, "recent_quest_name") {
@@ -123,6 +138,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
     override fun loadConfigCategories(): List<ConfigCategory> {
         return listOf(
             Tasks,
+            Categories,
             Quests
         )
     }

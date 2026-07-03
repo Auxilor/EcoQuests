@@ -8,6 +8,8 @@ name: "Traveller"
 
 description: "&7Stretch your legs! Walk around Lumoria and find new places to explore."
 
+category: easy # The ID of a category file in /categories/; omit if not using categories
+
 # Options for the /quests GUI
 gui:
   enabled: true # If the quest should be shown in the GUI
