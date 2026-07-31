@@ -3,11 +3,31 @@ package com.willfp.ecoquests.libreforge
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
+import com.willfp.libreforge.ArgType
+import com.willfp.libreforge.arguments
 import com.willfp.libreforge.effects.templates.MultiMultiplierEffect
 import com.willfp.libreforge.toDispatcher
 import org.bukkit.event.EventHandler
 
 object EffectQuestXpMultiplier : MultiMultiplierEffect<Quest>("quest_xp_multiplier") {
+    override val description = "Multiplies XP gained for one or all EcoQuests quests while the holder is active."
+
+    override val categories = setOf("player")
+
+    override val arguments = arguments {
+        require(
+            "multiplier",
+            "You must specify the multiplier!",
+            description = "The XP multiplier. Supports expressions.",
+            type = ArgType.EXPRESSION
+        )
+        optional(
+            "quests",
+            description = "List of quest names to apply the multiplier to. If omitted, applies to all quests.",
+            type = ArgType.STRING_LIST
+        )
+    }
+
     override val key = "quests"
 
     override fun getElement(key: String): Quest? {
