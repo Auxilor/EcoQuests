@@ -22,13 +22,15 @@ object ConditionHasCompletedTask : Condition<NoCompileData>("has_completed_task"
             "quest",
             "You must specify the quest ID!",
             description = "The ID of the quest that contains the task.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "mining_master"
         )
         require(
             "task",
             "You must specify the task ID!",
             description = "The ID of the task that must be completed.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "chop_10_logs"
         )
     }
 

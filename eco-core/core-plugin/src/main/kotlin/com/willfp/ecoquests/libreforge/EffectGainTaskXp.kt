@@ -27,19 +27,22 @@ object EffectGainTaskXp : Effect<NoCompileData>("gain_task_xp") {
             "task",
             "You must specify the task ID!",
             description = "The ID of the task to give experience towards.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "chop_10_logs"
         )
         require(
             "quest",
             "You must specify the quest ID!",
             description = "The ID of the quest that contains the task.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "mining_master"
         )
         require(
             "xp",
             "You must specify the amount of xp to gain!",
             description = "The amount of task experience to gain.",
-            type = ArgType.EXPRESSION
+            type = ArgType.EXPRESSION,
+            example = "10 + %level% * 5"
         )
     }
 

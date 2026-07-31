@@ -30,7 +30,8 @@ object EffectStartQuest : Effect<NoCompileData>("start_quest") {
             "quest",
             "You must specify the quest!",
             description = "The ID of the quest to start.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "mining_master"
         )
     }
 
