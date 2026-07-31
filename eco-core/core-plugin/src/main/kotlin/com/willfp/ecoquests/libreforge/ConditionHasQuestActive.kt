@@ -21,7 +21,8 @@ object ConditionHasQuestActive : Condition<NoCompileData>("has_quest_active") {
             "quest",
             "You must specify the quest ID!",
             description = "The ID of the quest to check.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "mining_master"
         )
     }
 

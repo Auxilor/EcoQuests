@@ -21,7 +21,8 @@ object ConditionHasCompletedCategory : Condition<NoCompileData>("has_completed_c
             "category",
             "You must specify the category ID!",
             description = "The ID of the category to check.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "woodcutting"
         )
     }
 

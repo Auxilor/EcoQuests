@@ -21,7 +21,8 @@ object ConditionHasCompletedQuest : Condition<NoCompileData>("has_completed_ques
             "quest",
             "You must specify the quest ID!",
             description = "The ID of the quest that must be completed.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "mining_master"
         )
     }
 
