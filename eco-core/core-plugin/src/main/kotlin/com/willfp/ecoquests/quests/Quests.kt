@@ -48,7 +48,7 @@ object Quests : ConfigCategory("quest", "quests") {
                 .removePrefix("ecoquests.quests.max.")
                 .takeIf { info.permission.startsWith("ecoquests.quests.max.") }
                 ?.toIntOrNull() ?: continue
-            if (permissionMax == null || value > permissionMax!!) permissionMax = value
+            if (permissionMax == null || value > (permissionMax ?: 0)) permissionMax = value
         }
         return permissionMax ?: plugin.configYml.getInt("max-active-quests")
     }
