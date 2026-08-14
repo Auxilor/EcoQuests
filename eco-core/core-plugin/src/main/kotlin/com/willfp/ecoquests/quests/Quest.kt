@@ -106,6 +106,12 @@ class Quest(
 
     val alwaysInGUI = config.getBool("gui.always")
 
+    // Absent = auto-placed. Coordinates are absolute menu coords; validated
+    // against gui.quest-area bounds once at GUI reload (see QuestLayout).
+    val position: QuestPosition? = config.getSubsectionOrNull("gui.position")?.let {
+        QuestPosition(it.getInt("page"), it.getInt("row"), it.getInt("column"))
+    }
+
     // The pool of available tasks to pick from
     private val availableTasks = config.getSubsections("tasks")
         .mapNotNull {
