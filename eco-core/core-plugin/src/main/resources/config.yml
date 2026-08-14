@@ -41,6 +41,7 @@ gui:
       - "111111111"
 
   quest-info:
+    enabled: true # If false, the quest-info book (and access to the completed-quests GUI) is hidden
     item: writable_book
     name: "&fQuest Book"
     lore:
