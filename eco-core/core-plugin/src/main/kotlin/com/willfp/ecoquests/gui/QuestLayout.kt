@@ -38,7 +38,7 @@ class QuestLayout(
             val localRow = pos.row - topLeftRow + 1
             val localColumn = pos.column - topLeftColumn + 1
 
-            if (localRow !in 1..rowSize || localColumn !in 1..columnSize) {
+            if (pos.page < 1 || localRow !in 1..rowSize || localColumn !in 1..columnSize) {
                 plugin.logger.warning(
                     "Quest '${quest.id}' has gui.position (page ${pos.page}, row ${pos.row}, " +
                         "column ${pos.column}) outside gui.quest-area bounds; " +
@@ -76,10 +76,11 @@ class QuestLayout(
 
         val positionedByPage = positionedVisible.groupBy { validatedPositions.getValue(it.id).first }
         val maxPositionedPage = positionedByPage.keys.maxOrNull() ?: 1
-        val autoPagesNeeded = if (autoQueue.isEmpty()) 1 else (autoQueue.size + pageSize - 1) / pageSize
-        val totalPages = maxOf(maxPositionedPage, autoPagesNeeded)
 
-        return (1..totalPages).map { page ->
+        val pages = mutableListOf<Map<Int, Quest>>()
+        var page = 1
+
+        while (page <= maxPositionedPage || autoQueue.isNotEmpty()) {
             val grid = mutableMapOf<Int, Quest>()
 
             for (quest in positionedByPage[page].orEmpty()) {
@@ -93,8 +94,15 @@ class QuestLayout(
                 }
             }
 
-            grid
+            pages.add(grid)
+            page++
         }
+
+        if (pages.isEmpty()) {
+            pages.add(emptyMap())
+        }
+
+        return pages
     }
 
     private fun pagesFor(player: Player): List<Map<Int, Quest>> {

@@ -382,8 +382,8 @@ class Quest(
                 .replace("%quest%", name)
         )
 
-        menu.refresh(player)
         QuestsGUI.invalidateLayout(player)
+        menu.refresh(player)
     }
 
     fun start(player: Player) {
