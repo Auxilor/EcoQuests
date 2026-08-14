@@ -9,7 +9,6 @@ import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.CloseButton
-import com.willfp.ecoquests.gui.components.FlatListQuestSlotProvider
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
@@ -19,11 +18,18 @@ import org.bukkit.entity.Player
 
 object QuestsGUI {
     private lateinit var menu: Menu
+    private lateinit var questLayout: QuestLayout
 
     fun reload() {
+        questLayout = QuestLayout(
+            plugin.configYml.getSubsection("gui.quest-area"),
+            allQuests = { Quests.values().toList() },
+            getVisibleQuests = { Quests.getShownQuests(it) }
+        )
+
         val questAreaComponent = QuestAreaComponent(
             plugin.configYml.getSubsection("gui.quest-area"),
-            FlatListQuestSlotProvider { Quests.getShownQuests(it) }
+            questLayout
         )
 
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("gui.page-change-sound"))
@@ -61,6 +67,11 @@ object QuestsGUI {
     }
 
     fun open(player: Player) {
+        questLayout.invalidate(player)
         menu.open(player)
+    }
+
+    fun invalidateLayout(player: Player) {
+        questLayout.invalidate(player)
     }
 }

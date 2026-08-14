@@ -22,6 +22,7 @@ import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.categories.Category
+import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.tasks.Task
 import com.willfp.ecoquests.tasks.TaskTemplate
 import com.willfp.ecoquests.tasks.Tasks
@@ -382,6 +383,7 @@ class Quest(
         )
 
         menu.refresh(player)
+        QuestsGUI.invalidateLayout(player)
     }
 
     fun start(player: Player) {
