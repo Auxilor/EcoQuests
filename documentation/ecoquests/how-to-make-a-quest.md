@@ -73,7 +73,15 @@ auto-start: true # Start automatically when conditions are met; if false, only /
 gui:
   enabled: true # Show this quest in the GUI
   always: false # Show even when not started
+  show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
+
+  # Optional — pins this quest to an exact slot instead of auto-placing it.
+  # Coordinates are absolute menu coordinates, checked against gui.quest-area.
+  # position:
+  #   page: 1
+  #   row: 2
+  #   column: 2
 ```
 
 ### Quest info
@@ -154,12 +162,21 @@ How the quest is displayed in the `/quests` book.
 gui:
   enabled: true # Show this quest in the GUI
   always: false # Show even when the player hasn't started it
+  show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
+
+  # Optional — pins this quest to an exact slot instead of auto-placing it.
+  # Coordinates are absolute menu coordinates, checked against gui.quest-area.
+  # position:
+  #   page: 1
+  #   row: 2
+  #   column: 2
 ```
 
 :::tip Troubleshooting
 - **Quest not loading?** Check the file name is lowercase letters, numbers, and underscores only, and that it isn't prefixed with `_`.
 - **Quest missing from the GUI?** Set `gui.enabled` to true, and `gui.always` to true if you want it visible before it's started.
+- **Quest not where I put it?** Check the server console at reload — an invalid or colliding `gui.position` logs a warning and falls back to automatic placement.
 - **Quest never auto-starts?** Confirm `auto-start` is true and the player actually meets every entry under `start-conditions`.
 :::
 

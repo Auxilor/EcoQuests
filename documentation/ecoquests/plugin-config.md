@@ -43,6 +43,7 @@ gui:
       - "111111111"
 
   quest-info: # The book icon summarising the player's quest progress
+    enabled: true # If false, hides this icon (and access to the completed-quests GUI)
     item: writable_book # Icon material
     name: "&fQuest Book" # Icon display name
     lore: # Icon lore; supports placeholders

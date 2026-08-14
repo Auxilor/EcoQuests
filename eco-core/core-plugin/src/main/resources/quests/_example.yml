@@ -14,8 +14,17 @@ category: easy # The ID of a category file in /categories/; omit if not using ca
 gui:
   enabled: true # If the quest should be shown in the GUI
   always: false # If the quest should always be in the GUI, even if it's not started
+  show-completed: false # If the quest should stay in this slot after completion (instead of only showing in the completed-quests GUI)
   # The item to show in the GUI, read https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   item: paper
+
+  # Optional. Pins this quest to an exact slot in the /quests GUI instead of
+  # letting it auto-place. Coordinates are absolute menu coordinates, and must
+  # fall within gui.quest-area in config.yml. Uncomment to use:
+  # position:
+  #   page: 1
+  #   row: 2
+  #   column: 2
 
 # How many minutes between this quest being reset (set to -1 to disable)
 # 1 Day: 1440
