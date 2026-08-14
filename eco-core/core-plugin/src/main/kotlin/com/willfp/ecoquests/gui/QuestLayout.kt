@@ -26,6 +26,16 @@ class QuestLayout(
     private val columnSize = areaConfig.getInt("bottom-right.column") - topLeftColumn + 1
     private val pageSize = rowSize * columnSize
 
+    init {
+        if (pageSize <= 0) {
+            plugin.logger.warning(
+                "gui.quest-area has a non-positive size (rowSize=$rowSize, columnSize=$columnSize) - " +
+                    "check that bottom-right is below/right of top-left in config.yml. " +
+                    "The quest GUI will show no quests until this is fixed."
+            )
+        }
+    }
+
     // questId -> (page, localRow, localColumn), only for quests whose configured
     // gui.position passed bounds/collision validation.
     private val validatedPositions: Map<String, Triple<Int, Int, Int>> = run {
@@ -70,6 +80,13 @@ class QuestLayout(
     private val cache = mutableMapOf<UUID, List<Map<Int, Quest>>>()
 
     private fun buildPages(player: Player): List<Map<Int, Quest>> {
+        if (pageSize <= 0) {
+            // Invalid gui.quest-area config - already warned in init. Bail out
+            // instead of looping forever trying to drain the auto-placement
+            // queue into a page that can never hold any slots.
+            return listOf(emptyMap())
+        }
+
         val visible = getVisibleQuests(player)
         val positionedVisible = visible.filter { validatedPositions.containsKey(it.id) }
         val autoQueue = ArrayDeque(visible.filterNot { validatedPositions.containsKey(it.id) })
