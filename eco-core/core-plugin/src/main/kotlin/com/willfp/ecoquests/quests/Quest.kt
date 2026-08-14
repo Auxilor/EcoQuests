@@ -112,6 +112,10 @@ class Quest(
         QuestPosition(it.getInt("page"), it.getInt("row"), it.getInt("column"))
     }
 
+    // NEW — keep the quest visible in the main GUI after completion, in its
+    // normal slot, instead of only appearing in PreviousQuestsGUI.
+    val showsCompleted: Boolean = config.getBoolOrNull("gui.show-completed") ?: false
+
     // The pool of available tasks to pick from
     private val availableTasks = config.getSubsections("tasks")
         .mapNotNull {
