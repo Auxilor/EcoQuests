@@ -18,11 +18,19 @@ import org.bukkit.entity.Player
 
 object QuestsGUI {
     private lateinit var menu: Menu
+    private lateinit var questLayout: QuestLayout
 
     fun reload() {
-        val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("gui.quest-area")) {
-            Quests.getShownQuests(it)
-        }
+        questLayout = QuestLayout(
+            plugin.configYml.getSubsection("gui.quest-area"),
+            allQuests = { Quests.values().toList() },
+            getVisibleQuests = { Quests.getShownQuests(it) }
+        )
+
+        val questAreaComponent = QuestAreaComponent(
+            plugin.configYml.getSubsection("gui.quest-area"),
+            questLayout
+        )
 
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("gui.page-change-sound"))
 
@@ -59,6 +67,11 @@ object QuestsGUI {
     }
 
     fun open(player: Player) {
+        questLayout.invalidate(player)
         menu.open(player)
+    }
+
+    fun invalidateLayout(player: Player) {
+        questLayout.invalidate(player)
     }
 }

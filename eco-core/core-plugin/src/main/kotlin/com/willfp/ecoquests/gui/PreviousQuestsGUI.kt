@@ -9,6 +9,7 @@ import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.BackButton
+import com.willfp.ecoquests.gui.components.FlatListQuestSlotProvider
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.addComponent
 import com.willfp.ecoquests.plugin
@@ -19,9 +20,10 @@ object PreviousQuestsGUI {
     private lateinit var menu: Menu
 
     fun reload() {
-        val questAreaComponent = QuestAreaComponent(plugin.configYml.getSubsection("completed-gui.quest-area")) {
-            Quests.getShownCompletedQuests(it)
-        }
+        val questAreaComponent = QuestAreaComponent(
+            plugin.configYml.getSubsection("completed-gui.quest-area"),
+            FlatListQuestSlotProvider { Quests.getShownCompletedQuests(it) }
+        )
 
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("completed-gui.page-change-sound"))
 

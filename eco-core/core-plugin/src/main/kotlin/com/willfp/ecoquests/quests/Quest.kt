@@ -22,6 +22,7 @@ import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
 import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.categories.Category
+import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.tasks.Task
 import com.willfp.ecoquests.tasks.TaskTemplate
 import com.willfp.ecoquests.tasks.Tasks
@@ -105,6 +106,16 @@ class Quest(
     val showsInGui = config.getBool("gui.enabled")
 
     val alwaysInGUI = config.getBool("gui.always")
+
+    // Absent = auto-placed. Coordinates are absolute menu coords; validated
+    // against gui.quest-area bounds once at GUI reload (see QuestLayout).
+    val position: QuestPosition? = config.getSubsectionOrNull("gui.position")?.let {
+        QuestPosition(it.getInt("page"), it.getInt("row"), it.getInt("column"))
+    }
+
+    // NEW — keep the quest visible in the main GUI after completion, in its
+    // normal slot, instead of only appearing in PreviousQuestsGUI.
+    val showsCompleted: Boolean = config.getBoolOrNull("gui.show-completed") ?: false
 
     // The pool of available tasks to pick from
     private val availableTasks = config.getSubsections("tasks")
@@ -371,6 +382,7 @@ class Quest(
                 .replace("%quest%", name)
         )
 
+        QuestsGUI.invalidateLayout(player)
         menu.refresh(player)
     }
 

@@ -24,6 +24,7 @@ class QuestInfoComponent(
         }
     }
 
+    override val isEnabled = config.getBoolOrNull("enabled") ?: true
     override val row: Int = config.getInt("location.row")
     override val column: Int = config.getInt("location.column")
 
