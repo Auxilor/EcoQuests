@@ -13,6 +13,7 @@ messages:
   started-quest-self: "&aYou started the &f%quest% &aquest!"
   cannot-start-conditions: "&cYou don't meet the requirements to start this quest!"
   cannot-start-completed: "&cYou've already completed this quest!"
+  max-active-quests: "&cYou have reached the maximum number of active quests!"
 
   started-quest: "&fStarted the &a%quest% &fquest for &a%player%&f!"
   reset-quest-for-player: "&fReset the &a%quest% &fquest for &a%player%&f!"
