@@ -3,12 +3,16 @@ title: "PlaceholderAPI"
 sidebar_position: 4
 ---
 
+EcoQuests exposes these placeholders for use anywhere PlaceholderAPI is supported, e.g. scoreboards, holograms, and chat. Swap `<quest>`, `<task>`, and `<category>` for the relevant IDs.
+
 | Placeholder                                         | Description                                                 |
 |-----------------------------------------------------| ----------------------------------------------------------- |
 | `%ecoquests_quests_amount%`                         | The total amount of quests on the server                    |
 | `%ecoquests_quests_completed%`                      | The amount of quests the player has completed               |
 | `%ecoquests_quests_active%`                         | The amount of quests the player has active                  |
 | `%ecoquests_quests_percent_completed%`              | The percentage of quests the player has completed           |
+| `%ecoquests_quests_resettable_quests_completed%`    | The amount of resettable quests the player has completed    |
+| `%ecoquests_quests_not_resettable_quests_completed%` | The amount of non-resettable quests the player has completed |
 | `%ecoquests_recent_quest_name%`                     | The name of the quest the player has most recently started  |
 | `%ecoquests_quest_<quest>_name%`                    | The quest name                                              |
 | `%ecoquests_quest_<quest>_description%`             | The quest description                                       |
@@ -25,8 +29,21 @@ sidebar_position: 4
 | `%ecoquests_quest_<quest>_task_<task>_description%` | The description of the task                                 |
 | `%ecoquests_quest_<quest>_task_<task>_completed%`   | If the player has completed the task (true / false)         |
 
-### Task-Amount Placeholders
-These placeholders are dependent on the amount of tasks in the quest, they return the info on the active tasks.
+## Category placeholders
+
+Swap `<category>` for the category ID (the file name without `.yml`).
+
+| Placeholder | Description |
+| --- | --- |
+| `%ecoquests_category_<category>_name%` | The display name of the category |
+| `%ecoquests_category_<category>_complete%` | Whether the player has completed the category (true / false) |
+| `%ecoquests_category_<category>_quests_completed%` | How many quests in the category the player has completed |
+| `%ecoquests_category_<category>_quests_remaining%` | How many quests in the category the player has not yet completed |
+
+`_complete` is computed live and reflects the current state after any quest reset.
+
+### Task-amount placeholders
+These placeholders depend on the number of tasks in the quest; they return info on the active tasks.
 
 Example: `task-amount: 1` You would use `%ecoquests_quest_<quest>_task_1_required_xp%` to see XP required for the 1st task.
 
@@ -37,3 +54,11 @@ Example: `task-amount: 1` You would use `%ecoquests_quest_<quest>_task_1_require
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_completed%`             | If the player has completed the [numbered] active task (true / false) |
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_description%`           | The description of the [numbered] active task                         |
 | `%ecoquests_quest_<quest>_task_<task_number[0-9]>_completed_description%` | The description (including completion) of the [numbered] active task  |
+
+<hr/>
+
+## Where to go next
+
+- **Use them in quests:** [How to make a quest](how-to-make-a-quest) shows where quest placeholders apply.
+- **Category placeholders:** [How to make a category](how-to-make-a-category) covers category setup and the `_complete` placeholder.
+- **Commands:** [Commands and permissions](commands-and-permissions) lists the in-game commands.

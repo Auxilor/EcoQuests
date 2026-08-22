@@ -8,6 +8,14 @@ import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
 
 object TriggerGainTaskXp : Trigger("gain_task_xp") {
+    override val description = "Fires when the player gains experience towards a task."
+
+    override val categories = setOf("economy")
+
+    override val parameterDescriptions = mapOf(
+        TriggerParameter.VALUE to "The amount of task experience gained."
+    )
+
     override val parameters = setOf(
         TriggerParameter.PLAYER,
         TriggerParameter.EVENT,

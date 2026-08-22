@@ -8,8 +8,8 @@ import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.filters.Filter
 import com.willfp.libreforge.triggers.TriggerData
 
-object FilterQuest : Filter<NoCompileData, Collection<String>>("quest") {
-    override val description = "Matches when the quest involved in the triggering event has one of the given IDs."
+object FilterCategory : Filter<NoCompileData, Collection<String>>("category") {
+    override val description = "Matches when the quest involved in the triggering event belongs to one of the given categories."
 
     override val categories = setOf("meta")
 
@@ -25,7 +25,7 @@ object FilterQuest : Filter<NoCompileData, Collection<String>>("quest") {
 
     override fun isMet(data: TriggerData, value: Collection<String>, compileData: NoCompileData): Boolean {
         val event = data.event as? QuestEvent ?: return true
-
-        return value.containsIgnoreCase(event.quest.id)
+        val categoryId = event.quest.category?.id ?: return false
+        return value.containsIgnoreCase(categoryId)
     }
 }

@@ -23,7 +23,7 @@ xp-gain-methods:
         - stone
 
 # An optional list of effects to run when a player completes the task
-# Read here: https://plugins.auxilor.io/effects/configuring-an-effect
+# Read here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect
 on-complete:
   - id: send_message
     args:

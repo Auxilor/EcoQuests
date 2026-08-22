@@ -1,0 +1,13 @@
+# The ID of the category is the name of the .yml file,
+# for example easy.yml has the ID of easy
+# You can place categories anywhere in this folder,
+# including in subfolders if you want to organize them
+# _example.yml is not loaded.
+
+name: "Easy"
+
+# A list of effects to run when the player completes this category
+# (i.e. all quests assigned to this category are completed).
+# This fires every time the category is completed, including after a reset.
+# Read https://plugins.auxilor.io/effects/configuring-an-effect
+effects: []
