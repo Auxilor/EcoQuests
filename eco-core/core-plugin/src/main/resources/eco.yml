@@ -7,3 +7,4 @@ options:
   resource-id: 4600
   bstats-id: 19455
   uses-reflective-reload: false
+  eco-api-version: ${ecoApiVersion}
