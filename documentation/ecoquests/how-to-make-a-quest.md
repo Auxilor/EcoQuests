@@ -41,6 +41,12 @@ IDs may only contain lowercase letters, numbers, and underscores (a-z, 0-9, _). 
 name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
 reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
+# Optional fixed schedule; takes priority over reset-time
+# reset-schedule:
+#   type: weekly # daily, weekly, or monthly
+#   time: "06:00" # 24-hour HH:mm
+#   day: monday # Weekly: weekday name. Monthly: day of month from 1 to 31
+#   timezone: "Europe/London" # Optional; defaults to the server timezone
 
 # === Category: optional grouping ===
 category: easy # The ID of a category file in /categories/; omit if not using categories
@@ -93,6 +99,40 @@ name: "Traveller" # Shown in the GUI and the %quest% placeholder
 description: "&7Stretch your legs! Walk around The Nether and find new places to explore."
 reset-time: -1 # Minutes between resets; -1 disables. 1 day: 1440, 1 week: 10080, 1 month: 43200
 ```
+
+For resets anchored to a specific clock time, add `reset-schedule`. It takes priority over
+`reset-time`, which remains available for interval-based and existing quest configs.
+
+```yaml
+# Every day at 06:00 in the server's timezone
+reset-schedule:
+  type: daily
+  time: "06:00"
+```
+
+```yaml
+# Every Monday at 06:00 London time
+reset-schedule:
+  type: weekly
+  day: monday
+  time: "06:00"
+  timezone: "Europe/London"
+```
+
+```yaml
+# On the first day of every month at 06:00 UTC
+reset-schedule:
+  type: monthly
+  day: 1
+  time: "06:00"
+  timezone: "UTC"
+```
+
+Times use the 24-hour `HH:mm` format. `timezone` accepts an
+[IANA TZ database timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+and defaults to the server's timezone when omitted. Using a named timezone keeps the
+configured local time consistent through daylight-saving changes. For monthly schedules,
+`day` accepts 1 through 31; if a month is shorter, the reset occurs on that month's final day.
 
 ### Category
 

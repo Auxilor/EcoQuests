@@ -37,6 +37,7 @@ import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import java.time.Instant
 
 val currentTimeMinutes: Int
     get() = (System.currentTimeMillis() / 1000 / 60).toInt()
@@ -116,6 +117,47 @@ class Quest(
     // NEW — keep the quest visible in the main GUI after completion, in its
     // normal slot, instead of only appearing in PreviousQuestsGUI.
     val showsCompleted: Boolean = config.getBoolOrNull("gui.show-completed") ?: false
+
+    private val lastResetTimeKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_last_reset_time"),
+        PersistentDataKeyType.INT,
+        0
+    )
+
+    private val resetTime = config.getInt("reset-time")
+
+    private val fixedResetSchedule = config.getSubsectionOrNull("reset-schedule")?.let { scheduleConfig ->
+        runCatching {
+            FixedResetSchedule.parse(
+                type = scheduleConfig.getString("type"),
+                time = scheduleConfig.getString("time"),
+                day = runCatching { scheduleConfig.getString("day") }.getOrNull(),
+                timezone = runCatching { scheduleConfig.getString("timezone") }.getOrNull()
+            )
+        }.onFailure { error ->
+            plugin.logger.warning("Quest $id has an invalid reset-schedule: ${error.message}. Falling back to reset-time.")
+        }.getOrNull()
+    }
+
+    val isResettable: Boolean
+        get() = fixedResetSchedule != null || resetTime >= 0
+
+    val minutesUntilReset: Int
+        get() {
+            fixedResetSchedule?.let { schedule ->
+                return (schedule.nextResetMinute(Instant.now()) - currentTimeMinutes)
+                    .coerceAtMost(Int.MAX_VALUE.toLong())
+                    .toInt()
+            }
+
+            return if (resetTime < 0) {
+                Int.MAX_VALUE
+            } else {
+                val previousTime = ServerProfile.load().read(lastResetTimeKey)
+
+                resetTime - currentTimeMinutes + previousTime
+            }
+        }
 
     // The pool of available tasks to pick from
     private val availableTasks = config.getSubsections("tasks")
@@ -201,26 +243,6 @@ class Quest(
         config.getSubsections("start-conditions"),
         ViolationContext(plugin, "quest $id start-conditions")
     )
-
-    private val lastResetTimeKey = PersistentDataKey(
-        plugin.createNamespacedKey("quest_${id}_last_reset_time"),
-        PersistentDataKeyType.INT,
-        0
-    )
-
-    private val resetTime = config.getInt("reset-time")
-
-    val isResettable: Boolean
-        get() = resetTime >= 0
-
-    val minutesUntilReset: Int
-        get() = if (resetTime < 0) {
-            Int.MAX_VALUE
-        } else {
-            val previousTime = ServerProfile.load().read(lastResetTimeKey)
-
-            resetTime - currentTimeMinutes + previousTime
-        }
 
     init {
         PlayerlessPlaceholder(plugin, "quest_${id}_name") {
@@ -433,11 +455,16 @@ class Quest(
     }
 
     fun resetIfNeeded() {
-        if (resetTime < 0) {
+        if (!isResettable) {
             return
         }
 
-        if (minutesUntilReset > 0) {
+        val lastResetTime = ServerProfile.load().read(lastResetTimeKey)
+        val shouldReset = fixedResetSchedule?.let { schedule ->
+            schedule.previousResetMinute(Instant.now()) > lastResetTime
+        } ?: (minutesUntilReset <= 0)
+
+        if (!shouldReset) {
             return
         }
 
