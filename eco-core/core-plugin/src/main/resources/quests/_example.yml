@@ -32,6 +32,15 @@ gui:
 # 1 Month: 43200
 reset-time: -1
 
+# Optional: reset at a fixed calendar time instead of counting from the last reset.
+# When present and valid, this takes priority over reset-time.
+# The timezone is optional and defaults to the server's timezone.
+# reset-schedule:
+#   type: daily # daily, weekly, or monthly
+#   time: "06:00" # 24-hour HH:mm
+#   day: monday # Weekly: weekday name. Monthly: day of month from 1 to 31
+#   timezone: "Europe/London" # IANA timezone
+
 # A list of tasks and their XP requirements to complete this quest.
 # If the task is one action, set XP to 1.
 # XP requirements can use placeholder math, for example %ecoskills_combat% * 100
