@@ -99,7 +99,7 @@ class Task(
     }
 
     fun hasCompleted(player: OfflinePlayer): Boolean {
-        return player.profile.read(hasCompletedKey)
+        return quest.hasStarted(player) && player.profile.read(hasCompletedKey)
     }
 
     private fun generateExperienceRequired(player: Player): Double {
@@ -132,7 +132,7 @@ class Task(
     }
 
     fun getExperience(player: OfflinePlayer): Double {
-        return player.profile.read(xpKey)
+        return if (quest.hasStarted(player)) player.profile.read(xpKey) else 0.0
     }
 
     /**
