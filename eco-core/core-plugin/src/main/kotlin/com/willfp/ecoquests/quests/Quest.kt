@@ -348,8 +348,14 @@ class Quest(
         return hasStarted(player) && !hasCompleted(player)
     }
 
+    // Progress older than the last reset is stale, so a reset doesn't have to clear it
+    // player by player. See reset().
+    private val lastResetTime: Int
+        get() = ServerProfile.load().read(lastResetTimeKey)
+
     fun hasCompleted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasCompletedKey)
+            && player.profile.read(completedTimeKey) >= lastResetTime
     }
 
     fun meetsStartConditions(player: Player): Boolean {
@@ -362,6 +368,7 @@ class Quest(
 
     fun hasStarted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasStartedKey)
+            && player.profile.read(startedTimeKey) >= lastResetTime
     }
 
     fun reset(player: OfflinePlayer) {
@@ -472,20 +479,11 @@ class Quest(
     }
 
     fun reset() {
-        ServerProfile.load().write(lastResetTimeKey, (System.currentTimeMillis() / 1000 / 60).toInt())
-
-        for (player in Bukkit.getOnlinePlayers()) {
-            reset(player)
-        }
-
-        // Offline players can be reset async
-        plugin.scheduler.runAsync {
-            for (player in Bukkit.getOfflinePlayers()) {
-                if (!player.isOnline) {
-                    reset(player)
-                }
-            }
-        }
+        // Bumping the reset time invalidates every player's progress at once; each player's
+        // own keys are rewritten lazily, when they next start the quest. Clearing them here
+        // instead meant one database transaction per key per player on the entire roster,
+        // online and offline, every time a quest reset.
+        ServerProfile.load().write(lastResetTimeKey, currentTimeMinutes)
 
         // Unbind old tasks
         for (task in tasks) {
@@ -535,7 +533,7 @@ class Quest(
 
     fun checkCompletion(player: Player): Boolean {
         // Check if the player has completed the Quest before
-        if (player.profile.read(hasCompletedKey)) {
+        if (hasCompleted(player)) {
             return true
         }
 
