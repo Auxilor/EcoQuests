@@ -155,12 +155,12 @@ class Task(
      */
     fun giveExperience(player: Player, amount: Double) {
 
-        if (player.profile.read(hasCompletedKey)) {
+        if (hasCompleted(player)) {
             return
         }
 
         val requiredXp = getExperienceRequired(player)
-        val newXp = player.profile.read(xpKey) + amount
+        val newXp = getExperience(player) + amount
 
         player.profile.write(xpKey, min(newXp, requiredXp))
 
