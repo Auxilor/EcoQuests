@@ -124,6 +124,12 @@ class Quest(
         0
     )
 
+    private val resetEpochKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_reset_epoch"),
+        PersistentDataKeyType.INT,
+        0
+    )
+
     private val resetTime = config.getInt("reset-time")
 
     private val fixedResetSchedule = config.getSubsectionOrNull("reset-schedule")?.let { scheduleConfig ->
@@ -213,6 +219,12 @@ class Quest(
         Int.MAX_VALUE
     )
 
+    private val startedEpochKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_started_epoch"),
+        PersistentDataKeyType.INT,
+        0
+    )
+
     private val hasCompletedKey = PersistentDataKey(
         plugin.createNamespacedKey("quest_${id}_has_completed"),
         PersistentDataKeyType.BOOLEAN,
@@ -223,6 +235,12 @@ class Quest(
         plugin.createNamespacedKey("quest_${id}_completed_time"),
         PersistentDataKeyType.INT,
         Int.MAX_VALUE
+    )
+
+    private val completedEpochKey = PersistentDataKey(
+        plugin.createNamespacedKey("quest_${id}_completed_epoch"),
+        PersistentDataKeyType.INT,
+        0
     )
 
     private val rewardMessages = config.getStrings("reward-messages")
@@ -348,8 +366,14 @@ class Quest(
         return hasStarted(player) && !hasCompleted(player)
     }
 
+    // Progress from an older epoch is stale, so a reset doesn't have to clear it
+    // player by player. See reset().
+    private val resetEpoch: Int
+        get() = ServerProfile.load().read(resetEpochKey)
+
     fun hasCompleted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasCompletedKey)
+            && player.profile.read(completedEpochKey) == resetEpoch
     }
 
     fun meetsStartConditions(player: Player): Boolean {
@@ -362,6 +386,7 @@ class Quest(
 
     fun hasStarted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasStartedKey)
+            && player.profile.read(startedEpochKey) == resetEpoch
     }
 
     fun reset(player: OfflinePlayer) {
@@ -422,6 +447,7 @@ class Quest(
         startEffects?.trigger(player.toDispatcher())
         player.profile.write(hasStartedKey, true)
         player.profile.write(startedTimeKey, currentTimeMinutes)
+        player.profile.write(startedEpochKey, resetEpoch)
 
         // Reset tasks to generate new xp requirements
         for (task in tasks) {
@@ -472,20 +498,13 @@ class Quest(
     }
 
     fun reset() {
-        ServerProfile.load().write(lastResetTimeKey, (System.currentTimeMillis() / 1000 / 60).toInt())
-
-        for (player in Bukkit.getOnlinePlayers()) {
-            reset(player)
-        }
-
-        // Offline players can be reset async
-        plugin.scheduler.runAsync {
-            for (player in Bukkit.getOfflinePlayers()) {
-                if (!player.isOnline) {
-                    reset(player)
-                }
-            }
-        }
+        // Bumping the epoch invalidates every player's progress at once; each player's
+        // own keys are rewritten lazily, when they next start the quest. Clearing them here
+        // instead meant one database transaction per key per player on the entire roster,
+        // online and offline, every time a quest reset. The time is kept for
+        // minutesUntilReset, which still schedules off the clock.
+        ServerProfile.load().write(lastResetTimeKey, currentTimeMinutes)
+        ServerProfile.load().write(resetEpochKey, resetEpoch + 1)
 
         // Unbind old tasks
         for (task in tasks) {
@@ -535,7 +554,7 @@ class Quest(
 
     fun checkCompletion(player: Player): Boolean {
         // Check if the player has completed the Quest before
-        if (player.profile.read(hasCompletedKey)) {
+        if (hasCompleted(player)) {
             return true
         }
 
@@ -550,6 +569,7 @@ class Quest(
     private fun complete(player: Player) {
         player.profile.write(hasCompletedKey, true)
         player.profile.write(completedTimeKey, currentTimeMinutes)
+        player.profile.write(completedEpochKey, resetEpoch)
         rewards?.trigger(player.toDispatcher())
 
         Bukkit.getPluginManager().callEvent(PlayerQuestCompleteEvent(player, this))

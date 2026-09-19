@@ -99,7 +99,7 @@ class Task(
     }
 
     fun hasCompleted(player: OfflinePlayer): Boolean {
-        return player.profile.read(hasCompletedKey)
+        return quest.hasStarted(player) && player.profile.read(hasCompletedKey)
     }
 
     private fun generateExperienceRequired(player: Player): Double {
@@ -132,7 +132,7 @@ class Task(
     }
 
     fun getExperience(player: OfflinePlayer): Double {
-        return player.profile.read(xpKey)
+        return if (quest.hasStarted(player)) player.profile.read(xpKey) else 0.0
     }
 
     /**
@@ -155,12 +155,12 @@ class Task(
      */
     fun giveExperience(player: Player, amount: Double) {
 
-        if (player.profile.read(hasCompletedKey)) {
+        if (hasCompleted(player)) {
             return
         }
 
         val requiredXp = getExperienceRequired(player)
-        val newXp = player.profile.read(xpKey) + amount
+        val newXp = getExperience(player) + amount
 
         player.profile.write(xpKey, min(newXp, requiredXp))
 
