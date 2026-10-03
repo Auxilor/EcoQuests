@@ -53,7 +53,7 @@ class Task(
 
     private val accumulator = object : Accumulator {
         override fun accept(player: Player, count: Double) {
-            if (!quest.hasActive(player)) {
+            if (!quest.hasActive(player) || plugin.isDisabledIn(player.world)) {
                 return
             }
 

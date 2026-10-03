@@ -8,6 +8,9 @@
 # cross-server sync.
 use-local-storage: false
 
+# Worlds that EcoQuests should be disabled in
+disabled-in-worlds: []
+
 scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 # The default maximum number of active quests a player can have at once.
