@@ -16,6 +16,9 @@ Changing `use-local-storage` switches where player data is stored. Restart the s
 # to save to local storage to disable cross-server sync.
 use-local-storage: false
 
+# Worlds that EcoQuests should be disabled in
+disabled-in-worlds: []
+
 scan-interval: 20 # How often to scan for quests auto-starting (in ticks)
 
 # The default maximum number of active quests a player can have at once.
