@@ -2,6 +2,7 @@ package com.willfp.ecoquests
 
 import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.eco.core.integrations.IntegrationLoader
 import com.willfp.eco.core.placeholder.PlayerPlaceholder
 import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
 import com.willfp.eco.util.toNiceString
@@ -10,6 +11,7 @@ import com.willfp.ecoquests.commands.CommandEcoQuests
 import com.willfp.ecoquests.commands.CommandQuests
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
+import com.willfp.ecoquests.integrations.LuckPermsIntegration
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedCategory
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedQuest
 import com.willfp.ecoquests.libreforge.ConditionHasCompletedTask
@@ -26,6 +28,7 @@ import com.willfp.ecoquests.libreforge.TriggerCompleteQuest
 import com.willfp.ecoquests.libreforge.TriggerCompleteTask
 import com.willfp.ecoquests.libreforge.TriggerGainTaskXp
 import com.willfp.ecoquests.libreforge.TriggerStartQuest
+import com.willfp.ecoquests.quests.MaxActiveQuests
 import com.willfp.ecoquests.quests.QuestCompleteDisplay
 import com.willfp.ecoquests.quests.QuestStartDisplay
 import com.willfp.ecoquests.quests.Quests
@@ -129,7 +132,14 @@ class EcoQuestsPlugin : LibreforgePlugin() {
     override fun loadListeners(): List<Listener> {
         return listOf(
             QuestCompleteDisplay,
-            QuestStartDisplay
+            QuestStartDisplay,
+            MaxActiveQuests
+        )
+    }
+
+    override fun loadIntegrationLoaders(): List<IntegrationLoader> {
+        return listOf(
+            IntegrationLoader("LuckPerms") { LuckPermsIntegration.load() }
         )
     }
 

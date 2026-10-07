@@ -14,6 +14,7 @@ object Quests : ConfigCategory("quest", "quests") {
 
     override fun clear(plugin: LibreforgePlugin) {
         registry.clear()
+        MaxActiveQuests.invalidateAll()
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
@@ -44,18 +45,7 @@ object Quests : ConfigCategory("quest", "quests") {
             .filter { it.hasCompleted(player) }
     }
 
-    fun getMaxActiveQuests(player: Player): Int {
-        var permissionMax: Int? = null
-        for (info in player.effectivePermissions) {
-            if (!info.value) continue
-            val value = info.permission
-                .removePrefix("ecoquests.quests.max.")
-                .takeIf { info.permission.startsWith("ecoquests.quests.max.") }
-                ?.toIntOrNull() ?: continue
-            if (permissionMax == null || value > (permissionMax ?: 0)) permissionMax = value
-        }
-        return permissionMax ?: plugin.configYml.getInt("max-active-quests")
-    }
+    fun getMaxActiveQuests(player: Player): Int = MaxActiveQuests.get(player)
 
     fun hasReachedMaxActiveQuests(player: Player): Boolean {
         val max = getMaxActiveQuests(player)
