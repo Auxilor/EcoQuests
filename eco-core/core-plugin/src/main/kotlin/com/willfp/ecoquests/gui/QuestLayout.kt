@@ -7,6 +7,7 @@ import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import org.bukkit.entity.Player
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Merges positioned quests (gui.position) and auto-placed quests into a
@@ -77,7 +78,7 @@ class QuestLayout(
     }
 
     // Cache of the full per-page grid for a player, valid until invalidate() is called.
-    private val cache = mutableMapOf<UUID, List<Map<Int, Quest>>>()
+    private val cache = ConcurrentHashMap<UUID, List<Map<Int, Quest>>>()
 
     private fun buildPages(player: Player): List<Map<Int, Quest>> {
         if (pageSize <= 0) {
@@ -123,7 +124,7 @@ class QuestLayout(
     }
 
     private fun pagesFor(player: Player): List<Map<Int, Quest>> {
-        return cache.getOrPut(player.uniqueId) { buildPages(player) }
+        return cache.computeIfAbsent(player.uniqueId) { buildPages(player) }
     }
 
     fun invalidate(player: Player) {

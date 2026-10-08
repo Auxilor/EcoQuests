@@ -188,6 +188,7 @@ class Quest(
     )
 
     // The tasks that are actually in use
+    @Volatile
     var tasks = run {
         if (taskAmount == availableTasks.size) {
             // If taskAmount is equal to availableTasks.size then tasks are ordered as configured

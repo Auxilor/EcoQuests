@@ -40,6 +40,7 @@ import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.triggers.Triggers
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
 internal lateinit var plugin: EcoQuestsPlugin
@@ -107,24 +108,30 @@ class EcoQuestsPlugin : LibreforgePlugin() {
 
     override fun createTasks() {
         val scanInterval = this.configYml.getInt("scan-interval").toLong()
-        this.scheduler.runTimer(scanInterval, scanInterval) {
+        this.scheduler.global().runTimer(scanInterval, scanInterval) {
             for (player in Bukkit.getOnlinePlayers()) {
-                val max = Quests.getMaxActiveQuests(player)
-                if (max == 0) continue
-                var active = if (max == -1) 0 else Quests.getActiveQuests(player).size
-                for (quest in Quests.values()) {
-                    if (max != -1 && active >= max) break
-                    if (quest.shouldStart(player)) {
-                        quest.start(player)
-                        if (max != -1) active++
-                    }
-                }
+                player.runOwned { autoStartQuests(player) }
             }
         }
 
-        this.scheduler.runTimer(20, 20) {
+        this.scheduler.global().runTimer(20, 20) {
             for (quest in Quests.values()) {
                 quest.resetIfNeeded()
+            }
+        }
+    }
+
+    private fun autoStartQuests(player: Player) {
+        if (!player.isOnline) return
+
+        val max = Quests.getMaxActiveQuests(player)
+        if (max == 0) return
+        var active = if (max == -1) 0 else Quests.getActiveQuests(player).size
+        for (quest in Quests.values()) {
+            if (max != -1 && active >= max) break
+            if (quest.shouldStart(player)) {
+                quest.start(player)
+                if (max != -1) active++
             }
         }
     }

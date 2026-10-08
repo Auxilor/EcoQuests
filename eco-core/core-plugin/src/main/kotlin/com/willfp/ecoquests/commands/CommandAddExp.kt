@@ -5,6 +5,7 @@ import com.willfp.eco.core.commands.notifyNull
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
+import com.willfp.ecoquests.runOwned
 import com.willfp.ecoquests.tasks.Tasks
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
@@ -36,15 +37,17 @@ object CommandAddExp : PluginCommand(
             return
         }
 
-        task.gainExperience(player, value)
+        player.runOwned {
+            task.gainExperience(player, value)
 
-        sender.sendMessage(
-            plugin.langYml.getMessage("exp-added", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%xp%", value.toString())
-                .replace("%quest%", quest.name)
-                .replace("%task%", task.template.id)
-                .replace("%player%", player.name)
-        )
+            sender.sendMessage(
+                plugin.langYml.getMessage("exp-added", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                    .replace("%xp%", value.toString())
+                    .replace("%quest%", quest.name)
+                    .replace("%task%", task.template.id)
+                    .replace("%player%", player.name)
+            )
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

@@ -17,7 +17,10 @@ import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 object QuestsGUI {
+    @Volatile
     private lateinit var menu: Menu
+
+    @Volatile
     private lateinit var questLayout: QuestLayout
 
     fun reload() {
