@@ -2,6 +2,7 @@
 version: ${version}
 main: com.willfp.ecoquests.EcoQuestsPlugin
 api-version: 1.21.8
+folia-supported: true
 authors: [ Auxilor, Exanthiax, Callum ]
 website: willfp.com
 load: STARTUP

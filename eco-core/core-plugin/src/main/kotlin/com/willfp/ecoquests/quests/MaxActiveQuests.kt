@@ -17,6 +17,7 @@ object MaxActiveQuests : Listener {
      * Returns an object that is replaced whenever the player's permissions change,
      * or null when no permissions plugin provides one, which disables the cache.
      */
+    @Volatile
     internal var permissionsVersion: ((Player) -> Any)? = null
 
     fun get(player: Player): Int {

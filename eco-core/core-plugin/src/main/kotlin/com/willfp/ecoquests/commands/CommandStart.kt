@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
+import com.willfp.ecoquests.runOwned
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
@@ -22,13 +23,15 @@ object CommandStart : PluginCommand(
             return
         }
 
-        quest.start(player)
+        player.runOwned {
+            quest.start(player)
 
-        sender.sendMessage(
-            plugin.langYml.getMessage("started-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%quest%", quest.name)
-                .replace("%player%", player.name)
-        )
+            sender.sendMessage(
+                plugin.langYml.getMessage("started-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
+                    .replace("%quest%", quest.name)
+                    .replace("%player%", player.name)
+            )
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

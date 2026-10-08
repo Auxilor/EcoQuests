@@ -17,6 +17,7 @@ import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 object PreviousQuestsGUI {
+    @Volatile
     private lateinit var menu: Menu
 
     fun reload() {
@@ -56,7 +57,7 @@ object PreviousQuestsGUI {
             }
 
             onClose { event, _ ->
-                plugin.scheduler.run {
+                plugin.scheduler.on(event.player).run {
                     QuestsGUI.open(event.player as Player)
                 }
             }
