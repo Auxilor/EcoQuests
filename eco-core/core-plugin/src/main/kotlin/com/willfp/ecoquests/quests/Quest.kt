@@ -192,18 +192,12 @@ class Quest(
     var tasks = run {
         if (taskAmount == availableTasks.size) {
             // If taskAmount is equal to availableTasks.size then tasks are ordered as configured
-            if (isResettable) {
-                availableTasks.take(taskAmount)
-            } else {
-                availableTasks.shuffled().take(taskAmount)
-            }
+            availableTasks.take(taskAmount)
         } else {
-            // If taskAmount is less than availableTasks.size then tasks are selected and ordered randomly.
-            if (isResettable) {
-                loadTasks() ?: availableTasks.randomlyPick(taskAmount)
-            } else {
-                availableTasks.randomlyPick(taskAmount)
-            }
+            // If taskAmount is less than availableTasks.size then tasks are selected and ordered randomly,
+            // and the selection is kept until the quest resets.
+            loadTasks()?.takeIf { isResettable || it.isInPool() }
+                ?: availableTasks.randomlyPick(taskAmount).also { saveTasks(it) }
         }
     }
         private set
@@ -345,9 +339,7 @@ class Quest(
     }
 
     override fun onRemove() {
-        if (isResettable) {
-            saveTasks()
-        }
+        saveTasks()
 
         for (task in tasks) {
             task.unbind()
@@ -533,7 +525,11 @@ class Quest(
         val savedTasks = mutableListOf<Task>()
 
         for (s in serialized) {
-            val split = s.split(":")
+            val split = s.split(":", limit = 2)
+            if (split.size != 2) {
+                plugin.logger.warning("Quest $id has a malformed saved task '$s', skipping it.")
+                continue
+            }
             val taskId = split[0]
             val xpExpr = split[1]
 
@@ -545,7 +541,13 @@ class Quest(
         return savedTasks
     }
 
-    private fun saveTasks() {
+    private fun List<Task>.isInPool(): Boolean {
+        return size == taskAmount && all { task ->
+            availableTasks.any { it.template == task.template && it.xpExpr == task.xpExpr }
+        }
+    }
+
+    private fun saveTasks(tasks: List<Task> = this.tasks) {
         val serialized = tasks.map {
             "${it.template.id}:${it.xpExpr}"
         }
