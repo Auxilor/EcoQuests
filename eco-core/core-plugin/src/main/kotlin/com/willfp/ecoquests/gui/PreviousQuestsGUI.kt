@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.gui
 
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
@@ -49,11 +50,9 @@ object PreviousQuestsGUI {
             addComponent(questAreaComponent)
 
             for (config in plugin.configYml.getSubsections("completed-gui.custom-slots")) {
-                setSlot(
-                    config.getInt("row"),
-                    config.getInt("column"),
-                    ConfigSlot(config)
-                )
+                for (location in config.getSlotLocations()) {
+                    setSlot(location.row, location.column, ConfigSlot(config))
+                }
             }
 
             onClose { event, _ ->

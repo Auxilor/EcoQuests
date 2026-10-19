@@ -1,11 +1,15 @@
 package com.willfp.ecoquests.gui.components
 
 import com.willfp.eco.core.gui.GUIComponent
+import com.willfp.eco.core.gui.SlotLocation
 import com.willfp.eco.core.gui.menu.MenuBuilder
 
 interface PositionedComponent : GUIComponent {
     val row: Int
     val column: Int
+
+    val locations: List<SlotLocation>
+        get() = listOf(SlotLocation(row, column))
 
     val isEnabled: Boolean
         get() = true
@@ -21,8 +25,12 @@ interface PositionedComponent : GUIComponent {
 
 fun MenuBuilder.addComponent(
     component: PositionedComponent
-): MenuBuilder = if (component.isEnabled) addComponent(
-    component.row,
-    component.column,
-    component
-) else this
+): MenuBuilder {
+    if (component.isEnabled) {
+        for (location in component.locations) {
+            addComponent(location.row, location.column, component)
+        }
+    }
+
+    return this
+}

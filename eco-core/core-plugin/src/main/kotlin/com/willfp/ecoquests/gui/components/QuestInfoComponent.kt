@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.gui.components
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.onLeftClick
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.items.Items
@@ -25,8 +26,10 @@ class QuestInfoComponent(
     }
 
     override val isEnabled = config.getBoolOrNull("enabled") ?: true
-    override val row: Int = config.getInt("location.row")
-    override val column: Int = config.getInt("location.column")
+    override val locations = config.getSlotLocations()
+
+    override val row: Int = locations.first().row
+    override val column: Int = locations.first().column
 
     override fun getSlotAt(row: Int, column: Int) = slot
 }
