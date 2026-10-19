@@ -6,9 +6,8 @@ import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot.ConfigSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.CloseButton
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
@@ -43,12 +42,7 @@ object QuestsGUI {
 
             maxPages { questAreaComponent.getPages(it) }
 
-            setMask(
-                FillerMask(
-                    MaskItems.fromItemNames(plugin.configYml.getStrings("gui.mask.materials")),
-                    *plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
-                )
-            )
+            setMask(plugin.configYml, "gui")
 
             addComponent(QuestInfoComponent(plugin.configYml.getSubsection("gui.quest-info")))
 

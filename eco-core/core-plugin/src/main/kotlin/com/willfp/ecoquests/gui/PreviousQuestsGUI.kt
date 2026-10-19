@@ -6,9 +6,8 @@ import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
+import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.gui.slot.ConfigSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.BackButton
 import com.willfp.ecoquests.gui.components.FlatListQuestSlotProvider
@@ -34,12 +33,7 @@ object PreviousQuestsGUI {
 
             maxPages { questAreaComponent.getPages(it) }
 
-            setMask(
-                FillerMask(
-                    MaskItems.fromItemNames(plugin.configYml.getStrings("completed-gui.mask.materials")),
-                    *plugin.configYml.getStrings("completed-gui.mask.pattern").toTypedArray()
-                )
-            )
+            setMask(plugin.configYml, "completed-gui")
 
             addComponent(BackButton(plugin.configYml.getSubsection("completed-gui.back")))
 
