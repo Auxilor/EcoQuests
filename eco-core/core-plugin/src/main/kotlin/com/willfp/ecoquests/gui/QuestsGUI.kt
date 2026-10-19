@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.gui
 
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
@@ -12,7 +13,6 @@ import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.CloseButton
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
-import com.willfp.ecoquests.gui.components.addComponent
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
