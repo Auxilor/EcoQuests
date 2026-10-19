@@ -2,13 +2,13 @@ package com.willfp.ecoquests.gui
 
 import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
+import com.willfp.eco.core.gui.component.ConfigButton
 import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
 import com.willfp.eco.core.gui.setMask
 import com.willfp.eco.core.sound.PlayableSound
-import com.willfp.ecoquests.gui.components.BackButton
 import com.willfp.ecoquests.gui.components.FlatListQuestSlotProvider
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.plugin
@@ -34,7 +34,7 @@ object PreviousQuestsGUI {
 
             setMask(plugin.configYml, "completed-gui")
 
-            addComponent(BackButton(plugin.configYml.getSubsection("completed-gui.back")))
+            addComponent(ConfigButton(plugin.configYml.getSubsection("completed-gui.back")) { player, _, _, _ -> QuestsGUI.open(player) })
 
             addPageChanger(plugin.configYml, "completed-gui.prev-page", PageChanger.Direction.BACKWARDS, pageChangeSound)
 
