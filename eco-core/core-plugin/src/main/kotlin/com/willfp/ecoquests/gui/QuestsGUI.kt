@@ -1,13 +1,12 @@
 package com.willfp.ecoquests.gui
 
+import com.willfp.eco.core.gui.addCustomSlots
 import com.willfp.eco.core.gui.addPageChanger
 import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.page.PageChanger
 import com.willfp.eco.core.gui.setMask
-import com.willfp.eco.core.gui.slot.ConfigSlot
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.gui.components.CloseButton
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
@@ -54,11 +53,7 @@ object QuestsGUI {
 
             addComponent(questAreaComponent)
 
-            for (config in plugin.configYml.getSubsections("gui.custom-slots")) {
-                for (location in config.getSlotLocations()) {
-                    setSlot(location.row, location.column, ConfigSlot(config))
-                }
-            }
+            addCustomSlots(plugin.configYml, "gui")
         }
     }
 
