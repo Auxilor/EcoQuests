@@ -309,7 +309,7 @@ class Quest(
             }
         }.register()
 
-        for (i in 1..this.tasks.size+1) {
+        for (i in 1..this.tasks.size) {
             PlayerPlaceholder(plugin, "quest_${id}_task_${i}_required_xp") {
                 this.tasks[i-1].getExperienceRequired(it).toNiceString()
             }.register()
