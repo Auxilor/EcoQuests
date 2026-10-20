@@ -13,7 +13,7 @@ EcoQuests exposes these placeholders for use anywhere PlaceholderAPI is supporte
 | `%ecoquests_quests_percent_completed%`              | The percentage of quests the player has completed           |
 | `%ecoquests_quests_resettable_quests_completed%`    | The amount of resettable quests the player has completed    |
 | `%ecoquests_quests_not_resettable_quests_completed%` | The amount of non-resettable quests the player has completed |
-| `%ecoquests_recent_quest_name%`                     | The name of the quest the player has most recently started  |
+| `%ecoquests_recent_quest_name%`                     | The name of the quest the player has most recently started, or `no-recent-quest` from `lang.yml` with no active quests |
 | `%ecoquests_quest_<quest>_name%`                    | The quest name                                              |
 | `%ecoquests_quest_<quest>_description%`             | The quest description                                       |
 | `%ecoquests_quest_<quest>_tasks%`                   | The amount of tasks in the quest                            |
