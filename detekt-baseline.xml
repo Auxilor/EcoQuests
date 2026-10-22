@@ -1,0 +1,130 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>BracesOnIfStatements:PositionedComponent.kt:else</ID>
+    <ID>BracesOnIfStatements:PositionedComponent.kt:if</ID>
+    <ID>BracesOnWhenStatements:FixedResetSchedule.kt:FixedResetSchedule$when</ID>
+    <ID>CX016:Quest.kt:com.willfp.ecoquests.quests.Quest.kt</ID>
+    <ID>CascadingCallWrapping:MaxActiveQuests.kt:MaxActiveQuests$info.permission .removePrefix(PERMISSION_PREFIX) .takeIf { info.permission.startsWith(PERMISSION_PREFIX) } ?.toIntOrNull() ?: continue</ID>
+    <ID>EmptyFunctionBlock:Category.kt:Category${}</ID>
+    <ID>ExpressionBodySyntax:EffectQuestXpMultiplier.kt:EffectQuestXpMultiplier$return Quests.values()</ID>
+    <ID>ExpressionBodySyntax:EffectQuestXpMultiplier.kt:EffectQuestXpMultiplier$return Quests[key]</ID>
+    <ID>ExpressionBodySyntax:FilterCategory.kt:FilterCategory$return config.getStrings(key)</ID>
+    <ID>ExpressionBodySyntax:FilterQuest.kt:FilterQuest$return config.getStrings(key)</ID>
+    <ID>ExpressionBodySyntax:FilterTask.kt:FilterTask$return config.getStrings(key)</ID>
+    <ID>ExpressionBodySyntax:FlatListQuestSlotProvider.kt:FlatListQuestSlotProvider$return getQuests(player).size.floorDiv(pageSize) + 1</ID>
+    <ID>ExpressionBodySyntax:PlayerQuestCompleteEvent.kt:PlayerQuestCompleteEvent$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerQuestCompleteEvent.kt:PlayerQuestCompleteEvent.Companion$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerQuestStartEvent.kt:PlayerQuestStartEvent$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerQuestStartEvent.kt:PlayerQuestStartEvent.Companion$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerTaskCompleteEvent.kt:PlayerTaskCompleteEvent$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerTaskCompleteEvent.kt:PlayerTaskCompleteEvent.Companion$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerTaskExpGainEvent.kt:PlayerTaskExpGainEvent$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:PlayerTaskExpGainEvent.kt:PlayerTaskExpGainEvent$return cancelled</ID>
+    <ID>ExpressionBodySyntax:PlayerTaskExpGainEvent.kt:PlayerTaskExpGainEvent.Companion$return HANDLERS</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return currentTimeMinutes - player.profile.read(completedTimeKey)</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return currentTimeMinutes - player.profile.read(startedTimeKey)</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return hasStarted(player) &amp;&amp; !hasCompleted(player)</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return meetsStartConditions(player) &amp;&amp; !hasStarted(player) &amp;&amp; autoStarts</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return startConditions.areMet(player.toDispatcher(), EmptyProvidedHolder)</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return tasks.firstOrNull { it.template == template }</ID>
+    <ID>ExpressionBodySyntax:Quest.kt:Quest$return this.map { s -&gt; " ".repeat(margin) + s }</ID>
+    <ID>ExpressionBodySyntax:QuestAreaComponent.kt:QuestAreaComponent$return provider.getPages(player, pageSize)</ID>
+    <ID>ExpressionBodySyntax:QuestLayout.kt:QuestLayout$return cache.computeIfAbsent(player.uniqueId) { buildPages(player) }</ID>
+    <ID>ExpressionBodySyntax:QuestLayout.kt:QuestLayout$return pagesFor(player).size</ID>
+    <ID>ExpressionBodySyntax:Task.kt:Task$return if (quest.hasStarted(player)) player.profile.read(xpKey) else 0.0</ID>
+    <ID>ExpressionBodySyntax:Task.kt:Task$return quest.hasStarted(player) &amp;&amp; player.profile.read(hasCompletedKey)</ID>
+    <ID>F001:QuestLayout.kt:QuestLayout$mutableMapOf&lt;String, Triple&lt;Int, Int, Int&gt;&gt;()</ID>
+    <ID>F001:QuestLayout.kt:QuestLayout$mutableMapOf&lt;Triple&lt;Int, Int, Int&gt;, String&gt;()</ID>
+    <ID>IC001:Quest.kt:Quest$// I just hate the @ notation kotlin uses</ID>
+    <ID>IC002:Quest.kt:Quest$// Bind new tasks</ID>
+    <ID>IC002:Quest.kt:Quest$// Bumping the epoch invalidates every player's progress at once; each player's</ID>
+    <ID>IC002:Quest.kt:Quest$// Check if the player has completed the Quest before</ID>
+    <ID>IC002:Quest.kt:Quest$// Replace multi-line placeholders.</ID>
+    <ID>IC002:Quest.kt:Quest$// Reset tasks to generate new xp requirements</ID>
+    <ID>IC002:Quest.kt:Quest$// Save new tasks</ID>
+    <ID>IC002:Quest.kt:Quest$// Unbind old tasks</ID>
+    <ID>IC002:QuestLayout.kt:QuestLayout$// Invalid gui.quest-area config - already warned in init. Bail out</ID>
+    <ID>IC002:Task.kt:Task$// Then check if any quests are now completed</ID>
+    <ID>LongParameterList:QuestSlotProvider.kt:QuestSlotProvider$fun getQuestAt: Quest?</ID>
+    <ID>LoopWithTooManyJumpStatements:MaxActiveQuests.kt:MaxActiveQuests$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Quest.kt:Quest$for</ID>
+    <ID>LoopWithTooManyJumpStatements:QuestLayout.kt:QuestLayout$for</ID>
+    <ID>MagicNumber:CommandAddExp.kt:CommandAddExp$3</ID>
+    <ID>MagicNumber:CommandAddExp.kt:CommandAddExp$4</ID>
+    <ID>MagicNumber:EcoQuestsPlugin.kt:EcoQuestsPlugin$20</ID>
+    <ID>MagicNumber:QuestCompleteDisplay.kt:QuestCompleteDisplay$1000</ID>
+    <ID>MagicNumber:QuestStartDisplay.kt:QuestStartDisplay$1000</ID>
+    <ID>MaxLineLength:FilterCategory.kt:FilterCategory$override val description = "Matches when the quest involved in the triggering event belongs to one of the given categories."</ID>
+    <ID>MaxLineLength:FixedResetSchedule.kt:FixedResetSchedule.Companion$throw IllegalArgumentException("timezone must be a valid IANA timezone, such as 'Europe/London'")</ID>
+    <ID>MaxLineLength:PreviousQuestsGUI.kt:PreviousQuestsGUI$addPageChanger(plugin.configYml, "completed-gui.prev-page", PageChanger.Direction.BACKWARDS, pageChangeSound)</ID>
+    <ID>MaxLineLength:Quest.kt:Quest$plugin.logger.warning("Quest $id has an invalid reset-schedule: ${error.message}. Falling back to reset-time.")</ID>
+    <ID>MaxLineLength:QuestCompleteDisplay.kt:QuestCompleteDisplay$Duration.ofMillis((plugin.configYml.getDouble("quests.complete.title.fade-in") * 1000).toLong())</ID>
+    <ID>MaxLineLength:QuestCompleteDisplay.kt:QuestCompleteDisplay$Duration.ofMillis((plugin.configYml.getDouble("quests.complete.title.fade-out") * 1000).toLong())</ID>
+    <ID>MultilineLambdaItParameter:EcoQuestsPlugin.kt:EcoQuestsPlugin${ val completed = Quests.getCompletedQuests(it).size val total = Quests.values().size val percent = completed.toDouble() / total.toDouble() * 100.0 percent.toNiceString() }</ID>
+    <ID>MultilineLambdaItParameter:FixedResetSchedule.kt:FixedResetSchedule.Companion${ runCatching { ZoneId.of(it.trim()) }.getOrElse { throw IllegalArgumentException("timezone must be a valid IANA timezone, such as 'Europe/London'") } }</ID>
+    <ID>MultilineLambdaItParameter:Quest.kt:Quest${ Tasks[it.getString("task")] ?.create(this, it.getString("xp")) }</ID>
+    <ID>MultilineLambdaItParameter:Quest.kt:Quest${ if (hasCompleted(it)) { plugin.langYml.getString("time-since.completed") .replace("%time%", formatDuration(this.getTimeSinceCompletion(it))) .formatEco(it) } else if (hasStarted(it)) { plugin.langYml.getString("time-since.started") .replace("%time%", formatDuration(this.getTimeSinceStart(it))) .formatEco(it) } else { plugin.langYml.getString("time-since.never") .formatEco(it) } }</ID>
+    <ID>MultilineLambdaItParameter:Quest.kt:Quest${ if (it &lt; 0) { availableTasks.size } else { it.coerceAtMost(availableTasks.size) } }</ID>
+    <ID>MultilineLambdaItParameter:Quests.kt:Quests${ it.hasActive(player) || (it.alwaysInGUI &amp;&amp; !it.hasCompleted(player)) || (it.showsCompleted &amp;&amp; it.hasCompleted(player)) }</ID>
+    <ID>NewLineAtEndOfFile:CommandAddExp.kt:com.willfp.ecoquests.commands.CommandAddExp.kt</ID>
+    <ID>NewLineAtEndOfFile:CommandReload.kt:com.willfp.ecoquests.commands.CommandReload.kt</ID>
+    <ID>NullableBooleanCheck:Quest.kt:Quest$config.getBoolOrNull("gui.show-completed") ?: false</ID>
+    <ID>NullableBooleanCheck:QuestInfoComponent.kt:QuestInfoComponent$config.getBoolOrNull("enabled") ?: true</ID>
+    <ID>NullableToStringCall:Quest.kt:Quest$${error.message}</ID>
+    <ID>PF012:EcoQuestsPlugin.kt:EcoQuestsPlugin$values()</ID>
+    <ID>PF012:Task.kt:Task$values()</ID>
+    <ID>PropertyUsedBeforeDeclaration:Quest.kt:Quest$startConditions</ID>
+    <ID>PropertyUsedBeforeDeclaration:Quest.kt:Quest$tasks</ID>
+    <ID>ReturnCount:ConditionHasCompletedCategory.kt:ConditionHasCompletedCategory$override fun isMet: Boolean</ID>
+    <ID>ReturnCount:ConditionHasCompletedQuest.kt:ConditionHasCompletedQuest$override fun isMet: Boolean</ID>
+    <ID>ReturnCount:ConditionHasCompletedTask.kt:ConditionHasCompletedTask$override fun isMet: Boolean</ID>
+    <ID>ReturnCount:ConditionHasQuestActive.kt:ConditionHasQuestActive$override fun isMet: Boolean</ID>
+    <ID>ReturnCount:EffectGainTaskXp.kt:EffectGainTaskXp$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectGiveTaskXp.kt:EffectGiveTaskXp$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectStartQuest.kt:EffectStartQuest$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:FilterCategory.kt:FilterCategory$override fun isMet: Boolean</ID>
+    <ID>ReturnCount:MaxActiveQuests.kt:MaxActiveQuests$fun get: Int</ID>
+    <ID>ReturnCount:Quest.kt:Quest$fun checkCompletion: Boolean</ID>
+    <ID>ReturnCount:Quest.kt:Quest$fun tryStartFromGui</ID>
+    <ID>SpreadOperator:PreviousQuestsGUI.kt:PreviousQuestsGUI$( MaskItems.fromItemNames(plugin.configYml.getStrings("completed-gui.mask.materials")), *plugin.configYml.getStrings("completed-gui.mask.pattern").toTypedArray() )</ID>
+    <ID>SpreadOperator:QuestsGUI.kt:QuestsGUI$( MaskItems.fromItemNames(plugin.configYml.getStrings("gui.mask.materials")), *plugin.configYml.getStrings("gui.mask.pattern").toTypedArray() )</ID>
+    <ID>ThrowsCount:FixedResetSchedule.kt:FixedResetSchedule.Companion$fun parse: FixedResetSchedule</ID>
+    <ID>TooManyFunctions:Quest.kt:Quest : KRegistrable</ID>
+    <ID>UnnamedParameterUse:CommandAddExp.kt:CommandAddExp$replace</ID>
+    <ID>UnnamedParameterUse:CommandCancel.kt:CommandCancel$replace</ID>
+    <ID>UnnamedParameterUse:CommandReload.kt:CommandReload$replace</ID>
+    <ID>UnnamedParameterUse:CommandReset.kt:CommandReset$replace</ID>
+    <ID>UnnamedParameterUse:CommandResetPlayer.kt:CommandResetPlayer$replace</ID>
+    <ID>UnnamedParameterUse:CommandStart.kt:CommandStart$replace</ID>
+    <ID>UnnamedParameterUse:ConditionHasCompletedCategory.kt:ConditionHasCompletedCategory$require</ID>
+    <ID>UnnamedParameterUse:ConditionHasCompletedQuest.kt:ConditionHasCompletedQuest$require</ID>
+    <ID>UnnamedParameterUse:ConditionHasCompletedTask.kt:ConditionHasCompletedTask$require</ID>
+    <ID>UnnamedParameterUse:ConditionHasQuestActive.kt:ConditionHasQuestActive$require</ID>
+    <ID>UnnamedParameterUse:EffectGainTaskXp.kt:EffectGainTaskXp$require</ID>
+    <ID>UnnamedParameterUse:EffectGiveTaskXp.kt:EffectGiveTaskXp$require</ID>
+    <ID>UnnamedParameterUse:EffectStartQuest.kt:EffectStartQuest$require</ID>
+    <ID>UnnamedParameterUse:Quest.kt:Quest$QuestPosition</ID>
+    <ID>UnnamedParameterUse:Quest.kt:Quest$replace</ID>
+    <ID>UnnamedParameterUse:QuestLayout.kt:QuestLayout$Triple</ID>
+    <ID>UnnamedParameterUse:Task.kt:Task$min</ID>
+    <ID>UnnamedParameterUse:Task.kt:Task$replace</ID>
+    <ID>UnnecessaryParentheses:FlatListQuestSlotProvider.kt:FlatListQuestSlotProvider$((page - 1) * pageSize)</ID>
+    <ID>UnnecessaryParentheses:MaxActiveQuests.kt:MaxActiveQuests$(permissionMax ?: 0)</ID>
+    <ID>UnnecessaryParentheses:Quests.kt:Quests$(it.alwaysInGUI &amp;&amp; !it.hasCompleted(player))</ID>
+    <ID>UnnecessaryParentheses:Quests.kt:Quests$(it.showsCompleted &amp;&amp; it.hasCompleted(player))</ID>
+    <ID>UnreachableCode:MaxActiveQuests.kt:MaxActiveQuests$permissionMax ?: 0</ID>
+    <ID>UnusedImport:EffectGainTaskXp.kt:import org.bukkit.entity.Player</ID>
+    <ID>UnusedImport:EffectGiveTaskXp.kt:import org.bukkit.entity.Player</ID>
+    <ID>UnusedImport:EffectStartQuest.kt:import com.willfp.ecoquests.tasks.Tasks</ID>
+    <ID>UnusedImport:EffectStartQuest.kt:import com.willfp.libreforge.getDoubleFromExpression</ID>
+    <ID>UnusedImport:EffectStartQuest.kt:import org.bukkit.entity.Player</ID>
+    <ID>UnusedImport:FilterTask.kt:import com.willfp.ecoquests.api.event.QuestEvent</ID>
+    <ID>UnusedImport:TriggerCompleteQuest.kt:import com.willfp.ecoquests.api.event.PlayerQuestStartEvent</ID>
+    <ID>UseCheckOrError:Task.kt:Task$throw IllegalStateException("Invalid XP Required for task ${template.id} in quest ${quest.id}" + "(Requirement was $newRequired, which is less than or equal to 0)")</ID>
+    <ID>UseOrEmpty:Categories.kt:Categories$id ?: ""</ID>
+    <ID>UseOrEmpty:Quests.kt:Quests$id ?: ""</ID>
+    <ID>UseOrEmpty:Tasks.kt:Tasks$id ?: ""</ID>
+  </CurrentIssues>
+</SmellBaseline>
