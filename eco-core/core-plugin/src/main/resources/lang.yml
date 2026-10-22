@@ -24,6 +24,7 @@ messages:
   exp-added: "&aAdded &f%xp% &aXP in quest &f%quest%&a, task &f%task%&a for &f%player%&a!"
 
 no-category: "&7No Category"
+no-recent-quest: "None"
 
 time-since:
   never: "&cNot started yet!"

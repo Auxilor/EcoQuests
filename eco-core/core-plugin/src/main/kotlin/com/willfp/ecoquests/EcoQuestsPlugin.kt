@@ -96,8 +96,9 @@ class EcoQuestsPlugin : LibreforgePlugin() {
             Quests.values().count { quest -> quest.isResettable && quest.hasCompleted(player) }.toString()
         }.register()
 
-        PlayerPlaceholder(this, "recent_quest_name") {
-            Quests.getActiveQuests(it).minBy { quest -> quest.getTimeSinceStart(it) }.name
+        PlayerPlaceholder(this, "recent_quest_name") { player ->
+            Quests.getActiveQuests(player).minByOrNull { quest -> quest.getTimeSinceStart(player) }?.name
+                ?: langYml.getString("no-recent-quest")
         }.register()
     }
 
