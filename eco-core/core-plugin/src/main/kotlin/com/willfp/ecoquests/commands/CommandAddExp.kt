@@ -1,7 +1,6 @@
 package com.willfp.ecoquests.commands
 
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.commands.notifyNull
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
@@ -28,11 +27,9 @@ object CommandAddExp : PluginCommand(
             return
         }
 
-        val unparsedValue = args[3].notifyNull("invalid-exp-value")
-        val value: Double
-        try {
-            value = unparsedValue.toDouble()
-        } catch (_: NumberFormatException) {
+        val value = args[3].toDoubleOrNull()
+
+        if (value == null || !value.isFinite() || value <= 0.0) {
             sender.sendMessage(plugin.langYml.getMessage("invalid-exp-value"))
             return
         }
