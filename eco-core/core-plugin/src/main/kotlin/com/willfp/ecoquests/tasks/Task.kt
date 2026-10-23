@@ -18,7 +18,11 @@ import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.min
+
+
+private val warnedInvalidRequirements = ConcurrentHashMap.newKeySet<String>()
 
 class Task(
     val template: TaskTemplate,
@@ -119,8 +123,8 @@ class Task(
             val newRequired = generateExperienceRequired(player)
 
             if (newRequired <= 0) {
-                throw IllegalStateException("Invalid XP Required for task ${template.id} in quest ${quest.id}" +
-                        "(Requirement was $newRequired, which is less than or equal to 0)")
+                warnInvalidRequirement(newRequired)
+                return 1.0
             }
 
             player.profile.write(xpRequiredKey, newRequired)
@@ -129,6 +133,16 @@ class Task(
         } else {
             required
         }
+    }
+
+    private fun warnInvalidRequirement(requirement: Double) {
+        if (!warnedInvalidRequirements.add("${quest.id}:${template.id}")) {
+            return
+        }
+
+        plugin.logger.warning(
+            "Task ${template.id} in quest ${quest.id} requires $requirement XP, which is not above 0; using 1 instead"
+        )
     }
 
     fun getExperience(player: OfflinePlayer): Double {
