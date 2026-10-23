@@ -1,7 +1,6 @@
 package com.willfp.ecoquests.commands
 
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.commands.notifyNull
 import com.willfp.eco.util.StringUtils
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
