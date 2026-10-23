@@ -4,7 +4,7 @@ fun <T> Collection<T>.randomlyPick(amount: Int): List<T> {
     val list = this.toMutableList()
     val picked = mutableListOf<T>()
 
-    repeat(amount) {
+    repeat(amount.coerceAtMost(list.size)) {
         val index = (0 until list.size).random()
         picked.add(list[index])
         list.removeAt(index)
