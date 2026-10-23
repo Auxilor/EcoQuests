@@ -132,7 +132,7 @@ class Task(
             val newRequired = generateExperienceRequired(player)
 
             if (newRequired <= 0) {
-                warnInvalidRequirement(quest.id, template.id, newRequired)
+                warnInvalidRequirement(questId = quest.id, taskId = template.id, requirement = newRequired)
                 return 1.0
             }
 
