@@ -287,11 +287,11 @@ class Quest(
         }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_time_since_start") {
-            formatDuration(this.getTimeSinceStart(it))
+            if (hasStarted(it)) formatDuration(this.getTimeSinceStart(it)) else ""
         }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_time_since_completed") {
-            formatDuration(this.getTimeSinceCompletion(it))
+            if (hasCompleted(it)) formatDuration(this.getTimeSinceCompletion(it)) else ""
         }.register()
 
         PlayerPlaceholder(plugin, "quest_${id}_time_since") {
