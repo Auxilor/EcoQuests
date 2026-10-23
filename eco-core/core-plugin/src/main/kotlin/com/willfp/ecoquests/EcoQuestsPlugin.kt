@@ -80,7 +80,7 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         PlayerPlaceholder(this, "quests_percent_completed") {
             val completed = Quests.getCompletedQuests(it).size
             val total = Quests.values().size
-            val percent = completed.toDouble() / total.toDouble() * 100.0
+            val percent = if (total == 0) 0.0 else completed.toDouble() / total.toDouble() * 100.0
             percent.toNiceString()
         }.register()
 
