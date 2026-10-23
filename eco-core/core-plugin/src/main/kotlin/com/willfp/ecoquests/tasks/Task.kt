@@ -21,8 +21,17 @@ import org.bukkit.entity.Player
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.min
 
-
 private val warnedInvalidRequirements = ConcurrentHashMap.newKeySet<String>()
+
+private fun warnInvalidRequirement(questId: String, taskId: String, requirement: Double) {
+    if (!warnedInvalidRequirements.add("$questId:$taskId")) {
+        return
+    }
+
+    plugin.logger.warning(
+        "Task $taskId in quest $questId requires $requirement XP, which is not above 0; using 1 instead"
+    )
+}
 
 class Task(
     val template: TaskTemplate,
@@ -123,7 +132,7 @@ class Task(
             val newRequired = generateExperienceRequired(player)
 
             if (newRequired <= 0) {
-                warnInvalidRequirement(newRequired)
+                warnInvalidRequirement(quest.id, template.id, newRequired)
                 return 1.0
             }
 
@@ -133,16 +142,6 @@ class Task(
         } else {
             required
         }
-    }
-
-    private fun warnInvalidRequirement(requirement: Double) {
-        if (!warnedInvalidRequirements.add("${quest.id}:${template.id}")) {
-            return
-        }
-
-        plugin.logger.warning(
-            "Task ${template.id} in quest ${quest.id} requires $requirement XP, which is not above 0; using 1 instead"
-        )
     }
 
     fun getExperience(player: OfflinePlayer): Double {
