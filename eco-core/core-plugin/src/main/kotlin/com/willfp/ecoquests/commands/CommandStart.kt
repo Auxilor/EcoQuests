@@ -18,7 +18,12 @@ object CommandStart : PluginCommand(
         val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
         val quest = notifyNull(Quests[args.getOrNull(1)], "invalid-quest")
 
-        if (quest.hasStarted(player) || quest.hasCompleted(player)) {
+        if (quest.hasCompleted(player)) {
+            sender.sendMessage(plugin.langYml.getMessage("cannot-start-completed"))
+            return
+        }
+
+        if (quest.hasStarted(player)) {
             sender.sendMessage(plugin.langYml.getMessage("already-started"))
             return
         }
