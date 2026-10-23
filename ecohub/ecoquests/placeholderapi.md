@@ -21,8 +21,8 @@ EcoQuests exposes these placeholders for use anywhere PlaceholderAPI is supporte
 | `%ecoquests_quest_<quest>_started%`                 | If the player has started the quest (true / false)          |
 | `%ecoquests_quest_<quest>_completed%`               | If the player has completed the quest (true / false)        |
 | `%ecoquests_quest_<quest>_time_until_reset%`        | The amount of time until the quest resets                   |
-| `%ecoquests_quest_<quest>_time_since_start%`        | The amount of time since the player has started the quest   |
-| `%ecoquests_quest_<quest>_time_since_completed%`    | The amount of time since the player has completed the quest |
+| `%ecoquests_quest_<quest>_time_since_start%`        | The amount of time since the player has started the quest, empty if not started |
+| `%ecoquests_quest_<quest>_time_since_completed%`    | The amount of time since the player has completed the quest, empty if not completed |
 | `%ecoquests_quest_<quest>_time_since%`              | Time since start / completion / "Not Yet Started"           |
 | `%ecoquests_quest_<quest>_task_<task>_required_xp%` | The XP required to complete the task                        |
 | `%ecoquests_quest_<quest>_task_<task>_xp%`          | The XP the player has for the task                          |
