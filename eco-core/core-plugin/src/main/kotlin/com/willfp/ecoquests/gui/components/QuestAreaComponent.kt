@@ -1,6 +1,8 @@
 package com.willfp.ecoquests.gui.components
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.gui.SlotLocation
+import com.willfp.eco.core.gui.component.PositionedComponent
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot.Slot
 import org.bukkit.entity.Player
@@ -9,8 +11,10 @@ class QuestAreaComponent(
     config: Config,
     private val provider: QuestSlotProvider
 ) : PositionedComponent {
-    override val row = config.getInt("top-left.row")
-    override val column = config.getInt("top-left.column")
+    private val row = config.getInt("top-left.row")
+    private val column = config.getInt("top-left.column")
+
+    override val locations = listOf(SlotLocation(row, column))
 
     override val rowSize = config.getInt("bottom-right.row") - row + 1
     override val columnSize = config.getInt("bottom-right.column") - column + 1
