@@ -12,7 +12,6 @@ import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
-import com.willfp.ecoquests.quests.Quests
 import com.willfp.libreforge.counters.Accumulator
 import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
@@ -183,10 +182,7 @@ class Task(
 
             Bukkit.getPluginManager().callEvent(PlayerTaskCompleteEvent(player, template, quest))
 
-            // Then check if any quests are now completed
-            for (quest in Quests.values()) {
-                quest.checkCompletion(player)
-            }
+            quest.checkCompletion(player)
         }
     }
 
