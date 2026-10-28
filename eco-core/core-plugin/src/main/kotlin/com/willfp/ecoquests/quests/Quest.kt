@@ -373,9 +373,8 @@ class Quest(
         return startConditions.areMet(player.toDispatcher(), EmptyProvidedHolder)
     }
 
-    fun shouldStart(player: Player): Boolean {
-        return meetsStartConditions(player) && !hasStarted(player) && autoStarts
-    }
+    fun shouldStart(player: Player): Boolean =
+        autoStarts && !hasStarted(player) && meetsStartConditions(player)
 
     fun hasStarted(player: OfflinePlayer): Boolean {
         return player.profile.read(hasStartedKey)
@@ -433,7 +432,7 @@ class Quest(
     }
 
     fun start(player: Player) {
-        if (hasStarted(player)) {
+        if (hasStarted(player) || hasCompleted(player)) {
             return
         }
 
