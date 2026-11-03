@@ -14,6 +14,7 @@ category: easy # The ID of a category file in /categories/; omit if not using ca
 gui:
   enabled: true # If the quest should be shown in the GUI
   always: false # If the quest should always be in the GUI, even if it's not started
+  hide-locked: false # With always, hide the quest until its start-conditions are met
   show-completed: false # If the quest should stay in this slot after completion (instead of only showing in the completed-quests GUI)
   # The item to show in the GUI, read https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
   item: paper

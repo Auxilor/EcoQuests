@@ -79,6 +79,7 @@ auto-start: true # Start automatically when conditions are met; if false, only /
 gui:
   enabled: true # Show this quest in the GUI
   always: false # Show even when not started
+  hide-locked: false # With always, hide until start-conditions are met
   show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
 
@@ -202,6 +203,7 @@ How the quest is displayed in the `/quests` book.
 gui:
   enabled: true # Show this quest in the GUI
   always: false # Show even when the player hasn't started it
+  hide-locked: false # With always, hide the quest until its start-conditions are met
   show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
 
@@ -211,6 +213,21 @@ gui:
   #   page: 1
   #   row: 2
   #   column: 2
+```
+
+Use `hide-locked` for quest chains: give each later quest a `has_completed_quest` start condition on the one before it, and set `always` and `hide-locked` to true. Each chain then shows only the quest the player can start next.
+
+```yaml
+gui:
+  enabled: true
+  always: true
+  hide-locked: true
+  item: cobblestone
+
+start-conditions:
+  - id: has_completed_quest
+    args:
+      quest: cobblestone_miner1
 ```
 
 :::tip Troubleshooting

@@ -35,7 +35,7 @@ object PreviousQuestsGUI {
             setMask(plugin.configYml, "completed-gui")
 
             addComponent(ConfigButton(plugin.configYml.getSubsection("completed-gui.back")) { player, _, _, _ ->
-                QuestsGUI.open(player)
+                QuestsGUI.reopen(player)
             })
 
             addPageChanger(plugin.configYml, "completed-gui.prev-page", PageChanger.Direction.BACKWARDS, pageChangeSound)
@@ -48,7 +48,7 @@ object PreviousQuestsGUI {
 
             onClose { event, _ ->
                 plugin.scheduler.on(event.player).run {
-                    QuestsGUI.open(event.player as Player)
+                    QuestsGUI.reopen(event.player as Player)
                 }
             }
         }

@@ -10,7 +10,8 @@ A **category** groups quests together so players can track progress across a set
 1. Open the `/categories/` folder and create a new file, e.g. `easy.yml`. The file name is the category ID.
 2. Set the `name` and optionally configure `effects` to run on completion.
 3. Add `category: <id>` to any quest you want grouped under this category.
-4. Run `/ecoquests reload`.
+4. Optionally set `gui.item`, and set `categories-gui.enabled` to true in `config.yml` to give `/quests` a category menu.
+5. Run `/ecoquests reload`.
 
 :::tip
 `_example.yml` is included as a reference and is **never loaded**. You can organise category files into subfolders and they will still load.
@@ -23,6 +24,19 @@ A **category** groups quests together so players can track progress across a set
 # _example.yml is not loaded.
 
 name: "Easy"
+
+# Options for the category GUI (categories-gui in config.yml)
+gui:
+  enabled: true # Show this category in the category GUI
+  item: lime_dye # GUI icon, read via the Item Lookup System
+  lore: # Lines added to the top of the icon lore
+    - "&7Quests to get you started."
+
+  # Optional. Pins this category to an exact slot instead of auto-placing it.
+  # Must fall within categories-gui.category-area in config.yml.
+  # position:
+  #   row: 2
+  #   column: 2
 
 # Effects run when the player completes this category (all quests in it done).
 # This fires every time the category is completed, including after a reset cycle.
@@ -45,6 +59,14 @@ Omit the line entirely for quests that belong to no category. If the category ID
 :::warning ID rules
 Category IDs follow the same rules as quest IDs: lowercase letters, numbers, and underscores only (a-z, 0-9, _).
 :::
+
+## Category GUI
+
+Set `categories-gui.enabled` to true in `config.yml` to turn `/quests` into a menu of categories. Clicking a category opens a quests GUI with only that category's quests, and its back button returns to the category menu. Players can also open one category directly with `/quests <category>`, whether or not the category menu is enabled.
+
+Quests with no category are listed behind the `categories-gui.uncategorised` button, which only shows when such quests exist. With no categories to show, `/quests` opens the list of every quest.
+
+Each category's icon uses its `gui.item`, with `gui.lore` lines above the shared `categories-gui.category-icon` lore. Categories with `gui.enabled: false` are left out of the menu. The quests GUI for a category uses the `gui` settings from `config.yml`, with `gui.category-title` as its title.
 
 ## Placeholders
 

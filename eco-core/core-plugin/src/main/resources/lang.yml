@@ -7,6 +7,7 @@ messages:
 
   invalid-player: "&cInvalid player!"
   invalid-quest: "&cInvalid quest!"
+  invalid-category: "&cInvalid category!"
   invalid-task: "&cInvalid task! Should be exist in quest."
   invalid-exp-value: "&cInvalid exp value! Should be a double (like 1.0)."
   already-started: "&cThe player has already started this quest!"

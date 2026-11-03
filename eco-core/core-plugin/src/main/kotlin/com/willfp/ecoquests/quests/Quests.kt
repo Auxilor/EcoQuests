@@ -28,10 +28,10 @@ object Quests : ConfigCategory("quest", "quests") {
     fun getShownQuests(player: Player): List<Quest> {
         return values()
             .filter { it.showsInGui }
-            .filter {
-                it.hasActive(player) ||
-                    (it.alwaysInGUI && !it.hasCompleted(player)) ||
-                    (it.showsCompleted && it.hasCompleted(player))
+            .filter { quest ->
+                quest.hasActive(player) ||
+                    quest.alwaysInGUI && !quest.hasCompleted(player) && quest.isUnlockedFor(player) ||
+                    quest.showsCompleted && quest.hasCompleted(player)
             }
     }
 
