@@ -121,7 +121,8 @@ gui:
   custom-slots: [ ]
 
 # The GUI that lists quest categories. When enabled, /quests opens this GUI first,
-# and clicking a category opens the quests in that category.
+# and clicking a category opens the quests in that category. With no categories to
+# show, /quests opens the list of every quest instead.
 categories-gui:
   enabled: false
 
@@ -184,6 +185,20 @@ categories-gui:
     location:
       row: 6
       column: 5
+    locations: [ ]
+
+  # The button that opens the quests with no category. Shown only when such quests exist,
+  # unless enabled is set here.
+  uncategorised:
+    item: chest
+    name: "&eOther Quests"
+    lore:
+      - ""
+      - "&eClick to view quests!"
+    category-name: "Other" # Replaces %category% in gui.category-title
+    location:
+      row: 6
+      column: 9
     locations: [ ]
 
   # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages

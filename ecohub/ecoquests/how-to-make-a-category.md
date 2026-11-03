@@ -64,6 +64,8 @@ Category IDs follow the same rules as quest IDs: lowercase letters, numbers, and
 
 Set `categories-gui.enabled` to true in `config.yml` to turn `/quests` into a menu of categories. Clicking a category opens a quests GUI with only that category's quests, and its back button returns to the category menu. Players can also open one category directly with `/quests <category>`, whether or not the category menu is enabled.
 
+Quests with no category are listed behind the `categories-gui.uncategorised` button, which only shows when such quests exist. With no categories to show, `/quests` opens the list of every quest.
+
 Each category's icon uses its `gui.item`, with `gui.lore` lines above the shared `categories-gui.category-icon` lore. Categories with `gui.enabled: false` are left out of the menu. The quests GUI for a category uses the `gui` settings from `config.yml`, with `gui.category-title` as its title.
 
 ## Placeholders
