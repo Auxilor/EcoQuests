@@ -1,6 +1,7 @@
 package com.willfp.ecoquests.gui
 
 import com.willfp.eco.core.gui.addCustomSlots
+import com.willfp.eco.core.gui.component.ConfigButton
 import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.component.closeButton
 import com.willfp.eco.core.gui.getSlotArea
@@ -11,6 +12,7 @@ import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.gui.components.CategoryAreaComponent
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.plugin
+import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 
 object CategoriesGUI {
@@ -18,7 +20,9 @@ object CategoriesGUI {
     private var menu: Menu? = null
 
     fun reload() {
-        if (!plugin.configYml.getBool("categories-gui.enabled")) {
+        val categories = Categories.values().filter { it.showsInGui }.sortedBy { it.id }
+
+        if (!plugin.configYml.getBool("categories-gui.enabled") || categories.isEmpty()) {
             menu = null
             return
         }
@@ -35,8 +39,17 @@ object CategoriesGUI {
             addComponent(
                 CategoryAreaComponent(
                     plugin.configYml.getSlotArea("categories-gui.category-area"),
-                    Categories.values().filter { it.showsInGui }.sortedBy { it.id }
+                    categories
                 )
+            )
+
+            addComponent(
+                ConfigButton(
+                    plugin.configYml.getSubsection("categories-gui.uncategorised"),
+                    enabledByDefault = Quests.values().any { it.showsInGui && it.category == null }
+                ) { player, _, _, _ ->
+                    QuestsGUI.openUncategorised(player)
+                }
             )
 
             addCustomSlots(plugin.configYml, "categories-gui")

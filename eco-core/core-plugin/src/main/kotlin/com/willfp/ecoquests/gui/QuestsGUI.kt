@@ -15,6 +15,7 @@ import com.willfp.ecoquests.categories.Category
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.plugin
+import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
 import java.util.UUID
@@ -30,7 +31,12 @@ object QuestsGUI {
     private lateinit var allQuestsMenu: QuestMenu
 
     @Volatile
+    private lateinit var uncategorisedMenu: QuestMenu
+
+    @Volatile
     private var categoryMenus: Map<String, QuestMenu> = emptyMap()
+
+    private const val UNCATEGORISED = "#uncategorised"
 
     private val lastCategory = ConcurrentHashMap<UUID, String>()
 
@@ -38,17 +44,28 @@ object QuestsGUI {
         CategoriesGUI.reload()
         lastCategory.clear()
 
-        allQuestsMenu = buildMenu(null)
-        categoryMenus = Categories.values().associate { it.id to buildMenu(it) }
+        allQuestsMenu = buildMenu(plugin.configYml.getFormattedString("gui.title"), hasBackButton = false) { true }
+
+        uncategorisedMenu = buildMenu(
+            categoryTitle(plugin.configYml.getFormattedString("categories-gui.uncategorised.category-name")),
+            hasBackButton = true
+        ) { it.category == null }
+
+        categoryMenus = Categories.values().associate { category ->
+            category.id to buildMenu(categoryTitle(category.name), hasBackButton = true) { it.category == category }
+        }
     }
 
-    private fun buildMenu(category: Category?): QuestMenu {
+    private fun categoryTitle(categoryName: String): String =
+        (plugin.configYml.getFormattedStringOrNull("gui.category-title")
+            ?: plugin.configYml.getFormattedString("gui.title"))
+            .replace(oldValue = "%category%", newValue = categoryName)
+
+    private fun buildMenu(menuTitle: String, hasBackButton: Boolean, includes: (Quest) -> Boolean): QuestMenu {
         val questLayout = QuestLayout(
             plugin.configYml.getSubsection("gui.quest-area"),
-            allQuests = { Quests.values().filter { category == null || it.category == category } },
-            getVisibleQuests = { player ->
-                Quests.getShownQuests(player).filter { category == null || it.category == category }
-            }
+            allQuests = { Quests.values().filter(includes) },
+            getVisibleQuests = { player -> Quests.getShownQuests(player).filter(includes) }
         )
 
         val questAreaComponent = QuestAreaComponent(
@@ -59,13 +76,7 @@ object QuestsGUI {
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("gui.page-change-sound"))
 
         val menu = menu(plugin.configYml.getInt("gui.rows")) {
-            title = if (category == null) {
-                plugin.configYml.getFormattedString("gui.title")
-            } else {
-                (plugin.configYml.getFormattedStringOrNull("gui.category-title")
-                    ?: plugin.configYml.getFormattedString("gui.title"))
-                    .replace(oldValue = "%category%", newValue = category.name)
-            }
+            title = menuTitle
 
             maxPages { questAreaComponent.getPages(it) }
 
@@ -75,7 +86,7 @@ object QuestsGUI {
 
             addComponent(closeButton(plugin.configYml.getSubsection("gui.close")))
 
-            if (category != null && plugin.configYml.getBool("categories-gui.enabled")) {
+            if (hasBackButton && plugin.configYml.getBool("categories-gui.enabled")) {
                 addComponent(ConfigButton(plugin.configYml.getSubsection("gui.back")) { player, _, _, _ ->
                     open(player)
                 })
@@ -120,10 +131,26 @@ object QuestsGUI {
     }
 
     /**
+     * Open the quests menu for quests with no category.
+     */
+    fun openUncategorised(player: Player) {
+        lastCategory[player.uniqueId] = UNCATEGORISED
+        uncategorisedMenu.layout.invalidate(player)
+        uncategorisedMenu.menu.open(player)
+    }
+
+    /**
      * Open the menu the player last opened: a category's quests, or the main menu.
      */
     fun reopen(player: Player) {
-        val category = lastCategory[player.uniqueId]?.let { Categories[it] }
+        val lastOpened = lastCategory[player.uniqueId]
+
+        if (lastOpened == UNCATEGORISED) {
+            openUncategorised(player)
+            return
+        }
+
+        val category = lastOpened?.let { Categories[it] }
 
         if (category == null) {
             open(player)
@@ -134,6 +161,7 @@ object QuestsGUI {
 
     fun invalidateLayout(player: Player) {
         allQuestsMenu.layout.invalidate(player)
+        uncategorisedMenu.layout.invalidate(player)
 
         for (questMenu in categoryMenus.values) {
             questMenu.layout.invalidate(player)
