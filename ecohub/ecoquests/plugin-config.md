@@ -34,6 +34,10 @@ gui:
   # If true, players can left-click a quest icon in this GUI to start that quest.
   click-to-start: true
 
+  # The title of the GUI when it shows one category's quests (/quests <category>).
+  # %category% is the name of the category.
+  category-title: "%category% Quests (Page %page%/%max_page%)"
+
   # The mask fills empty GUI slots using a list of materials and a pattern.
   mask:
     # Each pattern line is one GUI row and must be 9 long; the row count
@@ -103,6 +107,84 @@ gui:
       row: 6
       column: 5
     locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
+
+  # The button that goes back to the category GUI. Only shown in a category's quests GUI
+  # when categories-gui is enabled.
+  back:
+    item: arrow name:"&fBack"
+    location:
+      row: 6
+      column: 1
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
+
+  # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
+  custom-slots: [ ]
+
+# The GUI that lists quest categories. When enabled, /quests opens this GUI first,
+# and clicking a category opens the quests in that category.
+categories-gui:
+  enabled: false
+
+  title: "Quest Categories"
+
+  rows: 6
+
+  mask: # Same format as gui.mask
+    materials:
+      - gray_stained_glass_pane
+      - black_stained_glass_pane
+    pattern:
+      - "111101111"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "111101111"
+
+  # The area that category icons are placed in. Categories with gui.position set
+  # go to that slot, the rest fill the free slots in alphabetical order of their ID.
+  category-area:
+    top-left:
+      row: 2
+      column: 2
+    bottom-right:
+      row: 5
+      column: 8
+
+  # The icon of each category. The item is set per category, in the category's gui.item.
+  # %category% is the name of the category, %quests_completed%, %quests_active% and
+  # %quests_total% count the quests in the category.
+  category-icon:
+    name: "&e%category%"
+    lore:
+      - ""
+      - "&7Completed: &f%quests_completed%&7/&f%quests_total%"
+      - "&7Active: &f%quests_active%"
+      - ""
+      - "&eClick to view quests!"
+
+  quest-info: # Same format as gui.quest-info
+    enabled: true
+    item: writable_book
+    name: "&fQuest Book"
+    lore:
+      - ""
+      - "&7Quests Completed: &f%ecoquests_quests_completed%"
+      - "&7Quests Active: &f%ecoquests_quests_active%"
+      - ""
+      - "&eClick to view past quests!"
+    location:
+      row: 1
+      column: 5
+    locations: [ ]
+
+  close: # Close button
+    item: barrier
+    name: "&cClose"
+    location:
+      row: 6
+      column: 5
+    locations: [ ]
 
   # Custom GUI slots; see here for a how-to: https://hub.auxilor.io/wiki/eco/pages
   custom-slots: [ ]

@@ -8,6 +8,7 @@ Every EcoQuests command and the permission node that gates it. Player commands d
 | Command                                              | Description                                            | Permission                      |
 |------------------------------------------------------|--------------------------------------------------------|---------------------------------|
 | `/quests, /quest, /q`                                | Open the main menu                                     | `ecoquests.command.quests`      |
+| `/quests <category>`                                 | Open the quests of one category                        | `ecoquests.command.quests`      |
 | `/quests cancel <quest>`                             | Cancel an active quest, resetting all progress         | `ecoquests.command.quests.cancel` |
 | `/ecoquests reset <quest>`                           | Reset a quest                                          | `ecoquests.command.reset`       |
 | `/ecoquests resetplayer <player> <quest>`            | Reset a quest for a player                             | `ecoquests.command.resetplayer` |
