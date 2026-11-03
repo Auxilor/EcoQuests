@@ -108,6 +108,8 @@ class Quest(
 
     val alwaysInGUI = config.getBool("gui.always")
 
+    val hidesLocked = config.getBoolOrNull("gui.hide-locked") == true
+
     // Absent = auto-placed. Coordinates are absolute menu coords; validated
     // against gui.quest-area bounds once at GUI reload (see QuestLayout).
     val position: QuestPosition? = config.getSubsectionOrNull("gui.position")?.let {
@@ -368,6 +370,9 @@ class Quest(
         return player.profile.read(hasCompletedKey)
             && player.profile.read(completedEpochKey) == resetEpoch
     }
+
+    fun isUnlockedFor(player: Player): Boolean =
+        !hidesLocked || meetsStartConditions(player)
 
     fun meetsStartConditions(player: Player): Boolean {
         return startConditions.areMet(player.toDispatcher(), EmptyProvidedHolder)
