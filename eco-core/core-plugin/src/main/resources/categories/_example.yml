@@ -6,6 +6,21 @@
 
 name: "Easy"
 
+# Options for the category GUI (categories-gui in config.yml)
+gui:
+  enabled: true # If the category should be shown in the category GUI
+  # The item to show in the category GUI, read https://hub.auxilor.io/wiki/eco/the-item-lookup-system-the-item-lookup-system
+  item: lime_dye
+  # Lines added to the top of the icon lore
+  lore:
+    - "&7Quests to get you started."
+
+  # Optional. Pins this category to an exact slot in the category GUI instead of
+  # letting it auto-place. Must fall within categories-gui.category-area in config.yml.
+  # position:
+  #   row: 2
+  #   column: 2
+
 # A list of effects to run when the player completes this category
 # (i.e. all quests assigned to this category are completed).
 # This fires every time the category is completed, including after a reset.
