@@ -5,16 +5,16 @@ import wiki.ecohub.config.category.NativeConfigCategory
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Categories : ConfigCategory("category", "categories") {
+object Categories : NativeConfigCategory("categories", "category") {
     override val supportsSharing = false
 
     private val registry = Registry<Category>()
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Category(plugin, id, config))
     }
 

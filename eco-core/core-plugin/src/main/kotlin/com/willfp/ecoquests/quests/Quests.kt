@@ -7,17 +7,17 @@ import wiki.ecohub.config.category.NativeConfigCategory
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Quests : ConfigCategory("quest", "quests") {
+object Quests : NativeConfigCategory("quests", "quest") {
     override val supportsSharing = false
 
     private val registry = Registry<Quest>()
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
         MaxActiveQuests.invalidateAll()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Quest(plugin, id, config))
     }
 

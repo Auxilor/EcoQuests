@@ -1,9 +1,8 @@
 package com.willfp.ecoquests
 
-import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.ecoquests.categories.Categories
-import com.willfp.ecoquests.commands.CommandEcoQuests
-import com.willfp.ecoquests.commands.CommandQuests
+import com.willfp.ecoquests.commands.ecoQuestsCommand
+import com.willfp.ecoquests.commands.questsCommand
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.integrations.LuckPermsIntegration
@@ -32,6 +31,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.command.EcoCommand
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.stdlib.toNiceString
 import wiki.ecohub.provider.ExternalProviderLoader
@@ -46,7 +46,7 @@ import wiki.ecohub.ui.placeholder.type.PlayerlessPlaceholder
 internal lateinit var plugin: EcoQuestsPlugin
     private set
 
-class EcoQuestsPlugin : LibreforgePlugin() {
+class EcoQuestsPlugin : EcoPlugin() {
     init {
         plugin = this
     }
@@ -145,20 +145,20 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun loadIntegrationLoaders(): List<IntegrationLoader> {
+    override fun getExternalProviderLoaders(): List<ExternalProviderLoader> {
         return listOf(
-            IntegrationLoader("LuckPerms") { LuckPermsIntegration.load() }
+            ExternalProviderLoader("LuckPerms") { LuckPermsIntegration }
         )
     }
 
-    override fun loadPluginCommands(): List<PluginCommand> {
+    override fun loadPluginCommands(): List<EcoCommand> {
         return listOf(
-            CommandEcoQuests,
-            CommandQuests
+            ecoQuestsCommand(),
+            questsCommand()
         )
     }
 
-    override fun loadConfigCategories(): List<ConfigCategory> {
+    override fun loadConfigCategories(): List<NativeConfigCategory> {
         return listOf(
             Tasks,
             Categories,

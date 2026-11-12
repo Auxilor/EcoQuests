@@ -5,14 +5,14 @@ import wiki.ecohub.config.category.NativeConfigCategory
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.registry.Registry
 
-object Tasks : ConfigCategory("task", "tasks") {
+object Tasks : NativeConfigCategory("tasks", "task") {
     private val registry = Registry<TaskTemplate>()
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(TaskTemplate(id, config))
     }
 
