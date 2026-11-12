@@ -1,14 +1,14 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.util.StringUtils
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.ui.text.StringUtils
 
 object CommandReset : PluginCommand(
     plugin,

@@ -1,11 +1,11 @@
 package com.willfp.ecoquests.quests
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoquests.plugin
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
 
 object Quests : ConfigCategory("quest", "quests") {
     override val supportsSharing = false

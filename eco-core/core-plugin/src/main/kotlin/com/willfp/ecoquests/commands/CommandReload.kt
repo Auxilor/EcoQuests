@@ -1,14 +1,14 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import wiki.ecohub.core.plugin.startup.Prerequisite
+import wiki.ecohub.core.stdlib.toNiceString
+import wiki.ecohub.ui.text.StringUtils
 
 object CommandReload : Subcommand(
     plugin,

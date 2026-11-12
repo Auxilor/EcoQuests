@@ -1,11 +1,11 @@
 package com.willfp.ecoquests.gui
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.util.MenuUtils
 import com.willfp.ecoquests.gui.components.QuestSlotProvider
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.modules.menus.menu.MenuUtils
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 

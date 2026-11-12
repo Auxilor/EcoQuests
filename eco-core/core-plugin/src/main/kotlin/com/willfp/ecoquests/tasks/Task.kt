@@ -1,22 +1,22 @@
 package com.willfp.ecoquests.tasks
 
-import com.willfp.eco.core.data.keys.PersistentDataKey
-import com.willfp.eco.core.data.keys.PersistentDataKeyType
-import com.willfp.eco.core.data.profile
-import com.willfp.eco.core.placeholder.PlayerPlaceholder
-import com.willfp.eco.core.placeholder.context.placeholderContext
-import com.willfp.eco.util.evaluateExpression
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
-import com.willfp.libreforge.counters.Accumulator
-import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import wiki.ecohub.core.stdlib.toNiceString
+import wiki.ecohub.data.PersistentDataKey
+import wiki.ecohub.data.PersistentDataKeyType
+import wiki.ecohub.game.entity.player.profile
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.math.evaluateExpression
+import wiki.ecohub.rules.counter.Accumulator
+import wiki.ecohub.ui.placeholder.placeholderContext
+import wiki.ecohub.ui.placeholder.type.PlayerPlaceholder
+import wiki.ecohub.ui.text.formatEco
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.math.min
 
