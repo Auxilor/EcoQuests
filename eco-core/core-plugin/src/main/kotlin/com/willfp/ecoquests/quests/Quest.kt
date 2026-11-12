@@ -64,7 +64,7 @@ class Quest(
 
     val autoStarts = config.getBool("auto-start")
 
-    private val guiItem = Items.lookup(config.getString("gui.item")).item
+    private val guiItem = Items.lookup(config.getString("gui.item")).getItem()
 
     val slot = slot({ player, _ ->
         guiItem.clone().modify {

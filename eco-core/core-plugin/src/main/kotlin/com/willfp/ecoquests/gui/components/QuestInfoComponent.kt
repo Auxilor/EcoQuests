@@ -16,7 +16,7 @@ class QuestInfoComponent(
     private val baseItem = Items.lookup(config.getString("item"))
 
     private val slot = slot({ player, _ ->
-        baseItem.item.clone().modify {
+        baseItem.getItem().clone().modify {
             setDisplayName(config.getString("name").formatEco(player, formatPlaceholders = true))
             addLoreLines(config.getStrings("lore").formatEco(player, formatPlaceholders = true))
         }

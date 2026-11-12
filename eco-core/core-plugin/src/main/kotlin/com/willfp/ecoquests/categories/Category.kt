@@ -36,7 +36,7 @@ class Category(
         SlotLocation(row = it.getInt("row"), column = it.getInt("column"))
     }
 
-    private val guiItem = Items.lookup(config.getStringOrNull("gui.item") ?: "book").item
+    private val guiItem = Items.lookup(config.getStringOrNull("gui.item") ?: "book").getItem()
 
     val slot = slot({ player, _ ->
         guiItem.clone().modify {
