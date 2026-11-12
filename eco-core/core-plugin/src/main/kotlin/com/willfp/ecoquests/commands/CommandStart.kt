@@ -1,64 +1,36 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.ecoquests.plugin
-import com.willfp.ecoquests.quests.Quests
-import com.willfp.ecoquests.runOwned
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
-import wiki.ecohub.ui.text.StringUtils
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.game.entity.runOwned
 
-object CommandStart : PluginCommand(
-    plugin,
-    "start",
-    "ecoquests.command.start",
-    false
+internal fun CommandBuilder<CommandSender>.startCommand() = subcommand(
+    name = "start",
+    permission = "ecoquests.command.start"
 ) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val player = notifyPlayerRequired(args.getOrNull(0), "invalid-player")
-        val quest = notifyNull(Quests[args.getOrNull(1)], "invalid-quest")
+    executes {
+        val player = onlinePlayer(0)
+        val quest = quest(1)
 
         if (quest.hasCompleted(player)) {
-            sender.sendMessage(plugin.langYml.getMessage("cannot-start-completed"))
-            return
+            fail("cannot-start-completed")
         }
 
         if (quest.hasStarted(player)) {
-            sender.sendMessage(plugin.langYml.getMessage("already-started"))
-            return
+            fail("already-started")
         }
 
         player.runOwned {
             quest.start(player)
-
-            sender.sendMessage(
-                plugin.langYml.getMessage("started-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                    .replace("%quest%", quest.name)
-                    .replace("%player%", player.name)
-            )
+            replyWithoutPlaceholders("started-quest", "quest" to quest.name, "player" to player.name)
         }
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                plugin.server.onlinePlayers.map { it.name },
-                completions
-            )
+    completes {
+        when (args.size) {
+            1 -> playerNames()
+            2 -> questIds()
+            else -> emptyList()
         }
-
-        if (args.size == 2) {
-            StringUtil.copyPartialMatches(
-                args[1],
-                Quests.values().map { it.id },
-                completions
-            )
-        }
-
-        return completions
     }
 }
-
