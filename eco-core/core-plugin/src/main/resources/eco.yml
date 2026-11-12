@@ -1,7 +1,3 @@
-environment:
-  - name: libreforge version
-    value: ${libreforgeVersion}
-
 options:
   color: "&#eacda3"
   resource-id: 4600
