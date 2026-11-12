@@ -76,7 +76,7 @@ object QuestsGUI {
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("gui.page-change-sound"))
 
         val menu = menu(plugin.configYml.getInt("gui.rows")) {
-            title = menuTitle
+            setTitle(menuTitle)
 
             maxPages { questAreaComponent.getPages(it) }
 

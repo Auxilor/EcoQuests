@@ -28,7 +28,7 @@ object PreviousQuestsGUI {
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("completed-gui.page-change-sound"))
 
         menu = menu(plugin.configYml.getInt("completed-gui.rows")) {
-            title = plugin.configYml.getFormattedString("completed-gui.title")
+            setTitle(plugin.configYml.getFormattedString("completed-gui.title"))
 
             maxPages { questAreaComponent.getPages(it) }
 

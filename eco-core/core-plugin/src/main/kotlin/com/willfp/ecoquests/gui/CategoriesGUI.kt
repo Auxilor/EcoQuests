@@ -28,7 +28,7 @@ object CategoriesGUI {
         }
 
         menu = menu(plugin.configYml.getInt("categories-gui.rows")) {
-            title = plugin.configYml.getFormattedString("categories-gui.title")
+            setTitle(plugin.configYml.getFormattedString("categories-gui.title"))
 
             setMask(plugin.configYml, "categories-gui")
 

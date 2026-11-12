@@ -103,7 +103,7 @@ class QuestLayout(
 
             for (quest in positionedByPage[page].orEmpty()) {
                 val (_, localRow, localColumn) = validatedPositions.getValue(quest.id)
-                grid[MenuUtils.rowColumnToSlot(localRow, localColumn, columnSize)] = quest
+                grid[MenuUtils.rowColumnToSlot(row = localRow, column = localColumn, columns = columnSize)] = quest
             }
 
             for (slotIndex in 0 until pageSize) {
