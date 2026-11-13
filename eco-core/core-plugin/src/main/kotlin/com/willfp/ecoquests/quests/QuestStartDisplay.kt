@@ -5,6 +5,7 @@ import com.willfp.ecoquests.plugin
 import net.kyori.adventure.title.Title
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import wiki.ecohub.game.entity.player.asAudience
 import wiki.ecohub.game.sound.PlayableSound
 import wiki.ecohub.ui.text.toComponent
 import java.time.Duration
@@ -43,7 +44,7 @@ object QuestStartDisplay : Listener {
                 player
             )
 
-            player.showTitle(
+            player.asAudience().showTitle(
                 Title.title(
                     formatted[0].toComponent(),
                     formatted[1].toComponent(),
