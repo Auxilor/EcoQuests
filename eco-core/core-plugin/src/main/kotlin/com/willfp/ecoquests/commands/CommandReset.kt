@@ -1,60 +1,31 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.Prerequisite
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.util.StringUtils
-import com.willfp.ecoquests.plugin
-import com.willfp.ecoquests.quests.Quest
-import com.willfp.ecoquests.quests.Quests
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.core.platform.runGlobal
 
-object CommandReset : PluginCommand(
-    plugin,
-    "reset",
-    "ecoquests.command.reset",
-    false
+/**
+ * Resetting a quest for everyone runs on the global region.
+ */
+internal fun CommandBuilder<CommandSender>.resetCommand() = subcommand(
+    name = "reset",
+    permission = "ecoquests.command.reset"
 ) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        val quest = notifyNull(Quests[args.getOrNull(0)], "invalid-quest")
+    executes {
+        val quest = quest(0)
 
-        if (!quest.isResettable) {
-            sender.sendMessage(
-                plugin.langYml.getMessage("quest-not-resettable", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                    .replace("%quest%", quest.name)
-            )
-            return
-        }
-
-        if (Prerequisite.HAS_FOLIA.isMet && !Bukkit.isGlobalTickThread()) {
-            plugin.scheduler.global().run { reset(sender, quest) }
+        if (quest.isResettable) {
+            Bukkit.getServer().runGlobal {
+                quest.reset()
+                replyWithoutPlaceholders("reset-quest", "quest" to quest.name)
+            }
         } else {
-            reset(sender, quest)
+            replyWithoutPlaceholders("quest-not-resettable", "quest" to quest.name)
         }
     }
 
-    private fun reset(sender: CommandSender, quest: Quest) {
-        quest.reset()
-
-        sender.sendMessage(
-            plugin.langYml.getMessage("reset-quest", StringUtils.FormatOption.WITHOUT_PLACEHOLDERS)
-                .replace("%quest%", quest.name)
-        )
-    }
-
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Quests.values().map { it.id },
-                completions
-            )
-        }
-
-        return completions
+    completes {
+        if (args.size == 1) questIds() else emptyList()
     }
 }
-

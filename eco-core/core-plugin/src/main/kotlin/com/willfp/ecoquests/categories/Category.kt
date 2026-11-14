@@ -1,27 +1,27 @@
 package com.willfp.ecoquests.categories
 
-import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.gui.SlotLocation
-import com.willfp.eco.core.gui.onLeftClick
-import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.modify
-import com.willfp.eco.core.placeholder.PlayerPlaceholder
-import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
-import com.willfp.eco.core.registry.KRegistrable
-import com.willfp.eco.util.formatEco
-import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.api.event.PlayerCategoryCompleteEvent
 import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.quests.Quests
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.effects.executors.impl.NormalExecutorFactory
-import com.willfp.libreforge.toDispatcher
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.core.stdlib.toNiceString
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.modify
+import wiki.ecohub.modules.menus.SlotLocation
+import wiki.ecohub.modules.menus.onLeftClick
+import wiki.ecohub.modules.menus.slot
+import wiki.ecohub.rules.chain.NormalExecutorFactory
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.ui.placeholder.type.PlayerPlaceholder
+import wiki.ecohub.ui.placeholder.type.PlayerlessPlaceholder
+import wiki.ecohub.ui.text.formatEco
 
 class Category(
     private val plugin: EcoPlugin,
@@ -36,7 +36,7 @@ class Category(
         SlotLocation(row = it.getInt("row"), column = it.getInt("column"))
     }
 
-    private val guiItem = Items.lookup(config.getStringOrNull("gui.item") ?: "book").item
+    private val guiItem = Items.lookup(config.getStringOrNull("gui.item") ?: "book").getItem()
 
     val slot = slot({ player, _ ->
         guiItem.clone().modify {

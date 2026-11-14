@@ -1,15 +1,5 @@
 package com.willfp.ecoquests.gui
 
-import com.willfp.eco.core.gui.addCustomSlots
-import com.willfp.eco.core.gui.addPageChanger
-import com.willfp.eco.core.gui.component.ConfigButton
-import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.component.closeButton
-import com.willfp.eco.core.gui.menu
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.page.PageChanger
-import com.willfp.eco.core.gui.setMask
-import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.categories.Category
 import com.willfp.ecoquests.gui.components.QuestAreaComponent
@@ -18,6 +8,16 @@ import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.modules.menus.addCustomSlots
+import wiki.ecohub.modules.menus.addPageChanger
+import wiki.ecohub.modules.menus.component.ConfigButton
+import wiki.ecohub.modules.menus.component.addComponent
+import wiki.ecohub.modules.menus.component.closeButton
+import wiki.ecohub.modules.menus.menu
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.page.PageChanger
+import wiki.ecohub.modules.menus.setMask
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -76,7 +76,7 @@ object QuestsGUI {
         val pageChangeSound = PlayableSound.create(plugin.configYml.getSubsection("gui.page-change-sound"))
 
         val menu = menu(plugin.configYml.getInt("gui.rows")) {
-            title = menuTitle
+            setTitle(menuTitle)
 
             maxPages { questAreaComponent.getPages(it) }
 

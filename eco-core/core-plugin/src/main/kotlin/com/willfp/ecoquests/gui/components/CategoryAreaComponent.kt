@@ -1,13 +1,13 @@
 package com.willfp.ecoquests.gui.components
 
-import com.willfp.eco.core.gui.SlotArea
-import com.willfp.eco.core.gui.SlotLocation
-import com.willfp.eco.core.gui.component.PositionedComponent
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.ecoquests.categories.Category
 import com.willfp.ecoquests.plugin
 import org.bukkit.entity.Player
+import wiki.ecohub.modules.menus.SlotLocation
+import wiki.ecohub.modules.menus.component.PositionedComponent
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.slot.Slot
+import wiki.ecohub.modules.menus.slot.SlotArea
 
 /**
  * Places category icons in an area: categories with a gui.position go to that

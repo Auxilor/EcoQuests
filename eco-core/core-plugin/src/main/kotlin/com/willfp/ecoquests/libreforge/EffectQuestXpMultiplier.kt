@@ -3,9 +3,9 @@ package com.willfp.ecoquests.libreforge
 import com.willfp.ecoquests.api.event.PlayerTaskExpGainEvent
 import com.willfp.ecoquests.quests.Quest
 import com.willfp.ecoquests.quests.Quests
-import com.willfp.libreforge.effects.templates.MultiMultiplierEffect
-import com.willfp.libreforge.toDispatcher
 import org.bukkit.event.EventHandler
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.effect.MultiMultiplierEffect
 
 object EffectQuestXpMultiplier : MultiMultiplierEffect<Quest>("quest_xp_multiplier") {
     override val key = "quests"

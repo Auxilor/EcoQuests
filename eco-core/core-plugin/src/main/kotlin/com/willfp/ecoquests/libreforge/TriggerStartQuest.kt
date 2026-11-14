@@ -1,11 +1,11 @@
 package com.willfp.ecoquests.libreforge
 
 import com.willfp.ecoquests.api.event.PlayerQuestStartEvent
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.Trigger
-import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.trigger.Trigger
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.rules.trigger.TriggerParameter
 
 object TriggerStartQuest : Trigger("start_quest") {
     override val description = "Fires when the player starts a quest."

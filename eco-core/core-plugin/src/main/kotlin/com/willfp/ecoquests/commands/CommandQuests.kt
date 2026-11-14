@@ -1,50 +1,26 @@
 package com.willfp.ecoquests.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
+import com.willfp.ecoquests.EcoQuestsPlugin
 import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.gui.QuestsGUI
-import com.willfp.ecoquests.plugin
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.playerCommand
 
-object CommandQuests : PluginCommand(
-    plugin,
-    "quests",
-    "ecoquests.command.quests",
-    true
-) {
-    init {
-        this.addSubcommand(CommandCancel)
-    }
+internal fun EcoQuestsPlugin.questsCommand() = playerCommand(name = "quests", permission = "ecoquests.command.quests") {
+    aliases("q", "quest")
 
-    override fun getAliases(): List<String> {
-        return listOf(
-            "q",
-            "quest"
-        )
-    }
+    cancelCommand()
 
-    override fun onExecute(sender: Player, args: List<String>) {
-        if (args.isEmpty()) {
+    executes {
+        val categoryId = args.firstOrNull()
+
+        if (categoryId == null) {
             QuestsGUI.open(sender)
-            return
+        } else {
+            QuestsGUI.open(sender, Categories[categoryId] ?: fail("invalid-category"))
         }
-
-        QuestsGUI.open(sender, notifyNull(Categories[args[0]], "invalid-category"))
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Categories.values().map { it.id },
-                completions
-            )
-        }
-
-        return completions
+    completes {
+        if (args.size == 1) Categories.values().map { it.id } else emptyList()
     }
 }

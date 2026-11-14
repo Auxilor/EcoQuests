@@ -1,14 +1,8 @@
 package com.willfp.ecoquests
 
-import com.willfp.eco.core.bstats.EcoMetricsChart
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.integrations.IntegrationLoader
-import com.willfp.eco.core.placeholder.PlayerPlaceholder
-import com.willfp.eco.core.placeholder.PlayerlessPlaceholder
-import com.willfp.eco.util.toNiceString
 import com.willfp.ecoquests.categories.Categories
-import com.willfp.ecoquests.commands.CommandEcoQuests
-import com.willfp.ecoquests.commands.CommandQuests
+import com.willfp.ecoquests.commands.ecoQuestsCommand
+import com.willfp.ecoquests.commands.questsCommand
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
 import com.willfp.ecoquests.gui.QuestsGUI
 import com.willfp.ecoquests.integrations.LuckPermsIntegration
@@ -33,20 +27,26 @@ import com.willfp.ecoquests.quests.QuestCompleteDisplay
 import com.willfp.ecoquests.quests.QuestStartDisplay
 import com.willfp.ecoquests.quests.Quests
 import com.willfp.ecoquests.tasks.Tasks
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.filters.Filters
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.triggers.Triggers
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.command.EcoCommand
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.stdlib.toNiceString
+import wiki.ecohub.provider.ExternalProviderLoader
+import wiki.ecohub.provider.metrics.EcoMetricsChart
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.filter.Filters
+import wiki.ecohub.rules.trigger.Triggers
+import wiki.ecohub.ui.placeholder.type.PlayerPlaceholder
+import wiki.ecohub.ui.placeholder.type.PlayerlessPlaceholder
 
 internal lateinit var plugin: EcoQuestsPlugin
     private set
 
-class EcoQuestsPlugin : LibreforgePlugin() {
+class EcoQuestsPlugin : EcoPlugin() {
     init {
         plugin = this
     }
@@ -145,20 +145,20 @@ class EcoQuestsPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun loadIntegrationLoaders(): List<IntegrationLoader> {
+    override fun getExternalProviderLoaders(): List<ExternalProviderLoader> {
         return listOf(
-            IntegrationLoader("LuckPerms") { LuckPermsIntegration.load() }
+            ExternalProviderLoader("LuckPerms") { LuckPermsIntegration }
         )
     }
 
-    override fun loadPluginCommands(): List<PluginCommand> {
+    override fun loadPluginCommands(): List<EcoCommand> {
         return listOf(
-            CommandEcoQuests,
-            CommandQuests
+            ecoQuestsCommand(),
+            questsCommand()
         )
     }
 
-    override fun loadConfigCategories(): List<ConfigCategory> {
+    override fun loadConfigCategories(): List<NativeConfigCategory> {
         return listOf(
             Tasks,
             Categories,

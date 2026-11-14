@@ -1,12 +1,13 @@
 package com.willfp.ecoquests.quests
 
-import com.willfp.eco.core.sound.PlayableSound
-import com.willfp.eco.util.toComponent
 import com.willfp.ecoquests.api.event.PlayerQuestCompleteEvent
 import com.willfp.ecoquests.plugin
 import net.kyori.adventure.title.Title
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import wiki.ecohub.game.entity.player.asAudience
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.ui.text.toComponent
 import java.time.Duration
 
 object QuestCompleteDisplay : Listener {
@@ -39,7 +40,7 @@ object QuestCompleteDisplay : Listener {
                 player
             )
 
-            player.showTitle(
+            player.asAudience().showTitle(
                 Title.title(
                     formatted[0].toComponent(),
                     formatted[1].toComponent(),
