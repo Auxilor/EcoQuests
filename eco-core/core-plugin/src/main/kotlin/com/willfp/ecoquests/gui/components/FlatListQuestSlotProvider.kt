@@ -1,8 +1,8 @@
 package com.willfp.ecoquests.gui.components
 
-import com.willfp.eco.util.MenuUtils
 import com.willfp.ecoquests.quests.Quest
 import org.bukkit.entity.Player
+import wiki.ecohub.modules.menus.menu.MenuUtils
 
 class FlatListQuestSlotProvider(
     private val getQuests: (Player) -> List<Quest>

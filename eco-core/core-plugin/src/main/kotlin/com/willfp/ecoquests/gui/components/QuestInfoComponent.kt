@@ -1,14 +1,14 @@
 package com.willfp.ecoquests.gui.components
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.gui.component.PositionedComponent
-import com.willfp.eco.core.gui.getSlotLocations
-import com.willfp.eco.core.gui.onLeftClick
-import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.modify
-import com.willfp.eco.util.formatEco
 import com.willfp.ecoquests.gui.PreviousQuestsGUI
+import wiki.ecohub.config.Config
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.modify
+import wiki.ecohub.modules.menus.component.PositionedComponent
+import wiki.ecohub.modules.menus.getSlotLocations
+import wiki.ecohub.modules.menus.onLeftClick
+import wiki.ecohub.modules.menus.slot
+import wiki.ecohub.ui.text.formatEco
 
 class QuestInfoComponent(
     config: Config
@@ -16,7 +16,7 @@ class QuestInfoComponent(
     private val baseItem = Items.lookup(config.getString("item"))
 
     private val slot = slot({ player, _ ->
-        baseItem.item.clone().modify {
+        baseItem.getItem().clone().modify {
             setDisplayName(config.getString("name").formatEco(player, formatPlaceholders = true))
             addLoreLines(config.getStrings("lore").formatEco(player, formatPlaceholders = true))
         }

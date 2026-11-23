@@ -1,23 +1,23 @@
 package com.willfp.ecoquests.quests
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.Registry
 import com.willfp.ecoquests.plugin
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
 import org.bukkit.entity.Player
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
 
-object Quests : ConfigCategory("quest", "quests") {
+object Quests : NativeConfigCategory("quests", "quest") {
     override val supportsSharing = false
 
     private val registry = Registry<Quest>()
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         registry.clear()
         MaxActiveQuests.invalidateAll()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Quest(plugin, id, config))
     }
 

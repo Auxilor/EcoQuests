@@ -1,11 +1,11 @@
 package com.willfp.ecoquests.libreforge
 
 import com.willfp.ecoquests.api.event.PlayerTaskCompleteEvent
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.Trigger
-import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.libreforge.triggers.TriggerParameter
 import org.bukkit.event.EventHandler
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.trigger.Trigger
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.rules.trigger.TriggerParameter
 
 object TriggerCompleteTask : Trigger("complete_task") {
     override val description = "Fires when the player completes a task within a quest."

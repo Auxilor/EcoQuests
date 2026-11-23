@@ -1,19 +1,19 @@
 package com.willfp.ecoquests.gui
 
-import com.willfp.eco.core.gui.addCustomSlots
-import com.willfp.eco.core.gui.component.ConfigButton
-import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.component.closeButton
-import com.willfp.eco.core.gui.getSlotArea
-import com.willfp.eco.core.gui.menu
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.setMask
 import com.willfp.ecoquests.categories.Categories
 import com.willfp.ecoquests.gui.components.CategoryAreaComponent
 import com.willfp.ecoquests.gui.components.QuestInfoComponent
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quests
 import org.bukkit.entity.Player
+import wiki.ecohub.modules.menus.addCustomSlots
+import wiki.ecohub.modules.menus.component.ConfigButton
+import wiki.ecohub.modules.menus.component.addComponent
+import wiki.ecohub.modules.menus.component.closeButton
+import wiki.ecohub.modules.menus.menu
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.setMask
+import wiki.ecohub.modules.menus.slot.getSlotArea
 
 object CategoriesGUI {
     @Volatile
@@ -28,7 +28,7 @@ object CategoriesGUI {
         }
 
         menu = menu(plugin.configYml.getInt("categories-gui.rows")) {
-            title = plugin.configYml.getFormattedString("categories-gui.title")
+            setTitle(plugin.configYml.getFormattedString("categories-gui.title"))
 
             setMask(plugin.configYml, "categories-gui")
 

@@ -1,12 +1,12 @@
 package com.willfp.ecoquests.tasks
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.registry.KRegistrable
 import com.willfp.ecoquests.plugin
 import com.willfp.ecoquests.quests.Quest
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.counters.Counters
-import com.willfp.libreforge.effects.Effects
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.core.registry.KRegistrable
+import wiki.ecohub.rules.counter.Counters
+import wiki.ecohub.rules.effect.Effects
 
 class TaskTemplate(
     override val id: String,
