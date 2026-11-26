@@ -66,8 +66,22 @@ class Quest(
 
     private val guiItem = Items.lookup(config.getString("gui.item")).item
 
+    private val startedGuiItem = config.getStringOrNull("gui.started-item")
+        ?.let { Items.lookup(it).item }
+        ?: guiItem
+
+    private val completedGuiItem = config.getStringOrNull("gui.completed-item")
+        ?.let { Items.lookup(it).item }
+        ?: guiItem
+
+    private fun guiItemFor(player: Player) = when {
+        hasCompleted(player) -> completedGuiItem
+        hasStarted(player) -> startedGuiItem
+        else -> guiItem
+    }
+
     val slot = slot({ player, _ ->
-        guiItem.clone().modify {
+        guiItemFor(player).clone().modify {
             addLoreLines(
                 addPlaceholdersInto(
                     plugin.configYml.getStrings("quests.icon.lore"),

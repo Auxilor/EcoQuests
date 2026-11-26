@@ -82,6 +82,8 @@ gui:
   hide-locked: false # With always, hide until start-conditions are met
   show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
+  started-item: writable_book # Optional. GUI icon once started, falls back to item.
+  completed-item: enchanted_book # Optional. GUI icon once completed, falls back to item.
 
   # Optional — pins this quest to an exact slot instead of auto-placing it.
   # Coordinates are absolute menu coordinates, checked against gui.quest-area.
@@ -206,6 +208,8 @@ gui:
   hide-locked: false # With always, hide the quest until its start-conditions are met
   show-completed: false # Keep this quest in its slot after completion
   item: paper # GUI icon, read via the Item Lookup System
+  started-item: writable_book # Optional. GUI icon once started, falls back to item.
+  completed-item: enchanted_book # Optional. GUI icon once completed, falls back to item.
 
   # Optional — pins this quest to an exact slot instead of auto-placing it.
   # Coordinates are absolute menu coordinates, checked against gui.quest-area.
@@ -214,6 +218,8 @@ gui:
   #   row: 2
   #   column: 2
 ```
+
+`started-item` and `completed-item` change the icon as the player moves through the quest. Leave either out to keep `item` for that state. The completed icon shows in the completed-quests GUI, and in the main GUI with `show-completed`.
 
 Use `hide-locked` for quest chains: give each later quest a `has_completed_quest` start condition on the one before it, and set `always` and `hide-locked` to true. Each chain then shows only the quest the player can start next.
 
